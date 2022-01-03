@@ -1,0 +1,29 @@
+<!-- Store this code in 'register.html' file inside the 'templates' folder -->
+  
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title> Change Password </title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">              
+    </head>
+    <body></br></br></br></br></br>
+        <div align="center">
+          <div align="center" class="border">
+             <div class="header">
+                <h1 class="word">Change Password</h1>
+             </div></br></br>
+            <h2 class="word">
+                <form action="{{ url_for('profile') }}" method="post">
+                  <div class="msg">{{ msg }}</div><br>
+                    <input id="username" name="username" type="text" placeholder="Enter Username" class="textbox"/></br></br>
+                    <input id="psw" name="old_psw" type="password" placeholder="Enter old password" class="textbox"/></br></br>
+                    <input id="psw" name="new_psw" type="password" placeholder="Enter New password" class="textbox"/></br></br>
+                    <input id="psw1" name="rep_new_psw" type="text" placeholder="Repeat New password" class="textbox"/></br></br>
+                    <input type="submit" class="btn" value="Change"></br>
+                </form>
+            </h2>
+            <p class="bottom">Already have an account?  <a class="bottom" href="{{url_for('login')}}"> Sign In here</a></p>
+          </div>
+        </div>
+    </body>
+</html>

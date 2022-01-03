@@ -1,0 +1,76 @@
+
+{% extends "base.html" %}
+{% block content %}
+
+<body>
+  <form id="myForm" action="/addequip" method = "POST">
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+ 
+<table>
+  <thead>
+    <tr>
+        <th>Name</th>
+        <th>Name Value</th>
+        
+    </tr>
+  </thead>    
+
+  <tbody>
+     {% for row in data %}    
+            <tr>
+               <td>{{row}}</td>
+               <td>{{row}} : <input type = "text" name = {{row}} /></td>               
+            </tr>
+     {% endfor %}
+   </tbody>
+</table>   
+<input type = "hidden" id= "myVal" name = "myEquip" default > 
+<button onclick="getAllInputs()">Save all values</button>
+     
+     <p id="demo"></p>
+     <script>
+       function myFunction() {
+           document.getElementById("myForm").submit();
+       }
+
+       function getAllInputs() {
+	  var x = document.getElementById("myForm").elements.length;
+	  var ename;
+	  var evalue;
+	  var retstring="[{\"";
+	  for (i = 0; i < x-1; i++) {
+             evalue = document.getElementById("myForm").elements.item(i).value;
+             ename = document.getElementById("myForm").elements.item(i).name;
+             retstring = retstring + ename + "\":\""+evalue+"\"},{\"";
+          }
+         var retstr = retstring.replace(",{\"\":\"\"},{\"" , "]")
+         retstring = "paravalue:"+retstr; 
+         document.getElementById("myVal").value=retstring;
+ 
+          return (retstring);
+       }
+
+     </script>        
+   
+ <p><input type = "submit" value = "Submit" /></p>
+
+</form>
+</body>
+
+{% endblock %}

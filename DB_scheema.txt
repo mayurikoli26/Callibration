@@ -1,0 +1,190 @@
+create database calibration;
+-- equipment list linked to hospital and departments 
+-- This table is to draw table in UI and get data from. To update data in table ***
+-- using this table show columns in UI and collect data. Store in calibration table. This could be in ','seperated form
+-- This data along with. equ_parameter_list gives talbe heading and 'calibratin_data' gives actual reading. User can download xls sheet for further use in off
+
+-- Users table is not used. Instead acounts table is used for login and then further..
+drop table users;
+create table users (
+user_id int AUTO_INCREMENT,
+username varchar(15),
+fname varchar(20),
+lname varchar(20),
+id int(11),
+PRIMARY KEY (user_id)
+);
+
+insert into users (username, fname, lname, psw, role, active) values
+    ('anandk', 'Ananad','Chougule','1234','operator', true);
+insert into users (username, fname, lname, psw, role, active) values
+    ('kunals', 'Kunal','Shinde','kunal1','admin', true);
+
+
+-- this table was inherited along with login function. Has overlapping column of our users table. 
+drop table accounts;
+create table accounts(
+id int(11) NOT NULL AUTO_INCREMENT,
+username varchar(50),
+password varchar(51),
+email varchar(60),
+role varchar(10),
+active boolean,
+PRIMARY KEY (id)
+);
+
+insert into accounts (username, password, email, role, active) values ('ram', 'ram', 'ram@gmail.com','user',True);
+insert into accounts (username, password, email, role, active) values ('ravi', 'ravi', 'ravi@gmail.com', 'user',True);
+insert into accounts (username, password, email, role, active) values ('f', 'f', 'ravi@gmail.com', 'user',True);
+insert into accounts (username, password, email, role, active) values ('anand', 'anand', 'admin@mail.com', 'admin',True);    
+insert into accounts (username, password, email, role, active) values ('tom', 'tom1', 'tom@gmail.com','user',True);
+update accounts set active=True where id=1;
+
+
+
+--Follwoing table is parameter master table. Assumption equ_name is famaily of equipement. (Not indivisual equipment names). Same is linked to equipment for de-normalisation?(need to change athe equ_name to equ_family_name). 
+drop table equ_parameter_reg;
+create table equ_parameter_reg (
+  equ_parameter_id int AUTO_INCREMENT,
+  equ_name varchar(30),
+  parameter_name varchar(230),
+  PRIMARY KEY (equ_parameter_id) 
+);
+
+insert into equ_parameter_reg (equ_name, parameter_name) values
+    ("ecg_mc",  "ECG_Heart_rate,Apmlitude,All_Arthimia,ECG_Wave_Performance,Noise_level");
+
+insert into equ_parameter_reg (equ_name, parameter_name) values
+    ("difibrilator","ECG_Heart_rate, Apmlitude,All_Arthimia,Energy Test,Noise_level");
+
+insert into equ_parameter_reg (equ_name, parameter_name) values
+    ("Luminar Air Flow",  "Air Velocity, HEPA Filter Integrity,LUX,Noise Level,Practical count test");    
+
+insert into equ_parameter_reg (equ_name, parameter_name) values
+    ("TMT Machine",  "ECG, Heart rate, Amplitute, RPM, Arrythma, Perormance test");
+
+-- equipment table is list of all equipments in  hospital. Will keep details of each model. Link to parameter_reg to get parameters for this type of equipment. When insert value in this table, make sure parameter_id is set to it. Client shoud not go and create master for each equiepemnt. First try to find if availale in master  and if not then create a new. Should folow the naming conventions in that case.  
+drop table equipment;
+CREATE TABLE equipment (
+    equ_id int AUTO_INCREMENT,
+    equ_parameter_id int,
+    equ_name varchar(40),
+    equ_make varchar(40),
+    equ_model varchar(40),
+    equ_serialno varchar(40),
+    equ_asset varchar(40),
+    equ_range varchar(25),
+    vender_id int,
+    department_id  varchar(40),
+    equ_least_c  varchar(40),
+    start_date date,
+    active boolean,
+    PRIMARY KEY (equ_id)
+);
+
+insert into equipment (equ_name, equ_parameter_id, equ_make, equ_model, equ_serialno, vender_id, 
+    department_id ) values ('ECG',1,'Philips', 'MP-H/30', 'Ksi901',2,3 );    
+
+insert into equipment (equ_name, equ_parameter_id, equ_make, equ_model, equ_serialno, vender_id, 
+    department_id ) values ('Xray',2,'Simense', 'OLK-N/1331', 'semen3320',2,2 ); 
+insert into equipment (equ_name, equ_parameter_id, equ_make, equ_model, equ_serialno, vender_id, 
+    department_id ) values ('TMT Machine',3,'GE Healthcare', 'ENG-049/1331', 'GE0020-8',1,2 );
+
+DATETIME - format: YYYY-MM-DD HH:MI:SS
+DATE - format YYYY-MM-DD
+
+
+-- Master of hospitals and details
+drop table hospital;
+create table hospital (
+  hospital_id int AUTO_INCREMENT,
+  name varchar(40),
+  address varchar(60),
+  city varchar(20),
+  zip varchar(10),
+  contact_no int,
+  authorised_name varchar(40),
+  PRIMARY KEY (hospital_id)
+);
+
+insert into hospital (name, address, city, zip, authorised_name) 
+    values ('Sahyadri Hospital', '32 Karve Road, near Garaware college', 'Pune', 411002,'Shankar Satpute');
+insert into hospital (name, address, city, zip, authorised_name) 
+    values ('Kamala Hospital', '10 Aunthd Road, near Fergusson School', 'Pune', 411002,'Shrikant Ghatge'); 
+insert into hospital (name, address, city, zip, authorised_name) 
+    values ('Krishna Clinic', '2 Kothurd, near Poona Backery', 'Pune', 411031,'Hemant K'); 
+insert into hospital (name, address, city, zip, authorised_name) 
+    values ('Poona Hospital', '2 Deccon, New bridge opp Garaware School', 'Pune', 411031,'Ajit Deore');  
+
+
+drop table vender;
+create table vendk,gdns,er (
+  vender_id int AUTO_INCREMENT,
+  name varchar(40),
+  address varchar(80),
+  city varchar(20),
+  zip varchar(10),
+  contact_no varchar(10),
+  authorised_name varchar(40),
+  active boolean,
+  PRIMARY KEY (vender_id)
+);
+
+insert into vender (name, address, city, zip, authorised_name) 
+    values ('Sahyadri Hospital', '32 Karve Road, near Garaware college', 'Pune', 411002,'Shankar Satpute');
+insert into vender (name, address, city, zip, authorised_name) 
+    values ('Kamala Hospital', '10 Aunthd Road, near Fergusson School', 'Pune', 411002,'Shrikant Ghatge'); 
+insert into vender (name, address, city, zip, authorised_name) 
+    values ('Krishna Clinic', '2 Kothurd, near Poona Backery', 'Pune', 411031,'Hemant K'); 
+insert into vender (name, address, city, zip, authorised_name, contact_no) 
+    values ('Poona Hospital', '2 Deccon, New bridge opp Garaware School', 'Pune', 411031,'Ajit Deore', 206539846);    
+
+insert into vender (name, address, city, zip, authorised_name, contact_no) values ('Shri Children Hospital', '23/4 Kondhwa, Hadpsar Ind Area, above Relience mart', 'Pune', 411089,'Sanjay Kulkarni',9878678756);  
+insert into vender (name, address, city, zip, authorised_name, contact_no) values ('Chaitnya Clinik Hospital', 'Sr No 213, Upper Shivane, Warje Malwadi, Next to Bank of India', 'Pune', 411034,'Sameer Kokate',8779672736); 
+
+-- Master of all departments that hospital contains.
+drop table department;
+create table department (
+  department_id int AUTO_INCREMENT,
+  department_name varchar(20),
+  PRIMARY KEY (department_id)
+);
+
+insert into department (department_name) values 
+('OPD'),
+('Laboratory_No_1'),
+('Xary'),
+('ECG'),
+('op_theator_1'),
+('op_theator_2');
+
+
+drop table operator;
+create table operator (
+operator_id int AUTO_INCREMENT,
+op_name varchar(40),
+phone_no varchar(12),
+address varchar(30),
+email_id varchar(25),
+PRIMARY KEY(operator_id)
+);
+
+insert into operator (op_name, phone_no, email_id) values
+    ('Anand Choudhary','', 'anandchou@gmail.com'),
+    ('Satish Gune', '9844683748', 'satishg@hotmaiool.com'),
+    ('Nandan Bhade', '9378468372','mandar@gmai.com');
+
+
+-- This talbe store all actual readings. Hosp, Dept, machine/equ, date, reading, operator
+drop table calibrate;
+create table calibrate (
+  calibrate_id int AUTO_INCREMENT,
+  hospital_id int,
+  department_id int,
+  equ_id int,
+  equ_parameter_id int,
+  parameter_readings varchar(350),
+  PRIMARY KEY (calibrate_id)
+);
+
+

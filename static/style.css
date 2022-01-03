@@ -1,0 +1,151 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300&display=swap');
+body,
+html {
+    height: 100%;
+    background-color: #fbfbfb;
+}
+
+*,
+ ::after,
+ ::before {
+    box-sizing: border-box;
+}
+
+main {
+    margin-top: 80px;
+}
+
+.btn {
+    border-radius: 0;
+}
+
+.bg-nav {
+    background-color: rgb(8, 182, 199);
+    color: #fff;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.8);
+}
+
+a.navbar-brand {
+    font-size: 25px;
+    padding-left: 3px;
+    font-family: DM SansSce Medium;
+    color: #fff;
+    cursor: pointer;
+}
+
+a.nav-link {
+    color: #fff;
+    cursor: pointer;
+    font-size: 18px;
+    padding-left: 20px;
+    font-family: DM SansSce Medium;
+}
+
+.nav-item {
+    padding-right: 10px;
+}
+
+ul {
+    margin-left: auto;
+}
+
+.active-nav {
+    border-bottom: 1px solid #eff1f1;
+}
+
+.w-50 {
+    width: 50px!important;
+}
+
+.main {
+    background: #fbfbfb
+}
+
+table thead {
+    color: #fff;
+    background: rgb(8, 182, 199);
+}
+
+.selectVendor {
+    padding: 11px;
+    margin-top: 19px;
+    border-radius: 20px;
+    background: rgb(8, 182, 199);
+    border: none;
+    font-family: DM SansSce Medium;
+    font-size: 18px;
+}
+
+.selectVendor:hover {
+    background: white;
+    color: rgb(8, 182, 199);
+}
+
+.mainHeading {
+    font-family: DM SansSce Medium;
+    font-weight: 500;
+    font-size: 25px;
+}
+
+
+/* register page */
+
+.user_card {
+    height: 400px;
+    width: 500px;
+    margin-top: auto;
+    margin-bottom: auto;
+    background: #dadada;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 5px;
+}
+
+.brand_logo_container {
+    position: absolute;
+    height: 170px;
+    width: 170px;
+    top: -75px;
+    border-radius: 50%;
+    background: rgb(8, 182, 199);
+    padding: 10px;
+    text-align: center;
+}
+
+.brand_logo {
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+    border: 2px solid white;
+}
+
+.form_container {
+    margin-top: 100px;
+}
+
+.login_container {
+    padding: 0 2rem;
+}
+
+.input-group-text {
+    background: #8c7f7e !important;
+    color: white !important;
+    border: 0 !important;
+    border-radius: 0.25rem 0 0 0.25rem !important;
+}
+
+.textbox {
+    border: none;
+    padding: 9px;
+    width: 15vw;
+}
+
+.custom-checkbox .custom-control-input:checked~.custom-control-label::before {
+    background: rgb(8, 182, 199);
+}

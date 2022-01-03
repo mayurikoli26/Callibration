@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<div>
+    <p>{{ message }}</p>
+
+    <p>All contacts are :{{ contacts }}</p>Well come 
+    <p> Contacts in list:   verfied user id. </p> 
+    <ul>
+        {% for contact in contacts %}
+        <li>{{ contact }}</li>
+        {% endfor %}
+
+    </ul>
+       session_id= {{session_id}}, username={{session_username}}, role = {{role}}
+       session['session_id']={{session_id}} 
+</div>
+{% endblock %}
+
+<input type="hidden" id="session_id" name="session_id" value={{session_id}}>
+<input type="hidden" id="session_username" name="session_username" value={{session_username}}>

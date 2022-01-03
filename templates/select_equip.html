@@ -1,0 +1,67 @@
+{% extends "base.html" %} {% block content %}
+
+<div class="container">
+    <div>
+        <p class="mainHeading">Selected Data:</p>
+        <table class="table table-condensed table-borderedless table-hover table-striped ">
+            <thead>
+                <tr>
+                    <th>Vender</th>
+                    <th>Department</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{venderid}}</td>
+                    <td>{{deptid}}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- <ol class="">
+      <li class="list-item">Vender: {{venderid}}</li>
+      <li class="list-item">Department: {{deptid}}</li>
+    </ol> -->
+    </div>
+    Select Equipment :
+    <form id="myForm2" action="/parameter_input">
+        <div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Select</th>
+                        <th>Equipment Id</th>
+                        <th>Equipment Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in data %}
+                    <tr>
+                        <td>
+                            <input type="radio" value={{row[1]}} id="equipment" multiple name="equipmentid" aria-label="multiple select example" required>
+                        </td>
+                        <td>{{row[1]}}</td>
+                        <td>{{row[0]}}</td>
+
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+
+        </div>
+        <input type="submit" name="Add equipmemnt" value="Add Equipment"><br><br>
+        <input type="hidden" id="vender" name="venderid" value={{venderid}}>
+        <input type="hidden" id="dept" name="deptid" value={{deptid}}>
+        <button class="btn btn-primary selectVendor" id="department" type="submit">Select Equipment <i class="fas fa-arrow-circle-right"></i></button><br>
+    </form>
+</div>
+{% endblock %}
+
+
+<!-- 
+<select class="form-select" id="equipment" multiple name="equipmentid" aria-label="multiple select example" required>
+  {% for row in data %}           
+  <option value={{row[1]}}>{{row[0]}}</option>
+  {% endfor %}  
+</select> -->

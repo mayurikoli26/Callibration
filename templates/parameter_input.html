@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+  <h3>Fillup values and observations:</h3>
+  Vender:{{venderid}} | Department:{{deptid}} | Equipment:{{equipmentid}}   <p></p>
+  <h3 class="mb-3">Equipment : {{equ_name}}</h3>
+  <form id ="myForm3" class="form-horizontal" action="/save_reading" method="POST">
+    
+    <div class="row form-group">
+      <label class="control-label col-sm-2" for="approvar_name">Name of Approver:</label>
+      <div class="col-sm-6">
+        <input type="text" class="form-control" id="approvar_name" placeholder="Name" name="approvar_name">
+      </div>
+    </div>
+    <div class="row form-group">
+      <label class="control-label col-sm-2" for="approvar_email">Email_id of Approver:</label>
+      <div class="col-sm-6">
+        <input type="email" class="form-control" id="approvar_email" placeholder="Enter email" name="approvar_email">
+      </div>
+    </div>
+    <tbody>
+    {% for row in data %}
+    <div class="row form-group">
+      <label class="control-label col-sm-2" for="pwd">{{row}}:</label>
+      <div class="col-sm-6">          
+        <input type="text" class="form-control" id="pwd" placeholder="Enter {{row}}" name="{{row}}">
+      </div>
+    </div>
+    {% endfor %}
+    
+    {% for row in add_para %}
+    <div class="row form-group">
+      <input type="text" class="form-control col-sm-2" id="pwd" placeholder="Input {{'p-'+row}}" name="{{'p|-'+row}}">
+      <div class="col-sm-6">        
+      <input type="text" class="form-control" id="pwd" placeholder="Enter {{row}}" name="{{row}}">
+      </div>
+    </div>
+    {% endfor %}
+    <div class="row form-group">
+      <label class="control-label col-sm-2" for="myForm">Remarks:</label>
+      <div class="col-sm-6">          
+        <input type="text" class="form-control" id="myForm" placeholder="Enter Remark" name="Remarks">
+      </div>
+    </div>
+    
+    <!--<div class="row form-group">        
+      <div class="col-sm-6">
+        <div class="checkbox">
+          <label><input type="checkbox" id="followed"  value="0" name="followed" onclick="onChecked('followed')">  Followed procedure as per Norms</label>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="checkbox">
+          <label><input type="checkbox" id="verify" value="0" name="verify" onclick="onChecked('verify')">  Verified & Approved </label>
+        </div>
+      </div>
+    </div>    -->
+
+    <div class="form-group row">        
+      <div class="col-sm-6">
+        <div class="d-flex">
+          <div><button class="btn btn-success mr-4 " id="add_para" onclick="myAction_reading()">Add Parameter</button></div>
+          <div><button class="btn btn-success mr-4 " id="cancel_btn" onclick="myAction_reading()">Cancel</button></div>
+          <div><button class="btn btn-primary" id="save_btn" onclick="getAllValues2()">Save All</button></div>
+
+          <div><button class="btn btn-success mr-4 " id="post_btn" onclick="myAction_post()">JasonObj</button></div>
+          <div><button class="btn btn-primary" id="show_btn" type="submit" onclick="getFormData()">Show Form Data</button></div>
+        </div>
+      </div>
+    </div>
+    <button onclick="myFunction()">Add item</button>
+    <p id="demo">Click me.</p>
+    <button name="saveit"  onclick="myAddParamater()">save now</button>
+    <input name="text" id="add_para" >
+    <input name="text" id="add_para" >
+    
+
+    <input type="hidden" id="equipmentid" name="equipmentid" value={{equipmentid}}>
+     <input type="hidden" id="textall" name="textall" >
+    <!--<input type="hidden" id="final_obj" name="final_obj" >
+    <input type="hidden" id="dsigned" name="dsigned"  > -->
+  </form>
+</div>
+
+<script>
+var fruits=[""]
+var nuts=[""]
+var txt="21";
+var j=1;
+document.getElementById("demo").addEventListener("click", myAddParamater);
+//document.getElementById("demo").innerHTML = fruits;
+
+function myAddParamater() {
+  
+  fruits.push(document.getElementById('add_para').value);
+  nuts.push(document.getElementById('add_para').value);
+  var x = fruits.length;
+  var i;
+ 
+  for (i=1; i<x; i++){
+  }
+  txt =  document.getElementById("demo").value = fruits[j]+" : "+nuts[j]+"<br>"+" "+txt;
+  alert("ok",txt) 
+j++;
+}
+function myFunction() {
+  document.getElementById("demo").innerHTML = "YOU CLICKED ME!";
+
+}
+
+function getAllValues2() {
+    var y = document.getElementById("myForm3");
+    var txt = "";
+    var i;
+    var txtname="";
+    var jsontxt ="{";
+    
+    var fruits, text, fLen, i,n, index_flag="False", txtn="";
+    for (j = 0; j < y.length; j++) {
+        if (index_flag=="True"){
+           index_flag="False";
+           continue;
+        }
+          text = y.elements[j].value ;
+    //    n = text.indexOf("|-"); 
+    //    if (n >=0) {
+    //       index_flag = "True";
+    //       //txt += "'"+fruits[i+1]+ "' : '" +fruits[i+3]+"', ";
+    //       x[i]= y[i+1];
+    //       x[i+1] = y[i+3];
+    //       i=i+2;
+             continue;
+    //    }   
+    }
+    x = y;
+    for (i = 0; i < x.length-10; i++) {
+      txt = x.elements[i].value ;
+      //alert("No1");
+      txtname = document.getElementById("myForm3").elements[i].name;
+      //alert("No2 ");
+      jsontxt = jsontxt + "\"" + txtname + "\"" + " : \"" + txt +"\",";
+    }
+    var jsonelem = jsontxt.replace(/,$/,'}');
+    //document.getElementById("demo").innerHTML = patt1 ;
+    alert (jsonelem) ;
+    document.getElementById("textall").value=jsonelem;
+    return (jsonelem)
+  }
+</script>
+
+{% endblock %}
+

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<!--<form id ="myForm3" class="form-horizontal" action="/postjson" method="POST">-->
+<div class="container">
+  <h3>Fillup values and observations:</h3>
+  Vender:{{venderid}} | Department:{{deptid}} | Equipment:{{equipmentid}}   <p></p>
+  <h3 class="mb-3">Equipment : {{equ_name}}</h3>
+  <form id ="myForm3" class="form-horizontal" action="/postjson" method="POST">
+
+<div><button class="btn btn-success mr-4 " id="post_btn" onclick="myAction_post()">JasonObj</button></div>
+
+</form>
+</div>
+{% endblock %}

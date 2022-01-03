@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Calibrate</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+div.scrollmenu {
+  background-color: #236b8e;
+  overflow: auto;
+  white-space: nowrap;
+}
+
+div.scrollmenu a {
+  display: inline-block;
+  color: yellow;
+  text-align: center;
+  padding: 18px;
+  font-size: 20px;
+  text-decoration: none;
+}
+
+div.scrollmenu a:hover {
+  background-color: #f77;
+}
+
+div.vertical-menu {
+  width: 200px;
+}
+div.vertical-menu a {
+  background-color: #eee;
+  color: black;
+  display: block;
+  padding: 12px;
+  text-decoration: none;
+}
+
+div.vertical-menu a:hover {
+  background-color: #ccc;
+}
+
+div.vertical-menu a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+div.main {
+  margin-left: 140px; /* Same width as the sidebar + left position in px */
+  font-size: 28px; /* Increased text to enable scrolling */
+  padding: 0px 10px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+</style>
+</head>
+
+<body>
+
+  <div class="vertical-menu">
+  <a href="/">Home</a>
+  <a href="/select_vender">Calibrate</a>
+  <a href="#Vender Master">Vender Mgt</a>
+  <a href="#Equipment">Equipment List</a>
+  <a href="#Schedule">Schedule</a>
+  <a href="#History">History</a>
+  <a href="#Profile">Profile</a>  
+  <a href="#Search">Search</a>
+  <a href="#Weekly">Weekly Task</a>
+  <a href="#Login">Login</a>
+</div>
+
+<div  style="background-color:#e1e5e9;color:rgb(1, 0, 0);padding:10px; font-size: 15px; font-weight:bold">
+<h2>Calibration Management Menu</h2>
+<p>Resize browser window to check for responsive.</p>
+</div>
+<div class="main"></div>
+    {% block content %}
+    {% endblock %}
+</div>
+</body>
+</html>

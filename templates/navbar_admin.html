@@ -1,0 +1,55 @@
+<form id="myForm">
+    <nav class="navbar navbar-expand-lg bg-nav fixed-top">
+      <a class="navbar-brand" href="#">
+        <img
+          class="logo"
+          alt="logo"
+          src="{{url_for('static', filename='logo.png')}}"
+          width="50px"/>Equipment Calibration</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a
+              id="cal"
+              class="nav-link {{ 'active-nav' if active_page == 'calibration' else '' }}"
+              onclick="myAction_vender('cal')"
+              >Calibrate</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link {{ 'active-nav' if active_page == 'vender' else '' }}"
+              href="#Vender Master"
+              >Vender Mgt</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#Vender Mgt">User Mgt</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#Schedule">Equipment Mgt</a>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="#History">History</a></li>
+          <li class="nav-item"><a class="nav-link" href="#Profile">Reports</a></li>
+          <li class="nav-item">
+            <a class="nav-link" onclick="myAction_dept()">Search</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#Work_Profile">Work assignment</a>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
+        </ul>
+      </div>
+    </nav>
+  </form>
