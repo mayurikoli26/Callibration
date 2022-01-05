@@ -1,0 +1,98 @@
+
+{% extends "base.html" %}
+{% block content %}
+ <div class="container">
+  <h3 class="previousReading">EQUIPMENT :</h3>
+ </div>
+
+    <div class="container py-5">
+    <!-- <h3 class="previousReading :    mt-5">EQUIPMENT</h3> -->
+           
+        <div class="row">
+          <div class="col-6">
+              <form id="myForm4" action="/parameter_input">
+                <div class="form-group row">
+                    <label for="staticEmail" class="col-sm-6  col-form-label">Hospital</label>
+                    <div class="col-sm-6">
+                        <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="email@example.com">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="inputPassword" class="col-sm-6  col-form-label">Equipment Name</label>
+                    <div class="col-sm-6">
+                      <input type="text" readonly  class="form-control-plaintext" id="inputPassword" placeholder="equipmemnt name">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="inputPassword" class="col-sm-6  col-form-label">Calibration By</label>
+                    <div class="col-sm-6">
+                      <input type="text" readonly class="form-control-plaintext" id="inputPassword" placeholder="calibration by">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                      <label for="inputPassword" class="col-sm-6 col-form-label">Last Calibration Date</label>
+                      <div class="col-sm-6">
+                        <input type="text" readonly  class="form-control-plaintext" id="inputPassword" placeholder="previous calibration date">
+                      </div>
+                    </div>
+                  <div class="form-group row">
+                      <label for="inputPassword" readonly class="col-sm-6 col-form-label">Last Observation & Remark</label>
+                      <div class="col-sm-6">
+                        <input type="text" readonly class="form-control-plaintext" id="inputPassword" placeholder="previous observation and remark">
+                      </div>
+                    </div>
+              </form>
+          </div>
+          <div class="col-6">
+            <form id="myForm3" action="/parameter_input">
+
+                  <div class="form-group row">
+                  <label for="inputPassword" class="col-sm-6 col-form-label">Department</label>
+                  <div class="col-sm-6">
+                    <input type="text" readonly class="form-control-plaintext" id="inputPassword" placeholder="department">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="inputPassword" class="col-sm-6 col-form-label">Certificate Date</label>
+                  <div class="col-sm-6">
+                    <input type="text" readonly class="form-control-plaintext" id="inputPassword" placeholder="certificate date">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="inputPassword" class="col-sm-6 col-form-label">Certificate No</label>
+                  <div class="col-sm-6">
+                    <input type="text" readonly class="form-control-plaintext" id="inputPassword" placeholder="certificate no">
+                  </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-sm-6 col-form-label">Calibration Due Date</label>
+                    <div class="col-sm-6">
+                      <input type="text" readonly class="form-control-plaintext" id="inputPassword" placeholder="calibration due date">
+                    </div>
+                  </div>
+               
+            </form>
+          </div>
+        </div>
+        
+          
+    <div class="buttons d-flex justify-content-start mt-2">
+      <div class="row">
+        <div class="col-sm-12 col-lg-4 ">
+          <button class="btn selectVendor1" onclick="collect()">Collect Reading &nbsp;<i class="fas fa-arrow-circle-right"></i></button>
+        </div>
+        <div class="col-sm-12  col-lg-4">
+          <button class="btn selectVendor">Previous Reading &nbsp;<i class="fas fa-arrow-circle-right"></i></button>
+        </div>
+        <div class="col-sm-12  col-lg-4">
+          <button class="btn selectVendor1">Parameter List &nbsp;<i class="fas fa-arrow-circle-right"></i></button>
+        </div>
+      </div>
+     
+     
+     
+   </div>
+         
+    </div>
+
+{% endblock %}

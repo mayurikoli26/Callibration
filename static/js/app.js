@@ -17,6 +17,7 @@ function myAction_post() {
   document.getElementById("myForm").submit();
 }
 
+
 // parameter.html required JS functions
 
 function show_no() {
@@ -41,6 +42,8 @@ function getAllValues() {
   //document.getElementById("textall").value = txt;
   //return txt;
 }
+
+
 function getAllValues1() {
     var x = document.getElementById("myForm3");
     var txt = "";
@@ -74,3 +77,7 @@ function getFormData(){
   alert(formData)
   return formData;
 }
+function myAction_reading() {
+  document.getElementById("myForm3").reset();
+}
+

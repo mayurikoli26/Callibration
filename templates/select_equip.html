@@ -2,36 +2,29 @@
 
 <div class="container">
     <div>
-        <p class="mainHeading">Selected Data:</p>
-        <table class="table table-condensed table-borderedless table-hover table-striped ">
-            <thead>
-                <tr>
-                    <th>Vender</th>
-                    <th>Department</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>{{venderid}}</td>
-                    <td>{{deptid}}</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <!-- <ol class="">
-      <li class="list-item">Vender: {{venderid}}</li>
-      <li class="list-item">Department: {{deptid}}</li>
-    </ol> -->
-    </div>
-    Select Equipment :
-    <form id="myForm2" action="/parameter_input">
         <div>
-            <table class="table">
+            <p class="mainHeading">Selected Data:</p>
+            <ol class="">
+              <li class="list-item">Vender: {{venderid}}</li>
+              <li class="list-item">Department: {{deptid}}</li>
+            </ol>
+          </div>
+    
+    </div>
+
+    <p class="mainHeading"> Select Equipment :</p>
+   
+    <form id="myForm2" action="/last_reading">
+        <div class="table-responsive">
+            <table class="table table-condensed table-hover table-striped EquTable ">
                 <thead>
                     <tr>
                         <th>Select</th>
                         <th>Equipment Id</th>
                         <th>Equipment Name</th>
+                        <th>
+                            
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -50,10 +43,13 @@
 
 
         </div>
-        <input type="submit" name="Add equipmemnt" value="Add Equipment"><br><br>
+       <div class="d-flex justify-content-start">
+        <button class="btn selectVendor1 mt-3"  name="Add equipmemnt" value="Add Equipment"> Add Equipment&nbsp;<i class="fas fa-arrow-circle-right"></i></button>
+        <!-- <input type="submit" name="Add equipmemnt" value="Add Equipment" class="selectVendor">Add Equipment<i class="fas fa-arrow-circle-right"></i> -->
         <input type="hidden" id="vender" name="venderid" value={{venderid}}>
         <input type="hidden" id="dept" name="deptid" value={{deptid}}>
-        <button class="btn btn-primary selectVendor" id="department" type="submit">Select Equipment <i class="fas fa-arrow-circle-right"></i></button><br>
+        <button class="btn btn-primary selectVendor ml-2 mt-3" id="department" type="submit">Select Equipment <i class="fas fa-arrow-circle-right"></i></button><br>
+       </div>
     </form>
 </div>
 {% endblock %}

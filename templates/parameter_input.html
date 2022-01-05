@@ -1,9 +1,11 @@
+<link rel="stylesheet" href="style.css">
+
 {% extends "base.html" %}
 {% block content %}
 <div class="container">
-  <h3>Fillup values and observations:</h3>
+  <h3 class="Head1">Fillup values and observations:</h3>
   Vender:{{venderid}} | Department:{{deptid}} | Equipment:{{equipmentid}}   <p></p>
-  <h3 class="mb-3">Equipment : {{equ_name}}</h3>
+  <h3 class="mb-3 equName">Equipment : {{equ_name}}</h3>
   <form id ="myForm3" class="form-horizontal" action="/save_reading" method="POST">
     
     <div class="row form-group">
@@ -27,15 +29,15 @@
       </div>
     </div>
     {% endfor %}
-    
-    {% for row in add_para %}
+<!--     
+     {% for row in add_para %}
     <div class="row form-group">
       <input type="text" class="form-control col-sm-2" id="pwd" placeholder="Input {{'p-'+row}}" name="{{'p|-'+row}}">
       <div class="col-sm-6">        
       <input type="text" class="form-control" id="pwd" placeholder="Enter {{row}}" name="{{row}}">
       </div>
     </div>
-    {% endfor %}
+    {% endfor %}  -->
     <div class="row form-group">
       <label class="control-label col-sm-2" for="myForm">Remarks:</label>
       <div class="col-sm-6">          
@@ -59,20 +61,20 @@
     <div class="form-group row">        
       <div class="col-sm-6">
         <div class="d-flex">
-          <div><button class="btn btn-success mr-4 " id="add_para" onclick="myAction_reading()">Add Parameter</button></div>
-          <div><button class="btn btn-success mr-4 " id="cancel_btn" onclick="myAction_reading()">Cancel</button></div>
-          <div><button class="btn btn-primary" id="save_btn" onclick="getAllValues2()">Save All</button></div>
+          <!-- <div><button class="btn btn-success mr-4 " id="add_para" onclick="myAction_reading()">Add Parameter</button></div> -->
+          <div><button class="btn btn-success mr-4 selectVendor " id="cancel_btn" onclick="myAction_reading()">Cancel <i class="fas fa-arrow-circle-right"></i></button></div>
+          <div><button class="btn btn-primary selectVendor" id="save_btn" onclick="getAllValues2()">Save All <i class="fas fa-arrow-circle-right"></i></button></div>
 
-          <div><button class="btn btn-success mr-4 " id="post_btn" onclick="myAction_post()">JasonObj</button></div>
-          <div><button class="btn btn-primary" id="show_btn" type="submit" onclick="getFormData()">Show Form Data</button></div>
+          <!-- <div><button class="btn btn-success mr-4 " id="post_btn" onclick="myAction_post()">JasonObj</button></div>
+          <div><button class="btn btn-primary" id="show_btn" type="submit" onclick="getFormData()">Show Form Data</button></div> -->
         </div>
       </div>
     </div>
-    <button onclick="myFunction()">Add item</button>
-    <p id="demo">Click me.</p>
-    <button name="saveit"  onclick="myAddParamater()">save now</button>
-    <input name="text" id="add_para" >
-    <input name="text" id="add_para" >
+    <!-- <button onclick="myFunction()">Add item</button> -->
+    <!-- <p id="demo">Click me.</p> -->
+    <!-- <button name="saveit"  onclick="myAddParamater()">save now</button>  -->
+     <!-- <input name="text" id="add_para" >
+    <input name="text" id="add_para" >  -->
     
 
     <input type="hidden" id="equipmentid" name="equipmentid" value={{equipmentid}}>
@@ -146,6 +148,8 @@ function getAllValues2() {
     document.getElementById("textall").value=jsonelem;
     return (jsonelem)
   }
+
+
 </script>
 
 {% endblock %}

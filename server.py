@@ -10,7 +10,7 @@ app.secret_key = 'your secret key'
 
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'root123'
+app.config['MYSQL_PASSWORD'] = 'root'
 #app.config['MYSQL_HOST'] = 'aim.cvot3mbu0m9d.us-east-2.rds.amazonaws.com'
 #app.config['MYSQL_USER'] = 'gismaster'
 #app.config['MYSQL_PASSWORD'] = 'first#1234'
@@ -237,6 +237,34 @@ def parameter_input():
     else:  
         return '<p>Please login first.</p>'
 
+@app.route('/last_reading')
+def last_reading():
+    deptid = request.args.get('deptid')
+    venderid = request.args.get('venderid')
+    equipmentid = request.args.get('equipmentid')
+
+    return render_template('last_reading.html' )
+
+@app.route('/previous_reading')
+def previous_reading():
+    deptid = request.args.get('deptid')
+    venderid = request.args.get('venderid')
+    equipmentid = request.args.get('equipmentid')
+
+    return render_template('previous_reading.html' )
+
+
+    
+@app.route('/parameter_list')
+def parameter_list():
+    deptid = request.args.get('deptid')
+    venderid = request.args.get('venderid')
+    equipmentid = request.args.get('equipmentid')
+
+
+    return render_template('parameter_list.html')
+
+
 @app.route('/save_reading',methods=['GET', 'POST'])
 def save_reading():
     if 'session_id' in session:  
@@ -330,4 +358,7 @@ def jason_table():
      
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000,) 
+    app.run(host='0.0.0.0', port=5000,debug=True) 
+
+
+
