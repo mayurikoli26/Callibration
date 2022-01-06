@@ -190,6 +190,69 @@ last_reading */
     font-weight: 500;
     font-size: 22px;
 }
+.formGroup{
+    border: none;
+}
+
+/* parameter list */
+.inputField{
+    width: 27vw;
+    /* border: none; */
+    border: 1px solid rgb(8, 182, 199);
+}
+
+
+  /* add equipment */
+input[type=text], select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+  }
+  
+  label {
+    padding: 12px 12px 12px 0;
+    display: inline-block;
+  }
+  
+  input[type=submit] {
+    background-color: #04AA6D;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    float: right;
+  }
+  
+  
+  .container {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+  }
+  
+  .col-25 {
+    float: left;
+    width: 20%;
+    margin-top: 6px;
+  }
+  
+  .col-75 {
+    float: left;
+    width: 60%;
+    margin-top: 6px;
+  }
+  
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  /* media Query */
 
 @media only screen and (max-width: 600px) {
     .selectVendor ,
@@ -210,14 +273,36 @@ last_reading */
         top: 22px;
         right: 12px;
       }
+      .btnHeight{
+          height: 65px;
+      }
+      .form-group{
+        border: none;
+    }
+    #save_btn{
+        margin-left:10px;
 
+     }
+
+     .col-25, .col-75, input[type=submit] {
+        width: 100%;
+        margin-top: 0;
+        /* padding-left: 10px; */
+      }
+    
   }
-  
+ 
 @media only screen and (max-width: 500px) {
     .navbar-toggler-icon{
         background-color: aliceblue;
         position: absolute;
         top: 22px;
-        right: 0px;
+        right: 14px;
+      }
+      /* .form-group{
+          border: none;
+      } */
+      .row{
+        margin-top: -5px;
       }
 }

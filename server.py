@@ -208,7 +208,7 @@ def hosplist():
 
 @app.route('/parameter_input')
 def parameter_input():
-    if 'session_id' in session: 
+    if 'session_id' in session:
        deptid = request.args.get('deptid')
        venderid = request.args.get('venderid')
        equipmentid = request.args.get('equipmentid')
@@ -253,6 +253,14 @@ def previous_reading():
 
     return render_template('previous_reading.html' )
 
+
+@app.route('/add_equipment')
+def add_equipment():
+    deptid = request.args.get('deptid')
+    venderid = request.args.get('venderid')
+    equipmentid = request.args.get('equipmentid')
+
+    return render_template('add_equipment.html' )
 
     
 @app.route('/parameter_list')

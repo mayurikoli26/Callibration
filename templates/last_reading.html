@@ -76,23 +76,34 @@
         </div>
         
           
-    <div class="buttons d-flex justify-content-start mt-2">
+    <div class="buttons d-flex justify-content-start mt-4">
       <div class="row">
-        <div class="col-sm-12 col-lg-4 ">
+        <div class="col-sm-12 col-md-4 col-lg-4 btnHeight">
           <button class="btn selectVendor1" onclick="collect()">Collect Reading &nbsp;<i class="fas fa-arrow-circle-right"></i></button>
         </div>
-        <div class="col-sm-12  col-lg-4">
+        <div class="col-sm-12 col-md-4 col-lg-4 btnHeight">
           <button class="btn selectVendor">Previous Reading &nbsp;<i class="fas fa-arrow-circle-right"></i></button>
         </div>
-        <div class="col-sm-12  col-lg-4">
+        <div class="col-sm-12 col-md-4 col-lg-4 btnHeight">
           <button class="btn selectVendor1">Parameter List &nbsp;<i class="fas fa-arrow-circle-right"></i></button>
         </div>
       </div>
-     
-     
-     
-   </div>
+  </div>
          
+
+
+  <script>
+    function collect(){
+
+      var deptid = location.search.split('deptid=')[1]
+      var venderid = location.search.split('venderid=')[1]
+      var equipmentid = location.search.split('equipmentid=')[1]
+      var equ_parameter_id = 2
+      window.location.href ="/parameter_input?deptid=" + deptid + "&venderid=" + venderid + "&equ_parameter_id=" + equ_parameter_id;
+    }
+  </script>
+
+
     </div>
 
 {% endblock %}
