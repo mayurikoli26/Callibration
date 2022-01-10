@@ -14,7 +14,7 @@
 
     <p class="mainHeading"> Select Equipment :</p>
    
-    <form id="myForm2" action="/last_reading">
+    <form id="myForm2" action="/equipment_details" method='post'>
         <div class="table-responsive">
             <table class="table table-condensed table-hover table-striped EquTable ">
                 <thead>
@@ -31,7 +31,7 @@
                     {% for row in data %}
                     <tr>
                         <td>
-                            <input type="radio" value={{row[1]}} id="equipment" multiple name="equipmentid" aria-label="multiple select example" required>
+                            <input type="radio" value={{row[1]}} id="equipment" multiple name="equipmentid" aria-label="multiple select example">
                         </td>
                         <td>{{row[1]}}</td>
                         <td>{{row[0]}}</td>
@@ -44,7 +44,7 @@
 
         </div>
        <div class="d-flex justify-content-start">
-        <button class="btn selectVendor1 mt-3"  name="Add equipmemnt" value="Add Equipment"> Add Equipment&nbsp;<i class="fas fa-arrow-circle-right"></i></button>
+        <button class="btn selectVendor1 mt-3"  name="Add equipmemnt" value="Add Equipment" button type="submit" formaction="/add_equipment"> Add Equipment&nbsp;<i class="fas fa-arrow-circle-right"></i></button>
         <!-- <input type="submit" name="Add equipmemnt" value="Add Equipment" class="selectVendor">Add Equipment<i class="fas fa-arrow-circle-right"></i> -->
         <input type="hidden" id="vender" name="venderid" value={{venderid}}>
         <input type="hidden" id="dept" name="deptid" value={{deptid}}>

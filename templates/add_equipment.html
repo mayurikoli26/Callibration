@@ -5,13 +5,13 @@
     <h3 class="previousReading"> ADD EQUIPMENT :</h3>
    </div>
 <div class="container">
-    <form action="/action_page.php">
+    <form id="myForm4" action="/add_equipment" method = "POST">
       <div class="row">
         <div class="col-25">
           <label for="fname">Hospital</label>
         </div>
         <div class="col-75">
-          <input type="text" id="fname" name="firstname" placeholder="Hospital">
+          <input type="text" id="vender" name="vender" placeholder={{venderid}}>
         </div>
       </div>
       <div class="row">
@@ -19,7 +19,7 @@
           <label for="lname">Equipment Name</label>
         </div>
         <div class="col-75">
-          <input type="text" id="lname" name="lastname" placeholder="Equipment Name">
+          <input type="text" id="equ_name" name="equ_name" placeholder="Equipment Name">
         </div>
       </div>
       <div class="row">
@@ -27,15 +27,15 @@
           <label for="country">Asset Code</label>
         </div>
         <div class="col-75">
-          <input type="text" id="lname" name="lastname" placeholder="Asset Code">
+          <input type="text" id="asset_cd" name="asset_cd" placeholder="Asset Code">
         </div>
       </div>
       <div class="row">
         <div class="col-25">
-          <label for="subject">Template</label>
+          <label for="subject">Parameter Template</label>
         </div>
         <div class="col-75">
-          <input type="text" id="lname" name="lastname" placeholder="Template">
+          <input type="text" id="template" name="template" placeholder="Template select">
         </div>
       </div>
       <div class="row">
@@ -43,7 +43,7 @@
           <label for="subject">Department</label>
         </div>
         <div class="col-75">
-          <input type="text" id="lname" name="lastname" placeholder="Department">
+          <input type="text" id="lname" name="lastname" placeholder={{departmentid}}>
         </div>
       </div>
       <div class="row">
@@ -51,7 +51,7 @@
           <label for="subject">Serial No</label>
         </div>
         <div class="col-75">
-          <input type="text" id="lname" name="lastname" placeholder="Serial No">
+          <input type="text" id="serialno" name="serialno" placeholder="Serial No">
         </div>
       </div>
      

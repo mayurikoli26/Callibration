@@ -154,17 +154,21 @@ def select_vender():
         return '<p>Please login first</p>' 
     
 
-@app.route('/select_dept')
+@app.route('/select_dept', methods =['GET', 'POST'])
 def select_dept():
     if 'session_id' in session:  
         sessionid = session['session_id'] 
-        print ("in dept sessionid= ",sessionid) 
-        sel = request.args.get('dept')
-        venderid = request.args.get('venderid')
+        print ("in dept sessionid= ",sessionid)
+        #sel =  request.form['dept']
+        sel=1
+        # venderid = request.args.get('venderid')
+        #deptid = request.form['deptid']
+        #print("sel----------",deptid)
+        venderid = request.form['venderid']
         print ("vender =",venderid)
         cursor = mysql.connection.cursor()
         #cursor.execute("SELECT equ_name, equ_parameter_id  FROM equipment")
-        cursor.execute("SELECT department_name, department_id FROM department")
+        cursor.execute("SELECT department_name, department_id FROM department where vender_id=%s",(venderid,))
         data = cursor.fetchall()
         return render_template('select_dept.html', data=data, deptid=sel, venderid=venderid)
     else:  
@@ -175,17 +179,19 @@ def select_dept():
     #data = cursor.fetchall()
     #return render_template('select_dept.html', data=data, venderid=sel)    
 
-@app.route('/select_equip')
+@app.route('/select_equip', methods =['GET', 'POST'])
 def select_equip():
     if 'session_id' in session:  
         sessionid = session['session_id']
-        sel = request.args.get('deptid')
-        venderid = request.args.get('venderid')
+        #sel = request.args.get('deptid')
+        deptid = request.form['deptid']
+        #venderid = request.args.get('venderid')
+        venderid = request.form['venderid']
         print ("venderid in eq=", venderid)
         cursor = mysql.connection.cursor()
-        cursor.execute("SELECT equ_name, equ_parameter_id  FROM equipment")
+        cursor.execute("SELECT equ_name, equ_id  FROM equipment")
         data = cursor.fetchall()
-        return render_template('select_equip.html', data=data, deptid=sel, venderid=venderid) 
+        return render_template('select_equip.html', data=data, deptid=deptid, venderid=venderid) 
     else:  
         return '<p>Please login first</p>'
 
@@ -206,46 +212,70 @@ def hosplist():
     return render_template('hosplist.html', data=rowx)
 
 
-@app.route('/parameter_input')
+@app.route('/parameter_input', methods =['GET', 'POST'])
 def parameter_input():
+
+    print("--------------------", request.form)
     if 'session_id' in session:
-       deptid = request.args.get('deptid')
-       venderid = request.args.get('venderid')
-       equipmentid = request.args.get('equipmentid')
+       deptid = request.form['deptid']
+    #    deptid=request.args.get('deptid')
+    #    venderid=request.args.get('venderid')
+       venderid = request.form['venderid']
+       equipmentid = request.form ['equipmentid']
        equ_name = request.args.get('equ_name')
        equ_parameter_id = request.args.get('equ_parameter_id')
-       cursor = mysql.connection.cursor()
+       #butpress = request.form['bt']
        
+       cursor = mysql.connection.cursor()
        cursor.execute('SELECT equ_name, equ_parameter_id FROM equipment where equ_id =%s',(equipmentid,))
-       print("hi i am id",equipmentid )
+       #print("hi i am equ id=",equipmentid )
        #equ_name = cursor.fetchone()
        data = cursor.fetchall()
        for row in data:
             equ_name = row[0]
-            equ_parameter_id = row[1]  #1
+            equ_parameter_id = row[1]  
 
-       print('EQUIP=',equ_parameter_id)
-       cursor.execute("SELECT parameter_name FROM equ_parameter_reg where equ_parameter_id=%s",(equ_parameter_id,))
+       #cursor.execute("SELECT parameter_name FROM equ_parameter_reg where equ_parameter_id=%s",(equ_parameter_id,))
+       cursor.execute("SELECT parameter_list FROM parameter where equ_parameter_id=%s",(equ_parameter_id,))
        data = cursor.fetchall()
        s = "-"
        add_para = ["para1","para2","para3","para4"]
        for row in data:
-           print(row)  
+           print("ROW:",row)  
            s=s.join(row)
            rowx = s.split(',')           
            return render_template('parameter_input.html', data=rowx, venderid=venderid, deptid=deptid, equipmentid=equipmentid, equ_name=equ_name, add_para=add_para, equ_parameter_id=equ_parameter_id)
     else:  
         return '<p>Please login first.</p>'
 
-@app.route('/last_reading')
-def last_reading():
-    deptid = request.args.get('deptid')
-    venderid = request.args.get('venderid')
-    equipmentid = request.args.get('equipmentid')
+@app.route('/equipment_details', methods =['GET', 'POST'])
+def equipment_details():
+    #deptid = request.args.get('deptid')
+    #venderid = request.args.get('venderid')
+    #equipmentid = request.args.get('equipmentid')
+    #vend = request.args.get('vend')
 
-    return render_template('last_reading.html' )
+    venderid = request.form['venderid']
+    equipmentid = request.form['equipmentid']
+    deptid = request.form['deptid']
+    #vend = request.form['vend']
 
-@app.route('/previous_reading')
+    cursor = mysql.connection.cursor()
+    cursor.execute('SELECT equ_name, equ_asset, equ_make, equ_model, equ_serialno FROM equipment where equ_id =%s',(equipmentid,))
+    #print("hi i am equ id=",equipmentid )
+    #print("Butt sel is=",vend)
+    data = cursor.fetchall()
+    for row in data:
+        equ_name = row[0]
+        equ_asset = row[1]  
+        equ_make = row[2]
+        equ_model = row[3]
+        equ_serialno = row[4]
+    
+    return render_template('equipment_details.html',venderid= venderid, deptid=deptid,equipmentid=equipmentid, equ_name=equ_name, equ_asset=equ_asset, equ_make=equ_make, equ_model=equ_model,equ_serialno=equ_serialno)
+    
+
+@app.route('/previous_reading' ,methods =['GET', 'POST'])
 def previous_reading():
     deptid = request.args.get('deptid')
     venderid = request.args.get('venderid')
@@ -254,15 +284,38 @@ def previous_reading():
     return render_template('previous_reading.html' )
 
 
-@app.route('/add_equipment')
+@app.route('/add_equipment', methods =['GET', 'POST'])
 def add_equipment():
     deptid = request.args.get('deptid')
     venderid = request.args.get('venderid')
-    equipmentid = request.args.get('equipmentid')
+    venderid = '3'  #dummy
+    deptid = '2'    #dummy
 
-    return render_template('add_equipment.html' )
+    return render_template('add_equipment.html',deptid=deptid,venderid=venderid )
 
-    
+@app.route('/save_new_equipment', methods =['GET', 'POST'])
+def save_new_equipment():
+    if request.method == 'POST': 
+        print("stage 1")
+        username = request.form['username']
+        deptid = request.form['deptid']
+        venderid = request.form['venderid']
+        venderid = '3'  #dummy
+        deptid = '2'    #dummy
+
+        equ_name = request.form['equ_name']
+        asset_cd = request.form['asset_cd']
+        template = request.form['template']
+        serialno = request.form['serialno']
+        print("stage 2")
+        cursor = mysql.connection.cursor()
+        #cursor.execute('insert  into calibrate (id, equ_id, parameter_readings, perform_date ) values (%s,%s,%s, %s)', (sessionid,equipmentid,form_obj, cur_date,))
+        cursor.execute('insert  into equipment (equ_name, equ_asset, equ_serialno, equ_parameter_id, vender_id, department_id ) values (%s,%s,%s, %s, %s, %s)', (equ_name, asset_cd, serialno, template, venderid, deptid,))
+        mysql.connection.commit()
+        return render_template('add_equipment.html',deptid=deptid,venderid=venderid )
+    else :
+        return ('Please use post method')
+
 @app.route('/parameter_list')
 def parameter_list():
     deptid = request.args.get('deptid')

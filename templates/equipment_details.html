@@ -1,0 +1,101 @@
+
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+  <h3 class="previousReading">EQUIPMENT :</h3>
+    <ol class="mt-5 ml-0">
+      <li class="list-item"> equipmentid = {{equipmentid}} </li>
+      <li class="list-item">venderid={{venderid}}</li>
+      <li class="list-item">deptid={{deptid}}</li>
+     </ol>
+  </div>
+
+ 
+    <div class="container">
+    <!-- <h3 class="previousReading :    mt-5">EQUIPMENT</h3> -->
+      <form id="myForm4" action="/parameter_input" method = "post">
+       <div class="row">
+         <div class="col-lg-6 col-lg-4 col-sm-12">
+          <div class="form-group row">
+            <label for="staticEmail" class="col-sm-6  col-form-label">Hospital</label>
+              <div class="col-sm-6">
+                  <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="Hospital Name">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="inputPassword" class="col-sm-6  col-form-label">Equipment Name</label>
+              <div class="col-sm-6">
+              {{equ_name}}
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="inputPassword" class="col-sm-6 col-form-label">Department</label>
+              <div class="col-sm-6">
+                <input type="text" readonly class="form-control-plaintext" id="inputPassword" placeholder="department">
+              </div>
+            </div>
+         
+         
+          <div class="form-group row">
+            <label for="inputPassword" class="col-sm-6 col-form-label">Asset Code</label>
+            <div class="col-sm-6">
+             {{equ_asset}}
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputPassword" class="col-sm-6 col-form-label">Serial No</label>
+            <div class="col-sm-6">
+            {{equ_serialno}}
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputPassword" class="col-sm-6 col-form-label">Calibration Due Date</label>
+            <div class="col-sm-6">
+              <input type="text" readonly class="form-control-plaintext" id="inputPassword" placeholder="calibration due date">
+            </div>
+          </div>
+         
+         </div>
+      </div>
+      </form>
+      
+    <form action="/parameter_input" method="post">
+      
+      <input type="hidden" id="vender" name="venderid" value={{venderid}}>
+      <input type="hidden" id="deptid" name="deptid" value={{deptid}}>
+      <input type="hidden" id="equipment" name="equipmentid" value={{equipmentid}}>
+
+              
+    <div class="buttons d-flex justify-content-start mt-4">
+      <div class="row">
+        <div class="col-sm-12 col-md-4 col-lg-4 btnHeight">
+          <button class="btn selectVendor1">Check List &nbsp;<i class="fas fa-arrow-circle-right"></i></button>
+        </div>
+        
+        <div class="col-sm-12 col-md-4 col-lg-4 btnHeight">
+          <button class="btn selectVendor1" type="submit" >Collect Reading &nbsp;<i class="fas fa-arrow-circle-right"></i></button>
+        </div>
+
+        <div class="col-sm-12 col-md-4 col-lg-4 btnHeight">
+          <button class="btn selectVendor" button type="submit" formaction="/previous_reading">Previous Reading &nbsp;<i class="fas fa-arrow-circle-right"></i></button>
+        </div>
+
+      </div>
+  </div> 
+
+    </form>
+
+
+  <!-- <input type="hidden" id="vender" name="venderid" value={{venderid}}>
+  <input type="hidden" id="deptid" name="deptid" value={{deptid}}>
+  <input type="hidden" id="equipment" name="equipmentid" value={{equipmentid}}> -->
+   
+  <!-- <button onclick="equ_chk_list()" type="submit" form="myForm4">Click 2</button>
+  <button type="submit" formaction="/add_equipment">Submit Add</button> -->
+
+ 
+
+
+    </div>
+
+{% endblock %}
