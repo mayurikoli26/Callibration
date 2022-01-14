@@ -2,7 +2,7 @@
 {% block content %}
 <div class="container">
   <h2 class="mainHeading">Select Department for {{session_username}}</h2>
-  <p style="font-size: 19px;font-family:DM SansSce Medium; ;">Vender Name:</p>  
+  <p style="font-size: 19px;font-family:DM SansSce Medium; ;">Vender Name :   {{name}}</p>  
   <form id="myForm" action="/select_equip" method="post">        
     <div class="table-responsive">
       <table class="table table-condensed table-borderedless table-hover table-striped">
@@ -16,7 +16,7 @@
         <tbody>
           {% for row in data %}        
           <tr>
-            <td class="text-center w-50">
+            <td class="">
               <div class="form-check">
                 <input class="form-check-input" type="radio" name="deptid" id="deptid" value={{row[1]}}>
               </div>
@@ -31,7 +31,7 @@
       </table>
     </div>
   
-    <button class="btn btn-primary mt-3 selectVendor" id="department" type="submit">Select Department <i class="fas fa-arrow-circle-right"></i></button><br>
+    <button class="btn mt-3 selectVendor" id="department" type="submit">Select Department <i class="fas fa-arrow-circle-right"></i></button><br>
     <input type="hidden" id="vender" name="venderid" value={{venderid}}> 
     <!--<input type="hidden" id="dept" name="deptid" value={{dept}}> -->
   </form>

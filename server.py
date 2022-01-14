@@ -1,8 +1,11 @@
 import os
 from datetime import datetime
-from flask import Flask,render_template, request, url_for, session
+from flask import Flask,render_template, request, url_for, session ,jsonify
 from flask_mysqldb import MySQL
 import re 
+
+import psycopg2 #pip install psycopg2 
+import psycopg2.extras
 
 app = Flask(__name__)
 
@@ -170,9 +173,25 @@ def select_dept():
         #cursor.execute("SELECT equ_name, equ_parameter_id  FROM equipment")
         cursor.execute("SELECT department_name, department_id FROM department where vender_id=%s",(venderid,))
         data = cursor.fetchall()
-        return render_template('select_dept.html', data=data, deptid=sel, venderid=venderid)
+
+        cursor = mysql.connection.cursor()
+        cursor.execute('SELECT name, vender_id, address FROM vender where vender_id=%s',(venderid,))
+        data1 = cursor.fetchall()
+        # venderid = request.args.get('venderid')
+        # print ("in vender id= ",venderid)
+        for row in data1:
+          name = row[0]
+          vender_id =row[1]
+          address = row[2]
+
+
+
+        return render_template('select_dept.html', data=data, deptid=sel, venderid=venderid,name=name)
     else:  
         return '<p>Please login first</p>' 
+
+       
+
     #sel = request.args.get('vender')
     #cursor = mysql.connection.cursor()
     #cursor.execute("SELECT department_name, department_id FROM department")
@@ -191,7 +210,10 @@ def select_equip():
         cursor = mysql.connection.cursor()
         cursor.execute("SELECT equ_name, equ_id  FROM equipment")
         data = cursor.fetchall()
+
+
         return render_template('select_equip.html', data=data, deptid=deptid, venderid=venderid) 
+       
     else:  
         return '<p>Please login first</p>'
 
@@ -261,7 +283,7 @@ def equipment_details():
     #vend = request.form['vend']
 
     cursor = mysql.connection.cursor()
-    cursor.execute('SELECT equ_name, equ_asset, equ_make, equ_model, equ_serialno FROM equipment where equ_id =%s',(equipmentid,))
+    cursor.execute('SELECT equ_name, equ_asset, equ_make, equ_model, equ_serialno ,start_date ,active FROM equipment where equ_id =%s',(equipmentid,))
     #print("hi i am equ id=",equipmentid )
     #print("Butt sel is=",vend)
     data = cursor.fetchall()
@@ -271,8 +293,29 @@ def equipment_details():
         equ_make = row[2]
         equ_model = row[3]
         equ_serialno = row[4]
+        start_date = row[5]
+        active = row[6]
+
+        cursor = mysql.connection.cursor()
+        cursor.execute('SELECT name, vender_id, address FROM vender where vender_id=%s',(venderid,))
+        data1 = cursor.fetchall()
+        # venderid = request.args.get('venderid')
+        # print ("in vender id= ",venderid)
+        for row in data1:
+          name = row[0]
+          vender_id =row[1]
+          address = row[2]
+         
+       
+        cursor = mysql.connection.cursor()
+        cursor.execute("SELECT department_name, department_id FROM department where department_id=%s",(deptid,))
+        data2 = cursor.fetchall()
+        for row in data2:
+           department_name = row[0]
+           department_id = row[1]
+           print("dapt----------",department_name)
     
-    return render_template('equipment_details.html',venderid= venderid, deptid=deptid,equipmentid=equipmentid, equ_name=equ_name, equ_asset=equ_asset, equ_make=equ_make, equ_model=equ_model,equ_serialno=equ_serialno)
+    return render_template('equipment_details.html',venderid= venderid, deptid=deptid,equipmentid=equipmentid, equ_name=equ_name, equ_asset=equ_asset, equ_make=equ_make, equ_model=equ_model,equ_serialno=equ_serialno,start_date=start_date,active=active,department_name=department_name ,name=name )
     
 
 @app.route('/previous_reading' ,methods =['GET', 'POST'])
@@ -284,6 +327,78 @@ def previous_reading():
     return render_template('previous_reading.html' )
 
 
+
+
+@app.route('/search' ,methods =['GET', 'POST'])
+def search():
+    deptid = request.args.get('deptid')
+    venderid = request.args.get('venderid')
+    equipmentid = request.args.get('equipmentid')
+  
+
+    # deptid = request.form['deptid']
+    #     #venderid = request.args.get('venderid')
+    # venderid = request.form['venderid']
+    # print ("venderid in eq=", venderid)
+    # cursor = mysql.connection.cursor()
+    # cursor.execute("SELECT equ_name, equ_id  FROM equipment")
+    # data = cursor.fetchall()
+
+
+        # return render_template('select_equip.html', data=data, deptid=deptid, venderid=venderid) 
+    
+
+  
+    # searchbox = request.form.get('text')
+    # searchbox = request.form.get("text")
+    # cursor = mysql.connection.cursor()
+    # query = "select equ_name from equipment where equ_name LIKE '{}%' order by equ_name".format(searchbox)#This is just exampel query , you should replace it with your query
+    # query = "select equ_id from equipment where equ_id LIKE '{}%' order by equ_id".format(searchbox)#This is just example query , you should replace field names with yours
+    # cursor.execute(query)
+    # result = cursor.fetchall()
+    # print("query is" ,result )
+    # return jsonify(result=result)
+        
+
+    return render_template('search.html')
+    # return jsonify(render_template('search.html', result=result))
+
+# @app.route('/response' ,methods =['GET', 'POST'])
+# def response():
+#     deptid = request.args.get('deptid')
+#     venderid = request.args.get('venderid')
+#     equipmentid = request.args.get('equipmentid')
+
+#     return render_template('response.html' )          
+@app.route("/livesearch",methods=["POST","GET"])
+def livesearch():
+    deptid = request.args.get('deptid')
+    venderid = request.args.get('venderid')
+    data= request.args.get('q')
+    print("q is",data)
+    cursor = mysql.connection.cursor()
+    # cursor.execute("select equ_name  from equipment".format(data))#This is just exampel query , you should replace it with your query
+    # cursor.execute("SELECT equ_name,equ_id,equ_model, equ_serialno FROM equipment where equ_name=%s",(data,)) 
+    cursor.execute("SELECT equ_name, equ_id, equ_model, equ_serialno FROM equipment where equ_name LIKE %s ",[data + "%"])
+   
+
+
+    result = cursor.fetchall()
+    for row in result :
+        equ_name = row[0]
+        equ_id  = row[1] 
+        equ_model=row[2] 
+        equ_serialno = row[3]
+
+    print("query is" ,result )
+
+    return jsonify(data=data,result=result)
+ 
+     
+   
+
+ 
+
 @app.route('/add_equipment', methods =['GET', 'POST'])
 def add_equipment():
     deptid = request.args.get('deptid')
@@ -291,7 +406,37 @@ def add_equipment():
     venderid = '3'  #dummy
     deptid = '2'    #dummy
 
-    return render_template('add_equipment.html',deptid=deptid,venderid=venderid )
+     
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT name, vender_id, address FROM vender")
+    data1 = cursor.fetchall()
+  
+
+    cursor.execute("SELECT department_name, department_id FROM department where vender_id=%s",(venderid,))
+    data2 = cursor.fetchall()
+    venderid = request.args.get('venderid')
+  
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT equ_name, equ_id  FROM equipment")
+    data3 = cursor.fetchall()
+    
+
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT parameter_list FROM parameter")
+    data4 = cursor.fetchall()
+    # print("list data=============",data4)
+        
+        # cursor = mysql.connection.cursor()
+        #cursor.execute("SELECT equ_name, equ_parameter_id  FROM equipment")
+     
+      
+    return render_template('add_equipment.html',deptid=deptid, venderid=venderid, data1=data1, data2=data2, data3=data3, data4=data4)
+    #  return render_template('add_equipment.html',deptid=deptid,venderid=venderid,data=data)
+
+
+
+  
+
 
 @app.route('/save_new_equipment', methods =['GET', 'POST'])
 def save_new_equipment():
@@ -321,7 +466,14 @@ def parameter_list():
     deptid = request.args.get('deptid')
     venderid = request.args.get('venderid')
     equipmentid = request.args.get('equipmentid')
-
+    # for row in data:
+    #     equ_parameter_id = row[0]
+    #     parameter_name = row[1]  
+    #     creation_date = row[2]
+    #     remark = row[3]
+    #     parameter_list = row[4]
+    #     print("para-list",parameter_name)
+       
 
     return render_template('parameter_list.html')
 

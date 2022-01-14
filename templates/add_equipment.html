@@ -11,15 +11,40 @@
           <label for="fname">Hospital</label>
         </div>
         <div class="col-75">
-          <input type="text" id="vender" name="vender" placeholder={{venderid}}>
+    
+          <!-- <input type="text" id="vender" name="vender" placeholder={{venderid}}> -->
+          <select name="vender" id="vender">
+            {% for row in data1 %}       
+           
+            <option value="{{row[1]}}">{{row[0]}}</option>
+            {% endfor %}  
+          </select>
+           </div>
+         </div>
+         <div class="row">
+          <div class="col-25">
+            <label for="subject">Department</label>
+          </div>
+          <div class="col-75">
+            <!-- <input type="text" id="lname" name="lastname" placeholder={{departmentid}}> -->
+            <select name="deptid" id="deptid" >
+              {% for row in data2 %}     
+             
+              <option value="{{row[1]}}">{{row[0]}}</option>
+              {% endfor %}  
+            </select>
+          </div>
         </div>
-      </div>
       <div class="row">
         <div class="col-25">
           <label for="lname">Equipment Name</label>
         </div>
         <div class="col-75">
-          <input type="text" id="equ_name" name="equ_name" placeholder="Equipment Name">
+          <select  id="equipment" name="equipmentid">
+            {% for row in data3 %}     
+           <option value="{{row[1]}}">{{row[0]}}</option>
+            {% endfor %}  
+          </select>
         </div>
       </div>
       <div class="row">
@@ -35,17 +60,15 @@
           <label for="subject">Parameter Template</label>
         </div>
         <div class="col-75">
-          <input type="text" id="template" name="template" placeholder="Template select">
+          <select  id="equ_parameter_id" name="equ_parameter_id">
+            {% for row in data4 %}     
+           
+            <option value="{{row[1]}}">{{row[0]}}</option>
+            {% endfor %}  
+          </select>
         </div>
       </div>
-      <div class="row">
-        <div class="col-25">
-          <label for="subject">Department</label>
-        </div>
-        <div class="col-75">
-          <input type="text" id="lname" name="lastname" placeholder={{departmentid}}>
-        </div>
-      </div>
+      
       <div class="row">
         <div class="col-25">
           <label for="subject">Serial No</label>

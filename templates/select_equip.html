@@ -12,35 +12,40 @@
     
     </div>
 
-    <p class="mainHeading"> Select Equipment :</p>
-   
+    <!-- <div class="mainHeading d-flex justify-content-center"> Select Equipment :
+         <form class="example" action="/action_page.php" style="margin:auto;max-width:300px">
+           <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name" class="mb-3">
+        </form> 
+    </div>
+    -->
     <form id="myForm2" action="/equipment_details" method='post'>
         <div class="table-responsive">
-            <table class="table table-condensed table-hover table-striped EquTable ">
+            <ul id="myUL">
+             <table class="table table-condensed table-hover table-striped EquTable">
                 <thead>
                     <tr>
                         <th>Select</th>
                         <th>Equipment Id</th>
                         <th>Equipment Name</th>
-                        <th>
-                            
-                        </th>
+                       
                     </tr>
                 </thead>
-                <tbody>
+                <tbody >
                     {% for row in data %}
                     <tr>
                         <td>
                             <input type="radio" value={{row[1]}} id="equipment" multiple name="equipmentid" aria-label="multiple select example">
                         </td>
-                        <td>{{row[1]}}</td>
-                        <td>{{row[0]}}</td>
+                        <td> <li><a href="#"> {{row[1]}} </a></li></td>
+                        <td>
+                          <li> <a href="#"> {{row[0]}} </a></li>
+                        </td>
 
                     </tr>
                     {% endfor %}
                 </tbody>
-            </table>
-
+             </table>
+           </ul>
 
         </div>
        <div class="d-flex justify-content-start">
@@ -60,4 +65,20 @@
   {% for row in data %}           
   <option value={{row[1]}}>{{row[0]}}</option>
   {% endfor %}  
-</select> -->
+</select> -->`
+
+
+<script>
+  function showCustomer(data) {
+    if (data == "") {
+      document.getElementById("txtHint").innerHTML = "";
+      return;
+    }
+    const xhttp = new XMLHttpRequest();
+    xhttp.onload = function() {
+      document.getElementById("txtHint").innerHTML = this.responseText;
+    }
+    xhttp.open("GET", "/select_equip?q="+data);
+    xhttp.send();
+  }
+  </script>

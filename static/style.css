@@ -203,12 +203,39 @@ last_reading */
 
 
   /* add equipment */
-input[type=text], select, textarea {
+input[type=text], select {
     width: 100%;
     padding: 12px;
     border: 1px solid #ccc;
     border-radius: 4px;
     resize: vertical;
+  }
+
+  /* Select Equipment */
+#myUL {
+    list-style-type: none;
+  }
+  
+  #myUL li a {
+    /* border: 1px solid #ddd;
+    margin-top: -1px;
+    background-color: #f6f6f6;
+    padding: 12px; */
+    text-decoration: none;
+    font-size: 18px;
+    color: black;
+    display: block
+  }
+ #myInput{
+    width: 150%;
+    padding: 4px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+  
+  }
+  ::placeholder{
+      font-size: 18px;
   }
   
   label {
@@ -269,6 +296,31 @@ input[type=text], select, textarea {
     overflow:auto;
     } 
 
+/* search */
+
+.search-table{
+    padding: 10%;
+    margin-top: -6%;
+}
+.search-box{
+    background: #c1c1c1;
+    border: 1px solid #ababab;
+    padding: 3%;
+}
+.search-box input:focus{
+    box-shadow:none;
+    border:2px solid #eeeeee;
+}
+.search-list{
+    background: #fff;
+    border: 1px solid #ababab;
+    border-top: none;
+}
+.search-list h3{
+    background: #eee;
+    padding: 3%;color:#fe6f41;
+    margin-bottom: 0%;
+}
 
   /* media Query */
 
@@ -317,7 +369,6 @@ input[type=text], select, textarea {
         display: none;
         overflow: hidden;
         outline: 0;
-       
     }
 
     
