@@ -2,7 +2,7 @@
 
 
 
-<div class="container">
+<div class="container-fluid">
     <div>
         <div>
             <p class="mainHeading">Selected Data:</p>
@@ -15,11 +15,11 @@
     </div>
 
     <form action="" id="frm-example">
-        <div class="mainHeading d-flex justify-content-center"> Select Equipment :
+        <div class="mainHeading "> Select Equipment :
             <table id="example" class="display" style="width:100%">
                 <thead>
                     <tr>
-                        <th>select</th>
+                       
                         <th>Equipment Id</th>
                         <th>Equipment Name</th>
                         <th>Equipment Make</th>
@@ -32,45 +32,38 @@
 
                 </tfoot>
             </table>
+            <button class="btn1">Submit</button>
+
 
             <script>
+            $(document).ready(function () {
+                var baseurl = " http://192.168.1.115:5000/select_e";
+                var xmlhttp = new XMLHttpRequest();
+                xmlhttp.open("GET", baseurl, true);
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        var persons = JSON.parse(xmlhttp.responseText).result;
+                        $("#example").DataTable({
+                            data: persons,
 
+                            columnDefs: [ {
+                                orderable: false,
+                                className: 'select-checkbox',
+                                targets:   0
+                            } ],
+                            select: {
+                                style:    'os',
+                                selector: 'td:first-child'
+                            },
+                            order: [[ 1, 'asc' ]],
+                        });
 
+                    }
+                };
+                xmlhttp.send();
 
-                $(document).ready(function () {
-                    var baseurl = " http://192.168.1.115:5000/select_e";
-                    var xmlhttp = new XMLHttpRequest();
-                    xmlhttp.open("GET", baseurl, true);
-                    xmlhttp.onreadystatechange = function () {
-                        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                            console.log(JSON.parse(xmlhttp.responseText));
-                            console.log(JSON.parse(xmlhttp.responseText).result);
-                            var persons = JSON.parse(xmlhttp.responseText).result;
-                            $("#example").DataTable({
-                                data: persons,
-                            });
-
-                        }
-                    };
-                    xmlhttp.send();
-
-
-                    var table = $('#example').DataTable();
-
-                    $('#example tbody').on('click', 'tr', function () {
-                        if ($(this).hasClass('selected')) {
-                            $(this).removeClass('selected');
-                        }
-                        else {
-                            table.$('tr.selected').removeClass('selected');
-                            $(this).addClass('selected');
-                        }
-                    });
-
-
-
-                });
-
+            });
+          
 
             </script>
 

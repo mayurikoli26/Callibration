@@ -100,7 +100,8 @@ table thead {
 .mainHeading {
     font-family: DM SansSce Medium;
     font-weight: 500;
-    font-size: 25px;
+    font-size: 16px;
+    
 }
 
 /* 
@@ -215,6 +216,15 @@ input[type=text], select {
 #myUL {
     list-style-type: none;
   }
+  .btn1{
+    background-color: rgb(8, 182, 199);
+    color: white;
+    padding: 5px 20px;
+    border-radius: 50px;
+    text-align: center;
+    font-size: 22px;
+    cursor: pointer;
+  }
   
   #myUL li a {
     /* border: 1px solid #ddd;
@@ -301,6 +311,7 @@ input[type=text], select {
 .search-table{
     padding: 10%;
     margin-top: -6%;
+    margin-top: 42px;
 }
 .search-box{
     background: #c1c1c1;

@@ -547,7 +547,7 @@ def save_reading():
     else:  
         return '<p>Please login first</p>'
 
-@app.route('/postjson', methods = ['POST'])
+@app.route('/postjson', methods = ['POST']) 
 def postJsonHandler():
     calibrate_id ='32'    
     cursor = mysql.connection.cursor()
