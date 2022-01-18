@@ -1,94 +1,54 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block content %}
 
-{% block content %}
-<!-- //templates/index.html
-<!DOCTYPE html>
-<html>
-<head> 
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Live Data Search using Jquery Ajax Python Flask and PostgreSQL Database</title>
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
-<!-- 
-<div class="container search-table">
-    <p><h2 align="center">Live Data Search using Jquery Ajax Python Flask and PostgreSQL Database</h2></p>
-                <div class="search-box">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <h5>Search Field Name</h5>
-                        </div>
-                        <div class="col-md-9">
-                            <div id="livesearch"></div>
-                            <input type="text" size="30" onkeyup="showResult(this.value)" name="livebox" id="livebox" class="form-control" placeholder="Search fields e.g. Cairocoder">
-                        </div> 
-                    </div>
-                </div>
-       <div id="result"></div>
-    </div>   -->
- 
-    <form action=""> 
-      <!-- <select name="search-box" onchange="showCustomer(this.value)">
-        <option value="">Select a customer:</option>
-        <option value="E">ECG</option>
-        <option value="Xray">Xray</option>
-        <option value="TMT Machine">TMT Machine</option>
-      </select> -->
-      <p>Suggestions: <span id="txtHint"></span></p> 
-      <p>First name: <input type="text" id="txt1" onkeyup="showHint(this.value)"></p>
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Equipment Id</th>
-            <th>Equipment Name</th>
-          </tr>
-        </thead>
-     
-        <tbody>
-          <tr>
-            {% for row in result %}
-            
-                <!-- <td>
-                    <input type="radio" value={{row[1]}} id="equipment" multiple name="equipmentid" aria-label="multiple select example">
-                </td> -->
-                <td>{{equ_id }}</td>
-                <td>{{equ_name}}</td>
-                <td>{{equ_serialno}}</td>
-
-            
-            {% endfor %}
-          </tr>
-        </tbody>
-      </table>
-    </form>
-    <br>
-    <div id="txtHint">Customer info will be listed here...</div>
     <script>
-    function showHint(str) {
-  if (str.length == 0) { 
-    document.getElementById("txtHint").innerHTML = "";
-    return;
-  }
-  const xhttp = new XMLHttpRequest();
-  xhttp.onload = function() {
-    document.getElementById("txtHint").innerHTML =
-  
-    this.responseText;
-   
-  
-  }
-  xhttp.open("GET", "livesearch?q="+str);
-  xhttp.send();
-}
-    </script>
+      $(document).ready(function(){
+    	 var baseurl = "http://192.168.1.115:5000/select_e";
+    	 var xmlhttp = new XMLHttpRequest();
+    	 xmlhttp.open("GET",baseurl+"/all",true);
+    	 xmlhttp.onreadystatechange = function(){
+    		 if(xmlhttp.readyState==4 && xmlhttp.status ==200){
+          console.log(JSON.parse(xmlhttp.responseText));
+          var persons = JSON.parse(xmlhttp.responseText);
+    			 $("#example").DataTable({
+    				data:persons,
+    				"columns":[                           
+    					{"data":"equ_id"},
+    					{"data":"èqu_name"},
+    					{"data":"equ_model"},
+    					{"data":"equ_serialno"}
 
+    				]
+    			 });
+    		 }
+    	 };
+    	 xmlhttp.send();
+      });
+    </script>  
+  </head>
+  <body>
+    <table id="example" class="display" style="width:100%">
+      <thead>
+            <tr>
+                <th>Select</th>
+                <th>Equipment Id</th>
+                <th>Equipment Name</th>
+               
+            </tr>
+        </thead>
+        <tbody >
+            {% for row in data %}
+            <tr>
+                <td>
+                    <input type="radio" value={{row[1]}} id="equipment" multiple name="equipmentid" aria-label="multiple select example">
+                </td>
+                <td>{{row[1]}}</td>
+                <td>{{row[0]}}</td>
 
-<!-- 
-var cartItemsList = document.getElementById("cartItemsList");
-
-results.basket.productList.forEach(function(element) {
-cartItemsList.insertAdjacentHTML( 'beforeend',"<li>" +              element.product.name + " : " + element.price+ " </li>");
-}); // end of forEach            -->
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+  </body>
+</html>
 
 {% endblock %}

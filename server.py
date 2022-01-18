@@ -208,7 +208,7 @@ def select_equip():
         venderid = request.form['venderid']
         print ("venderid in eq=", venderid)
         cursor = mysql.connection.cursor()
-        cursor.execute("SELECT equ_name, equ_id  FROM equipment")
+        cursor.execute("SELECT equ_name, equ_id,equ_asset,equ_model,equ_serialno  FROM equipment")
         data = cursor.fetchall()
 
 
@@ -335,31 +335,6 @@ def search():
     venderid = request.args.get('venderid')
     equipmentid = request.args.get('equipmentid')
   
-
-    # deptid = request.form['deptid']
-    #     #venderid = request.args.get('venderid')
-    # venderid = request.form['venderid']
-    # print ("venderid in eq=", venderid)
-    # cursor = mysql.connection.cursor()
-    # cursor.execute("SELECT equ_name, equ_id  FROM equipment")
-    # data = cursor.fetchall()
-
-
-        # return render_template('select_equip.html', data=data, deptid=deptid, venderid=venderid) 
-    
-
-  
-    # searchbox = request.form.get('text')
-    # searchbox = request.form.get("text")
-    # cursor = mysql.connection.cursor()
-    # query = "select equ_name from equipment where equ_name LIKE '{}%' order by equ_name".format(searchbox)#This is just exampel query , you should replace it with your query
-    # query = "select equ_id from equipment where equ_id LIKE '{}%' order by equ_id".format(searchbox)#This is just example query , you should replace field names with yours
-    # cursor.execute(query)
-    # result = cursor.fetchall()
-    # print("query is" ,result )
-    # return jsonify(result=result)
-        
-
     return render_template('search.html')
     # return jsonify(render_template('search.html', result=result))
 
@@ -381,23 +356,43 @@ def livesearch():
     # cursor.execute("SELECT equ_name,equ_id,equ_model, equ_serialno FROM equipment where equ_name=%s",(data,)) 
     cursor.execute("SELECT equ_name, equ_id, equ_model, equ_serialno FROM equipment where equ_name LIKE %s ",[data + "%"])
    
-
-
     result = cursor.fetchall()
+    str='<table border= "2" style = ""width=50%">'
     for row in result :
-        equ_name = row[0]
-        equ_id  = row[1] 
-        equ_model=row[2] 
-        equ_serialno = row[3]
+        equ_name = '<td>'+row[0]+'</td>'
+        equ_id  = '<td>'+row[1]+'</td>' 
+        equ_model='<td>'+row[2]+'</td>'
+        equ_serialno ='<td>'+row[3]+'</td>'
+        str=str + '<tr>' +equ_name+ '  '+equ_id+" "+equ_model+'  '+ equ_serialno + '</tr>'
+        print("STR-" ,str)
+        return ( data+ str)
 
     print("query is" ,result )
-
-    return jsonify(data=data,result=result)
+    str = str + '</table>'
+    return (data,result)
  
      
-   
+@app.route("/select_e",methods=["GET"])
+def select_e():
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT  equ_id,equ_name,equ_make,equ_model,equ_serialno,equ_asset FROM equipment")
+    result = cursor.fetchall()
+    print("------", result)
+    # for row in data:
+    #     equ_id = row[0]
+    #     equ_name = row[1]
+    #     equ_asset = row[2]  
+    #     equ_make = row[3]
+    #     equ_model = row[4]
+    #     equ_serialno = row[5]
+      
+    return jsonify(result = result) 
 
- 
+@app.route("/get_page",methods=["GET"])
+def get_page():
+    return render_template('select_equip.html')
+
+
 
 @app.route('/add_equipment', methods =['GET', 'POST'])
 def add_equipment():
