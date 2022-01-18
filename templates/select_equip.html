@@ -7,71 +7,80 @@
         <div>
             <p class="mainHeading">Selected Data:</p>
             <ol class="">
-              <li class="list-item">Vender: {{venderid}}</li>
-              <li class="list-item">Department: {{deptid}}</li>
+                <li class="list-item">Vender: {{venderid}}</li>
+                <li class="list-item">Department: {{deptid}}</li>
             </ol>
-          </div>
-    
+        </div>
+
     </div>
 
-   <form action=""id="frm-example">
-    <div class="mainHeading d-flex justify-content-center"> Select Equipment :
-        <table id="example" class="display" style="width:100%">
-            <thead>
-                <tr>
-                    <th>select</th>
-                    <th>Equipment Id</th>
-                    <th>Equipment Name</th>
-                    <th>Equipment Make</th>
-                    <th>Equipment Model</th>
-                    <th>Equipment SerialNo</th>
-                    <th>Equipment Asset</th>
-                </tr>
-            </thead>
-            <tfoot>
-              
-            </tfoot>
-        </table>
-    
-        <script>
+    <form action="" id="frm-example">
+        <div class="mainHeading d-flex justify-content-center"> Select Equipment :
+            <table id="example" class="display" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>select</th>
+                        <th>Equipment Id</th>
+                        <th>Equipment Name</th>
+                        <th>Equipment Make</th>
+                        <th>Equipment Model</th>
+                        <th>Equipment SerialNo</th>
+                        <th>Equipment Asset</th>
+                    </tr>
+                </thead>
+                <tfoot>
+
+                </tfoot>
+            </table>
+
+            <script>
 
 
 
-            $(document).ready(function () {
-               var baseurl = " http://192.168.1.115:5000/select_e";
-               var xmlhttp = new XMLHttpRequest();
-                xmlhttp.open("GET", baseurl, true);
-                xmlhttp.onreadystatechange = function () {
-                   if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                      console.log(JSON.parse(xmlhttp.responseText));
-                      console.log(JSON.parse(xmlhttp.responseText).result);
-                      var persons = JSON.parse(xmlhttp.responseText).result;
-                    
-                      console.log(persons);
-                      $("#example").DataTable({
-                          
-                        
-                      
-                        data: persons,
-                        });
-                                                                          
-                      }
-                   };
-                        xmlhttp.send();
-    
-    
-            });
-     
-       
-        </script>
-        
-      
-    
-       </div>
-   </form>
+                $(document).ready(function () {
+                    var baseurl = " http://192.168.1.115:5000/select_e";
+                    var xmlhttp = new XMLHttpRequest();
+                    xmlhttp.open("GET", baseurl, true);
+                    xmlhttp.onreadystatechange = function () {
+                        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                            console.log(JSON.parse(xmlhttp.responseText));
+                            console.log(JSON.parse(xmlhttp.responseText).result);
+                            var persons = JSON.parse(xmlhttp.responseText).result;
+                            $("#example").DataTable({
+                                data: persons,
+                            });
 
-   
-<!--     
+                        }
+                    };
+                    xmlhttp.send();
+
+
+                    var table = $('#example').DataTable();
+
+                    $('#example tbody').on('click', 'tr', function () {
+                        if ($(this).hasClass('selected')) {
+                            $(this).removeClass('selected');
+                        }
+                        else {
+                            table.$('tr.selected').removeClass('selected');
+                            $(this).addClass('selected');
+                        }
+                    });
+
+
+
+                });
+
+
+            </script>
+
+
+
+        </div>
+    </form>
+
+
+    <!--     
     <form id="myForm2" action="/equipment_details" method='post'>
         <div class="table-responsive">
            
@@ -108,9 +117,8 @@
        </div>
     </form> -->
 
-    
 
-    
+
+
 </div>
 {% endblock %}
-
