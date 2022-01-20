@@ -204,14 +204,15 @@ def select_equip():
         sessionid = session['session_id']
         #sel = request.args.get('deptid')
         deptid = request.form['deptid']
+        # tempdata=request.form['number']  
+        # print("new data is",tempdata) 
         #venderid = request.args.get('venderid')
         venderid = request.form['venderid']
         print ("venderid in eq=", venderid)
         cursor = mysql.connection.cursor()
         cursor.execute("SELECT equ_name, equ_id,equ_asset,equ_model,equ_serialno  FROM equipment")
         data = cursor.fetchall()
-
-
+       
         return render_template('select_equip.html', data=data, deptid=deptid, venderid=venderid) 
        
     else:  
@@ -244,13 +245,14 @@ def parameter_input():
     #    venderid=request.args.get('venderid')
        venderid = request.form['venderid']
        equipmentid = request.form ['equipmentid']
+     
        equ_name = request.args.get('equ_name')
        equ_parameter_id = request.args.get('equ_parameter_id')
        #butpress = request.form['bt']
        
        cursor = mysql.connection.cursor()
        cursor.execute('SELECT equ_name, equ_parameter_id FROM equipment where equ_id =%s',(equipmentid,))
-       #print("hi i am equ id=",equipmentid )
+       print("hi i am equ id=",equipmentid )
        #equ_name = cursor.fetchone()
        data = cursor.fetchall()
        for row in data:
@@ -272,51 +274,42 @@ def parameter_input():
 
 @app.route('/equipment_details', methods =['GET', 'POST'])
 def equipment_details():
-    #deptid = request.args.get('deptid')
-    #venderid = request.args.get('venderid')
-    #equipmentid = request.args.get('equipmentid')
-    #vend = request.args.get('vend')
-
-    venderid = request.form['venderid']
-    equipmentid = request.form['equipmentid']
-    deptid = request.form['deptid']
-    #vend = request.form['vend']
-
+    deptid = request.args.get('deptid')
+    venderid = request.args.get('venderid')
+    equipmentid = request.args.get('equipmentid')
+   
     cursor = mysql.connection.cursor()
-    cursor.execute('SELECT equ_name, equ_asset, equ_make, equ_model, equ_serialno ,start_date ,active FROM equipment where equ_id =%s',(equipmentid,))
-    #print("hi i am equ id=",equipmentid )
-    #print("Butt sel is=",vend)
-    data = cursor.fetchall()
-    for row in data:
-        equ_name = row[0]
-        equ_asset = row[1]  
-        equ_make = row[2]
-        equ_model = row[3]
-        equ_serialno = row[4]
-        start_date = row[5]
-        active = row[6]
+    cursor.execute("SELECT name, vender_id, address FROM vender where vender_id=%s",(venderid,))
+    data1 = cursor.fetchall()
+    print("data1",data1)
+    for row in data1:
+        name = row[0]
+        vender_id =row[1]
+        address = row[2]
+  
 
-        cursor = mysql.connection.cursor()
-        cursor.execute('SELECT name, vender_id, address FROM vender where vender_id=%s',(venderid,))
-        data1 = cursor.fetchall()
-        # venderid = request.args.get('venderid')
-        # print ("in vender id= ",venderid)
-        for row in data1:
-          name = row[0]
-          vender_id =row[1]
-          address = row[2]
+    cursor.execute("SELECT department_name, department_id FROM department where department_id=%s",(deptid,))
+    data2 = cursor.fetchall()
+    venderid = request.args.get('venderid')
+    for row in data2:
+        department_name = row[0]
+        department_id =row[1]
          
-       
-        cursor = mysql.connection.cursor()
-        cursor.execute("SELECT department_name, department_id FROM department where department_id=%s",(deptid,))
-        data2 = cursor.fetchall()
-        for row in data2:
-           department_name = row[0]
-           department_id = row[1]
-           print("dapt----------",department_name)
+  
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT equ_name, equ_make,equ_model,equ_serialno,equ_asset,start_date,active FROM equipment where equ_id=%s",(equipmentid,))
+    data3 = cursor.fetchall()
     
-    return render_template('equipment_details.html',venderid= venderid, deptid=deptid,equipmentid=equipmentid, equ_name=equ_name, equ_asset=equ_asset, equ_make=equ_make, equ_model=equ_model,equ_serialno=equ_serialno,start_date=start_date,active=active,department_name=department_name ,name=name )
-    
+    for row in data3:
+        equ_name = row[0]
+        equ_make  =  row[1]
+        equ_model=  row[2]
+        equ_serialno =row[3]
+        equ_asset =row[4]
+        start_date = row[5]
+        active =row[6]
+    return render_template('equipment_details.html',deptid=deptid, equipmentid=equipmentid, venderid=venderid,name=name,department_name=department_name,equ_name=equ_name,equ_make=equ_make,equ_model=equ_model,equ_serialno=equ_serialno,equ_asset=equ_asset,start_date=start_date,active=active)
+  
 
 @app.route('/previous_reading' ,methods =['GET', 'POST'])
 def previous_reading():
@@ -374,22 +367,19 @@ def livesearch():
      
 @app.route("/select_e",methods=["GET"])
 def select_e():
+    # deptid = request.args.get('deptid')
+    # venderid = request.args.get('venderid')
+    # equipmentid = request.args.get('equipmentid')
     cursor = mysql.connection.cursor()
-    cursor.execute("SELECT  equ_id,equ_name,equ_make,equ_model,equ_serialno,equ_asset FROM equipment")
+    cursor.execute("SELECT  equ_id,equ_name,equ_make,equ_model,equ_serialno,equ_asset,start_date, active FROM equipment")
     result = cursor.fetchall()
-    print("------", result)
-    # for row in data:
-    #     equ_id = row[0]
-    #     equ_name = row[1]
-    #     equ_asset = row[2]  
-    #     equ_make = row[3]
-    #     equ_model = row[4]
-    #     equ_serialno = row[5]
-      
-    return jsonify(result = result) 
+   
+
+    return jsonify(result= result) 
 
 @app.route("/get_page",methods=["GET"])
 def get_page():
+    
     return render_template('select_equip.html')
 
 
@@ -401,15 +391,16 @@ def add_equipment():
     venderid = '3'  #dummy
     deptid = '2'    #dummy
 
-     
+   
+
     cursor = mysql.connection.cursor()
     cursor.execute("SELECT name, vender_id, address FROM vender")
     data1 = cursor.fetchall()
   
 
-    cursor.execute("SELECT department_name, department_id FROM department where vender_id=%s",(venderid,))
+    cursor.execute("SELECT department_name, department_id FROM department")
     data2 = cursor.fetchall()
-    venderid = request.args.get('venderid')
+   
   
     cursor = mysql.connection.cursor()
     cursor.execute("SELECT equ_name, equ_id  FROM equipment")

@@ -10,22 +10,18 @@
      </ol>
   </div>
 
+    
  
     <div class="container">
     <!-- <h3 class="previousReading :    mt-5">EQUIPMENT</h3> -->
       <form id="myForm4" action="/parameter_input" method = "post">
        <div class="row">
-         <div class="col-lg-6 col-lg-4 col-sm-12">
+         <div class="col-lg-6">
           <div class="form-group row">
-            <label for="staticEmail" class="col-sm-6  col-form-label">Hospital</label>
-              <div class="col-sm-6">
+            <label for="staticEmail" class="col-sm-8  col-form-label">Hospital</label>
+              <div class="col-sm-4">
                   {{name}}
-              </div>
-            </div>
-            <div class="form-group row">
-              <label for="inputPassword" class="col-sm-6  col-form-label">Equipment Name</label>
-              <div class="col-sm-6">
-              {{equ_name}}
+                  
               </div>
             </div>
             <div class="form-group row">
@@ -34,6 +30,13 @@
                 {{department_name}}
               </div>
             </div>
+            <div class="form-group row">
+              <label for="inputPassword" class="col-sm-6  col-form-label">Equipment Name</label>
+              <div class="col-sm-6">
+              {{equ_name}}
+              </div>
+            </div>
+           
             <div class="form-group row">
               <label for="inputPassword" class="col-sm-6 col-form-label">Equipment Make</label>
               <div class="col-sm-6">
@@ -115,5 +118,8 @@
 
 
     </div>
+   
+    
+
 
 {% endblock %}

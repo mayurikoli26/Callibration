@@ -7,70 +7,97 @@
         <div>
             <p class="mainHeading">Selected Data:</p>
             <ol class="">
-                <li class="list-item">Vender: {{venderid}}</li>
-                <li class="list-item">Department: {{deptid}}</li>
+                <li class="list-item">Vender: <span id = "vendor-id">{{venderid}}</span></li>
+                <li class="list-item">Department: <span id ="dept-id">{{deptid}}</span></li>
             </ol>
         </div>
 
     </div>
 
-    <form action="" id="frm-example">
-        <div class="mainHeading "> Select Equipment :
-            <table id="example" class="display" style="width:100%">
+    <form action="/equipment_details" method='post'>
+        <div class="mainHeading table-responsive"> Select Equipment :
+            <table id="example" class="table table-striped" style="width:100%">
                 <thead>
                     <tr>
-                       
+
                         <th>Equipment Id</th>
                         <th>Equipment Name</th>
                         <th>Equipment Make</th>
                         <th>Equipment Model</th>
                         <th>Equipment SerialNo</th>
                         <th>Equipment Asset</th>
+                        <th>start_date</th>
+                        <th>Active</th>
                     </tr>
                 </thead>
-                <tfoot>
 
-                </tfoot>
+              
             </table>
-            <button class="btn1">Submit</button>
-
-
-            <script>
-            $(document).ready(function () {
-                var baseurl = " http://192.168.1.115:5000/select_e";
-                var xmlhttp = new XMLHttpRequest();
-                xmlhttp.open("GET", baseurl, true);
-                xmlhttp.onreadystatechange = function () {
-                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                        var persons = JSON.parse(xmlhttp.responseText).result;
-                        $("#example").DataTable({
-                            data: persons,
-
-                            columnDefs: [ {
-                                orderable: false,
-                                className: 'select-checkbox',
-                                targets:   0
-                            } ],
-                            select: {
-                                style:    'os',
-                                selector: 'td:first-child'
-                            },
-                            order: [[ 1, 'asc' ]],
-                        });
-
-                    }
-                };
-                xmlhttp.send();
-
-            });
-          
-
-            </script>
-
-
-
+            <div class="d-flex justify-content-start">
+                <button class="btn selectVendor1 mt-3" name="Add equipmemnt" value="Add Equipment" button type="submit"
+                    formaction="/add_equipment"> Add Equipment&nbsp;<i class="fas fa-arrow-circle-right"></i></button>
+                <input type="hidden" id="vender" name="venderid" value={{venderid}}>
+                <input type="hidden" id="dept" name="deptid" value={{deptid}}>
+            </div>        
         </div>
     </form>
+    
+    <button class="selectVendor ml-2 mt-3" id="btnSelectedRows">Select Equipment <i class="fas fa-arrow-circle-right"></i></button><br>
+
+
+
+    <script>
+        $(document).ready(function () {
+            var tableOne;
+            var baseurl = "/select_e";
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.open("GET", baseurl, true);
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    var persons = JSON.parse(xmlhttp.responseText).result;
+                    tableOne = $("#example").DataTable({
+                        data: persons,
+
+                        columnDefs: [{
+                            orderable: false,
+                            className: 'select-checkbox',
+                            targets: 0
+                        }],
+                        select: {
+                            style: 'os',
+                            selector: 'td:first-child',
+                        },
+                        order: [[1, 'asc']],
+
+
+                    });
+
+                }
+            };
+            xmlhttp.send();
+            $('#btnSelectedRows').on('click', function () {
+                var data = tableOne.rows('.selected').data();
+                $.each(data, function (i, val) {
+                    tmpData = data[i];
+                   
+
+                    let vendor_id = document.getElementById("vendor-id").innerText;
+                    let dept_id = document.getElementById("dept-id").innerText;
+                    let equip_id = tmpData[0];
+                    console.log(equip_id)
+
+
+                    window.location.href = "/equipment_details?deptid=" + dept_id + "&venderid=" + vendor_id + "&equipmentid=" + equip_id;
+
+                });
+            });
+        })
+
+
+
+
+    </script>
+
 
 
     <!--     
@@ -109,7 +136,16 @@
         <button class="btn btn-primary selectVendor ml-2 mt-3" id="department" type="submit">Select Equipment <i class="fas fa-arrow-circle-right"></i></button><br>
        </div>
     </form> -->
-
+    <!-- <script>
+        function collect(){
+    
+          var deptid = location.search.split('deptid=')[1]
+          var venderid = location.search.split('venderid=')[1]
+          var equipmentid = location.search.split('equipmentid=')[1]
+          var equ_parameter_id = 2
+          window.location.href ="/equipment_details?deptid=" + deptid + "&venderid=" + venderid + "&equipmentid=" + equipmentid;
+        }
+      </script> -->
 
 
 
