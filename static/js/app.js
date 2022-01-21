@@ -78,7 +78,7 @@ function getFormData(){
   return formData;
 }
 function myAction_reading() {
-  document.getElementById("myForm3").reset();
+  document.getElementById("myForm").reset();
 }
 
 // https://stackoverflow.com/questions/9713058/send-post-data-using-xmlhttprequest

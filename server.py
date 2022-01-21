@@ -210,7 +210,7 @@ def select_equip():
         venderid = request.form['venderid']
         print ("venderid in eq=", venderid)
         cursor = mysql.connection.cursor()
-        cursor.execute("SELECT equ_name, equ_id,equ_asset,equ_model,equ_serialno  FROM equipment")
+        cursor.execute("SELECT equ_name, equ_id,equ_asset,equ_model,equ_serialno FROM equipment")
         data = cursor.fetchall()
        
         return render_template('select_equip.html', data=data, deptid=deptid, venderid=venderid) 
@@ -248,6 +248,7 @@ def parameter_input():
      
        equ_name = request.args.get('equ_name')
        equ_parameter_id = request.args.get('equ_parameter_id')
+      
        #butpress = request.form['bt']
        
        cursor = mysql.connection.cursor()
@@ -386,13 +387,13 @@ def get_page():
 
 @app.route('/add_equipment', methods =['GET', 'POST'])
 def add_equipment():
-    deptid = request.args.get('deptid')
-    venderid = request.args.get('venderid')
-    venderid = '3'  #dummy
-    deptid = '2'    #dummy
-
-   
-
+    # deptid = request.args.get('deptid')
+    # venderid = request.args.get('venderid')
+    # equ_parameter_id = request.args.get('equ_parameter_id')
+    # parameter_list = request.args.get('parameter_list')
+        
+    deptid = request.form['deptid']
+    venderid = request.form['venderid']
     cursor = mysql.connection.cursor()
     cursor.execute("SELECT name, vender_id, address FROM vender")
     data1 = cursor.fetchall()
@@ -406,10 +407,18 @@ def add_equipment():
     cursor.execute("SELECT equ_name, equ_id  FROM equipment")
     data3 = cursor.fetchall()
     
-
     cursor = mysql.connection.cursor()
-    cursor.execute("SELECT parameter_list FROM parameter")
+    cursor.execute("SELECT equ_parameter_id , parameter_list FROM parameter")
     data4 = cursor.fetchall()
+ 
+    # for row in data4:
+    #     equ_parameter_id = row[0]
+    #     parameter_name = row[1]  
+    #     creation_date = row[2]
+    #     remark = row[3]
+    #     parameter_list = row[4]
+    #     print("para-list",equ_parameter_id)
+
     # print("list data=============",data4)
         
         # cursor = mysql.connection.cursor()
@@ -421,31 +430,129 @@ def add_equipment():
 
 
 
-  
-
-
 @app.route('/save_new_equipment', methods =['GET', 'POST'])
 def save_new_equipment():
+    print ("hello")
     if request.method == 'POST': 
         print("stage 1")
-        username = request.form['username']
-        deptid = request.form['deptid']
+        # form_obj = request.form.to_dict()
         venderid = request.form['venderid']
-        venderid = '3'  #dummy
-        deptid = '2'    #dummy
-
-        equ_name = request.form['equ_name']
+        print("venderid",venderid)
+        deptid = request.form['deptid']
+        print("deptid",deptid)
+        equ_name =request.form['equ_name']
+        print("equ_name",equ_name)
         asset_cd = request.form['asset_cd']
-        template = request.form['template']
+        print("asset_cd",asset_cd)
+        equ_make =request.form['equ_make']
+        print("equ_make",equ_make)
+        equ_model =request.form['equ_model']
+        print("equ_model",equ_model)
         serialno = request.form['serialno']
-        print("stage 2")
+        print("serialno",serialno)
+        # equ_parameter_id = request.form['equ_parameter_id']
+        form_values = request.form['textall']
+        print("form_value",form_values )
+
+
+        # name=request.form['name']
+        # print("name",name)
+        # dept_name=request.form['dept_name']
+        # print("dept_name",dept_name)
+        
+     
         cursor = mysql.connection.cursor()
         #cursor.execute('insert  into calibrate (id, equ_id, parameter_readings, perform_date ) values (%s,%s,%s, %s)', (sessionid,equipmentid,form_obj, cur_date,))
-        cursor.execute('insert  into equipment (equ_name, equ_asset, equ_serialno, equ_parameter_id, vender_id, department_id ) values (%s,%s,%s, %s, %s, %s)', (equ_name, asset_cd, serialno, template, venderid, deptid,))
-        mysql.connection.commit()
-        return render_template('add_equipment.html',deptid=deptid,venderid=venderid )
+        cursor.execute('insert  into equipment (vender_id,department_id,equ_name,equ_asset,equ_make,equ_model,equ_serialno) values (%s, %s, %s,%s,%s,%s,%s)', (venderid,deptid,equ_name,asset_cd,equ_make,equ_model,serialno))
+        cursor.execute('insert  into vender (vender_id) values (%s)', (venderid))
+        cursor.execute('insert  into department (department_id) values (%s)', (deptid))
+        # cursor.execute('insert  into parameter (equ_parameter_id) values (%s)', (equ_parameter_id))
+        mysql.connection.commit()  
+
+        # cursor = mysql.connection.cursor()
+        # #cursor.execute('insert  into calibrate (id, equ_id, parameter_readings, perform_date ) values (%s,%s,%s, %s)', (sessionid,equipmentid,form_obj, cur_date,))
+        # cursor.execute('insert  into department(vender_id,department_id,) values (%s,%s, %s, %s, %s,%s,%s)', (venderid,deptid,equ_name,asset_cd,equ_make,equ_model,serialno))
+        # mysql.connection.commit() 
+      
+        
+        # cursor = mysql.connection.cursor()
+        # #cursor.execute('insert  into calibrate (id, equ_id, parameter_readings, perform_date ) values (%s,%s,%s, %s)', (sessionid,equipmentid,form_obj, cur_date,))
+        # cursor.execute('insert  into department (department_name) values (%s,%)', (dept_name))
+        # mysql.connection.commit()
+
+        return  str(form_values)
+        print(form_values)
+        # return render_template('add_equipment.html',deptid=deptid,venderid=venderid )
     else :
         return ('Please use post method')
+
+
+
+#  new code
+
+#   sessionid = session['session_id']
+#         if request.method == 'POST' :
+#             # equipmentid = request.args.get('equipmentid')
+#             print(request.form)
+#             print(request.form.to_dict())
+#             form_obj = request.form.to_dict()
+#             equipmentid = request.form['equipmentid']
+           
+#             form_values = request.form['textall']
+#             remark = request.form['Remarks']
+#             approvar_name = request.form['approvar_name']
+#             approvar_email = request.form['approvar_email']
+#             try :
+#                verified1 = request.form['verified']
+#                varified1=0
+#             except :
+#                 varified1 = 1
+
+         
+#             cursor = mysql.connection.cursor()
+#             cursor.execute('SELECT equ_name, equ_parameter_id FROM equipment where equ_id =%s',(equipmentid,))        
+#             data = cursor.fetchall()
+#             for row in data:
+#                 equ_name = row[0]
+#                 equ_parameter_id = row[1]
+        
+#             # get parameter_names (list) in array defined from equ_parameter_id
+#             cursor.execute('SELECT parameter_name FROM equ_parameter_reg where equ_parameter_id =%s',(equ_parameter_id,))
+#             data = cursor.fetchall()
+#             for row in data:
+#                 parameter_name = row[0]
+
+#             para_name = str(parameter_name)
+
+          
+
+#             timestamp=datetime.now()
+#             cur_date = timestamp.strftime("%Y-%m-%d")
+            
+        
+#             cursor.execute('insert  into calibrate (id, equ_id, parameter_readings, perform_date ) values (%s,%s,%s, %s)', (sessionid,equipmentid,form_obj, cur_date,))
+#             mysql.connection.commit()
+#             #print ('Parameter=', from_values_m,' Name=',para_list,'Inserted OKLEN=',len(para_list))
+#             #return "para_name ", parameter_name," Name=",parameter_name
+#             return  str(form_values)
+#             # print("--------------",form_values)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @app.route('/parameter_list')
 def parameter_list():
@@ -469,7 +576,7 @@ def save_reading():
     if 'session_id' in session:  
         sessionid = session['session_id']
         if request.method == 'POST' :
-            #equipmentid = request.args.get('equipmentid')
+            # equipmentid = request.args.get('equipmentid')
             print(request.form)
             print(request.form.to_dict())
             form_obj = request.form.to_dict()
@@ -506,34 +613,20 @@ def save_reading():
 
             para_name = str(parameter_name)
 
-            # split on | and get a parameter list
-            #para_list = form_values.split("|")
+          
 
-            # remove unwanted elements from list
-            #del para_list[-8]
-            #del para_list[-1]
-            #del para_list[-1]
-            #del para_list[-1]
-            #del para_list[-1]
-            #del para_list[-1]
-            #del para_list[-1]
-            #del para_list[-1]
-            #del para_list[-1]
-            #del para_list[2]
-
-            # Again join and get string with | seperated values in string.
-            #from_values_m = '|'.join(map(str, para_list)) 
             timestamp=datetime.now()
             cur_date = timestamp.strftime("%Y-%m-%d")
             
             # insert all the values along with (coma seperated) data string (parameter_readings in calibrate).
             #cursor.execute('insert  into calibrate (id, equ_id, parameter_readings, perform_date, approvar_name, remark,approvar_email,digitally_signed ) values (%s,%s,%s, %s, %s, %s,%s,%s)', (sessionid,equipmentid,from_values_m,cur_date, approvar_name, remark,approvar_email,verified1,))
             #mysql.connection.commit()
-            cursor.execute('insert  into calibrate (id, equ_id, parameter_readings, perform_date ) values (%s,%s,%s, %s)', (sessionid,equipmentid,form_obj, cur_date,))
+            cursor.execute('insert into calibrate (id, equ_id, parameter_readings, perform_date ) values (%s,%s,%s, %s)', (sessionid,equipmentid,form_obj, cur_date,))
             mysql.connection.commit()
             #print ('Parameter=', from_values_m,' Name=',para_list,'Inserted OKLEN=',len(para_list))
             #return "para_name ", parameter_name," Name=",parameter_name
             return  str(form_values)
+            # print("--------------",form_values)
 
     else:  
         return '<p>Please login first</p>'

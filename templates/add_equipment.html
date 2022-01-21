@@ -5,29 +5,27 @@
     <h3 class="previousReading"> ADD EQUIPMENT :</h3>
    </div>
 <div class="container">
-    <form id="myForm4" action="/add_equipment" method = "POST">
+    <form id="myForm4" action="/save_new_equipment" method = "POST">
       <div class="row">
         <div class="col-25">
-          <label for="fname">Hospital</label>
+          <label for="venderid">Hospital</label>
         </div>
         <div class="col-75">
-    
-          <!-- <input type="text" id="vender" name="vender" placeholder={{venderid}}> -->
-          <select name="vender" id="vender">
+        <!-- <input type="text" id="name" name="name" placeholder="name"> -->
+          <select name="venderid" id="venderid">
             {% for row in data1 %}       
-           
-            <option value="{{row[1]}}">{{row[0]}}</option>
+           <option value="{{row[0]}}">{{row[0]}}</option>
             {% endfor %}  
-          </select>
+          </select> 
            </div>
          </div>
          <div class="row">
           <div class="col-25">
-            <label for="subject">Department</label>
+            <label for="deptid">Department</label>
           </div>
           <div class="col-75">
             <!-- <input type="text" id="lname" name="lastname" placeholder={{departmentid}}> -->
-            <select name="deptid" id="deptid" >
+            <select name="deptid" id="deptid">
               {% for row in data2 %}     
              
               <option value="{{row[1]}}">{{row[0]}}</option>
@@ -37,19 +35,15 @@
         </div>
       <div class="row">
         <div class="col-25">
-          <label for="lname">Equipment Name</label>
+          <label for="equipmentid">Equipment Name</label>
         </div>
         <div class="col-75">
-          <select  id="equipment" name="equipmentid">
-            {% for row in data3 %}     
-           <option value="{{row[1]}}">{{row[0]}}</option>
-            {% endfor %}  
-          </select>
+          <input type="text" id="equ_name" name="equ_name" placeholder="equ_name">
         </div>
       </div>
       <div class="row">
         <div class="col-25">
-          <label for="country">Asset Code</label>
+          <label for="asset_cd">Asset Code</label>
         </div>
         <div class="col-75">
           <input type="text" id="asset_cd" name="asset_cd" placeholder="Asset Code">
@@ -57,47 +51,108 @@
       </div>
       <div class="row">
         <div class="col-25">
-          <label for="subject">Parameter Template</label>
+          <label for="equ_make">Equipment make</label>
         </div>
         <div class="col-75">
-          <select  id="equ_parameter_id" name="equ_parameter_id">
-            {% for row in data4 %}     
-           
-            <option value="{{row[1]}}">{{row[0]}}</option>
-            {% endfor %}  
-          </select>
+          <input type="text" id="equ_make" name="equ_make" placeholder="equ_make">
         </div>
       </div>
-      
       <div class="row">
         <div class="col-25">
-          <label for="subject">Serial No</label>
+          <label for="equ_model">Equipment Model</label>
+        </div>
+        <div class="col-75">
+          <input type="text" id="equ_model" name="equ_model" placeholder="equ_model">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-25">
+          <label for="serialno">Serial No</label>
         </div>
         <div class="col-75">
           <input type="text" id="serialno" name="serialno" placeholder="Serial No">
         </div>
       </div>
      
-    </form>
+      <div class="row">
+        <div class="col-25">
+          <label for="equ_parameter_id">Parameter Template</label>
+        </div>
+        <div class="col-75">
+          <select  id="equ_parameter_id" name="equ_parameter_id">
+            {% for row in data4 %}     
+            <option value="{{row[1]}}">{{row[0]}} :  {{row[1]}}</option>
+             {% endfor %} 
+          </select>
+        </div>
+      </div>
 
-
+      
     <div class="buttons d-flex justify-content-start mt-4">
       <div class="row">
         <div class="col-sm-12 col-md-4 col-lg-4 btnHeight">
           <button class="btn selectVendor1">Cancel &nbsp;<i class="fas fa-arrow-circle-right"></i></button>
         </div>
         <div class="col-sm-12 col-md-4 col-lg-4 btnHeight">
-          <button class="btn selectVendor" formaction="/save_new_equipment" type="submit">Save Equipment&nbsp;<i class="fas fa-arrow-circle-right"></i></button>
+          <button class="btn selectVendor" id="save_btn">Save Equipment&nbsp;<i class="fas fa-arrow-circle-right"></i></button>
         </div>
         <div class="col-sm-12 col-md-4 col-lg-4 btnHeight">
           <button class="btn selectVendor1">Template List &nbsp;<i class="fas fa-arrow-circle-right"></i></button>
         </div>
       </div>
   </div>
+      
+      
+    <input type="hidden" id="equipmentid" name="equipmentid" value={{equipmentid}}>
+    <input type="hidden" id="textall" name="textall" >
+     
+    </form>
+
+
   </div>
   
-  </body>
-  </html>
+  <script>
+    
+
+    function getAllValues3() {
+    var y = document.getElementById("myForm4");
+    console.log()
+    var txt = "";
+    var i;
+    var txtname="";
+    var jsontxt ="{";
+    
+    var fruits, text, fLen, i,n, index_flag="False", txtn="";
+    for (j = 0; j < y.length; j++) {
+        if (index_flag=="True"){
+           index_flag="False";
+           continue;
+        }
+          text = y.elements[j].value ;
+    
+             continue;
+   
+    }
+    x = y;
+    for (i = 0; i < x.length-10; i++) {
+      txt = x.elements[i].value ;
+      //alert("No1");
+      txtname = document.getElementById("myForm4").elements[i].name;
+      //alert("No2 ");
+      jsontxt = jsontxt + "\"" + txtname + "\"" + " : \"" + txt +"\",";
+    }
+    var jsonelem = jsontxt.replace(/,$/,'}');
+    //document.getElementById("demo").innerHTML = patt1 ;
+    console.log(jsonelem)
+    // alert (jsonelem) ;
+    document.getElementById("textall").value=jsonelem;
+    
+    return (jsonelem)
+   
+  }
+
+
+  </script>
   
 
 

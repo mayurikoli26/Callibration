@@ -62,8 +62,8 @@
       <div class="col-sm-6">
         <div class="d-flex mt-3">
           <!-- <div><button class="btn btn-success mr-4 " id="add_para" onclick="myAction_reading()">Add Parameter</button></div> -->
-          <div><button class="btn btn-success mr-4 selectVendor1 " id="cancel_btn" onclick="myAction_reading()">Cancel <i class="fas fa-arrow-circle-right"></i></button></div>
-          <div><button class="btn btn-primary selectVendor" id="save_btn" onclick="getAllValues2()">Save All <i class="fas fa-arrow-circle-right"></i></button></div>
+          <div><button class="btn mr-4 selectVendor1 " id="cancel_btn" onclick="myAction_reading()">Cancel <i class="fas fa-arrow-circle-right"></i></button></div>
+          <div><button class="btn selectVendor" id="save_btn" onclick="getAllValues2()">Save All <i class="fas fa-arrow-circle-right"></i></button></div>
 
           <!-- <div><button class="btn btn-success mr-4 " id="post_btn" onclick="myAction_post()">JasonObj</button></div>
           <div><button class="btn btn-primary" id="show_btn" type="submit" onclick="getFormData()">Show Form Data</button></div> -->
@@ -111,7 +111,8 @@ function myFunction() {
 }
 
 function getAllValues2() {
-    var y = document.getElementById("myForm3");
+    var y = document.getElementById("myForm");
+    console.log(y)
     var txt = "";
     var i;
     var txtname="";
@@ -138,7 +139,7 @@ function getAllValues2() {
     for (i = 0; i < x.length-10; i++) {
       txt = x.elements[i].value ;
       //alert("No1");
-      txtname = document.getElementById("myForm3").elements[i].name;
+      txtname = document.getElementById("myForm").elements[i].name;
       //alert("No2 ");
       jsontxt = jsontxt + "\"" + txtname + "\"" + " : \"" + txt +"\",";
     }
