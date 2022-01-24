@@ -6,8 +6,9 @@
   <h3 class="Head1">Fillup values and observations:</h3>
   Vender:{{venderid}} | Department:{{deptid}} | Equipment:{{equipmentid}} 
   <h3 class="mb-3 equName">Equipment : {{equ_name}}</h3>
-  <form id ="myForm" class="form-horizontal" action="/save_reading" method="POST">
-    
+  <form id ="myForm" class="form-horizontal" action="/select_equip" method="POST">
+    <input type="text" value={{deptid}} name="deptid" id = "deptid" hidden>
+    <input type="text" value={{venderid}} name="venderid" id = "venderid" hidden>
     <div class="row form-group formGroup">
       <label class="control-label col-sm-3" for="approvar_name">Name of Approver:</label>
       <div class="col-sm-6">
