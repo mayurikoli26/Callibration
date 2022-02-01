@@ -1,0 +1,37 @@
+<link rel="stylesheet" href="style.css">
+
+{% extends "base.html" %}
+{% block content %}
+
+<script>
+    $(document).ready(function(){
+        $("#myModal").modal('show');
+    });
+</script>
+<ol class="">
+    <li class="list-item">Vender: <span id = "vendor-id">{{venderid}}</span></li>
+    <li class="list-item">Department: <span id ="dept-id">{{deptid}}</span></li>
+</ol>
+<div id="myModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"></h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                
+                <form id ="myForm" class="form-horizontal" action="/select_equip" method="POST">
+                   
+                    <input type="hidden" id="vender" name="venderid" value={{venderid}}>
+                    <input type="hidden" id="dept" name="deptid" value={{deptid}}>      
+                    <input type="hidden" id="equipmentid" name="deptid" value={{equipmentid}}>         
+                    <p>Data save successfully</p>
+                    <button type="submit" class="btn btn-primary">Ok</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -2,7 +2,7 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="container">
-  <h3 class="previousReading">EQUIPMENT :</h3>
+  <h3 class="mainTextHeads">EQUIPMENT :</h3>
     <ol class="mt-5 ml-0">
       <li class="list-item"> equipmentid = {{equipmentid}} </li>
       <li class="list-item">venderid={{venderid}}</li>
@@ -20,60 +20,60 @@
           <div class="form-group row">
             <label for="staticEmail" class="col-6  col-form-label">Hospital</label>
               <div class="col-6">
-                  {{name}}
-                  
+                <input type="text" style="width: 100%;" value="{{name}}" readonly>
               </div>
             </div>
             <div class="form-group row">
               <label for="inputPassword" class="col-6 col-form-label">Department</label>
               <div class="col-6">
-                {{department_name}}
+                <input type="text" style="width: 100%;" value="{{department_name}}" readonly>
               </div>
             </div>
             <div class="form-group row">
               <label for="inputPassword" class="col-6  col-form-label">Equipment Name</label>
               <div class="col-6">
-              {{equ_name}}
+                <input type="text" style="width: 100%;" value="{{equ_name}}" readonly>
               </div>
             </div>
            
             <div class="form-group row">
               <label for="inputPassword" class="col-6 col-form-label">Equipment Make</label>
               <div class="col-6">
-              {{equ_make}}
+                <input type="text" style="width: 100%;" value="{{equ_make}}" readonly>
               </div>
             </div>
             <div class="form-group row">
               <label for="inputPassword" class="col-6 col-form-label">Equipment Model</label>
               <div class="col-6">
-               {{equ_model}}
+                <input type="text" style="width: 100%;" value="{{equ_model}}" readonly>
+               
               </div>
             </div>
            <div class="form-group row">
             <label for="inputPassword" class="col-6 col-form-label">Asset Code</label>
             <div class="col-6">
-             {{equ_asset}}
+              <input type="text" style="width: 100%;" value=" {{equ_asset}}" readonly>
+            
             </div>
           </div>
           <div class="form-group row">
             <label for="inputPassword" class="col-6 col-form-label">Serial No</label>
             <div class="col-6">
-            {{equ_serialno}}
+              <input type="text" style="width: 100%;"value="{{equ_serialno}}" readonly>
+         
             </div>
           </div>
           <div class="form-group row">
             <label for="inputPassword" class="col-6 col-form-label">Calibration Due Date</label>
             <div class="col-6">
-              {{start_date}}
+              <input type="text" style="width: 100%;"value="{{start_date}}" readonly>
+            
             </div>
           </div>
           <div class="form-group row">
             <label for="inputPassword" class="col-6 col-form-label">Active</label>
             <div class="col-6">
-            {{active}}
-              <!-- {{active}} -->
-              
-
+              <input type="text" style="width: 100%;"value="{{active}}" readonly>
             </div>
           </div>
          </div>

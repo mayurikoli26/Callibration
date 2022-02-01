@@ -5,7 +5,7 @@
 <div class="container-fluid">
     <div>
         <div>
-            <p class="mainHeading">Selected Data:</p>
+            <p class="mainTextHeads">Selected Data:</p>
             <ol class="">
                 <li class="list-item">Vender: <span id = "vendor-id">{{venderid}}</span></li>
                 <li class="list-item">Department: <span id ="dept-id">{{deptid}}</span></li>
@@ -15,17 +15,17 @@
     </div>
 
     <form action="/equipment_details" method='post'>
-        <div class="mainHeading table-responsive"> Select Equipment :
-            <table id="example" class="table table-striped" style="width:100%">
+        <div class="table-responsive"> <span class="mainTextHeads">Select Equipment :</span>
+            <table id="example" class="table">
                 <thead>
                     <tr>
 
-                        <th>Equipment Id</th>
-                        <th>Equipment Name</th>
-                        <th>Equipment Make</th>
-                        <th>Equipment Model</th>
-                        <th>Equipment SerialNo</th>
-                        <th>Equipment Asset</th>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Model</th>
+                        <th>Make</th>
+                        <th>SerialNo</th>
+                        <th>Asset</th>
                         <th>start_date</th>
                         <th>Active</th>
                     </tr>
@@ -35,29 +35,31 @@
             </table>
             <div class="d-flex justify-content-start">
                 <button class="btn selectVendor1 mt-3" name="Add equipmemnt" value="Add Equipment" button type="submit"
-                    formaction="/add_equipment"> Add Equipment&nbsp;<i class="fas fa-arrow-circle-right"></i></button>
+                formaction="/add_equipment"> Add Equipment&nbsp;<i class="fas fa-arrow-circle-right"></i></button>
                 <input type="hidden" id="vender" name="venderid" value={{venderid}}>
                 <input type="hidden" id="dept" name="deptid" value={{deptid}}>
             </div>        
         </div>
     </form>
     
-    <button class="selectVendor ml-2 mt-3" id="btnSelectedRows">Select Equipment <i class="fas fa-arrow-circle-right"></i></button><br>
+    <button class="selectVendor mt-3" id="btnSelectedRows">Select Equipment <i class="fas fa-arrow-circle-right"></i></button><br>
 
 
 
     <script>
         $(document).ready(function () {
             var tableOne;
-            var baseurl = "/select_e";
+            var baseurl = "/select_e?venderid={{venderid}}";
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.open("GET", baseurl, true);
             xmlhttp.onreadystatechange = function () {
                 if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                     var persons = JSON.parse(xmlhttp.responseText).result;
+                   
                     tableOne = $("#example").DataTable({
+                       
                         data: persons,
-
+                       
                         columnDefs: [{
                             orderable: false,
                             className: 'select-checkbox',
@@ -74,14 +76,13 @@
 
                 }
             };
+            
             xmlhttp.send();
             $('#btnSelectedRows').on('click', function () {
                 var data = tableOne.rows('.selected').data();
                 $.each(data, function (i, val) {
                     tmpData = data[i];
-                   
-
-                    let vendor_id = document.getElementById("vendor-id").innerText;
+                   let vendor_id = document.getElementById("vendor-id").innerText;
                     let dept_id = document.getElementById("dept-id").innerText;
                     let equip_id = tmpData[0];
                     console.log(equip_id)
@@ -91,6 +92,7 @@
 
                 });
             });
+            
         })
 
 

@@ -204,6 +204,8 @@ def select_equip():
         sessionid = session['session_id']
         #sel = request.args.get('deptid')
         deptid = request.form['deptid']
+        
+        
         # tempdata=request.form['number']  
         # print("new data is",tempdata) 
         #venderid = request.args.get('venderid')
@@ -241,34 +243,34 @@ def parameter_input():
     print("--------------------", request.form)
     if 'session_id' in session:
        deptid = request.form['deptid']
-    #    deptid=request.args.get('deptid')
-    #    venderid=request.args.get('venderid')
+    
        venderid = request.form['venderid']
        equipmentid = request.form ['equipmentid']
      
        equ_name = request.args.get('equ_name')
        equ_parameter_id = request.args.get('equ_parameter_id')
       
-       #butpress = request.form['bt']
        
        cursor = mysql.connection.cursor()
        cursor.execute('SELECT equ_name, equ_parameter_id FROM equipment where equ_id =%s',(equipmentid,))
-       print("hi i am equ id=",equipmentid )
+       
        #equ_name = cursor.fetchone()
        data = cursor.fetchall()
        for row in data:
             equ_name = row[0]
             equ_parameter_id = row[1]  
-
+       
        #cursor.execute("SELECT parameter_name FROM equ_parameter_reg where equ_parameter_id=%s",(equ_parameter_id,))
        cursor.execute("SELECT parameter_list FROM parameter where equ_parameter_id=%s",(equ_parameter_id,))
        data = cursor.fetchall()
        s = "-"
+       print("hi i am EQUE0=",data )            
        add_para = ["para1","para2","para3","para4"]
        for row in data:
            print("ROW:",row)  
            s=s.join(row)
-           rowx = s.split(',')           
+           rowx = s.split(',') 
+           print("hi i am EQUE1=",equipmentid )             
            return render_template('parameter_input.html', data=rowx, venderid=venderid, deptid=deptid, equipmentid=equipmentid, equ_name=equ_name, add_para=add_para, equ_parameter_id=equ_parameter_id)
     else:  
         return '<p>Please login first.</p>'
@@ -282,7 +284,7 @@ def equipment_details():
     cursor = mysql.connection.cursor()
     cursor.execute("SELECT name, vender_id, address FROM vender where vender_id=%s",(venderid,))
     data1 = cursor.fetchall()
-    print("data1",data1)
+    # print("data1",data1)
     for row in data1:
         name = row[0]
         vender_id =row[1]
@@ -312,13 +314,42 @@ def equipment_details():
     return render_template('equipment_details.html',deptid=deptid, equipmentid=equipmentid, venderid=venderid,name=name,department_name=department_name,equ_name=equ_name,equ_make=equ_make,equ_model=equ_model,equ_serialno=equ_serialno,equ_asset=equ_asset,start_date=start_date,active=active)
   
 
+
 @app.route('/previous_reading' ,methods =['GET', 'POST'])
 def previous_reading():
-    deptid = request.args.get('deptid')
-    venderid = request.args.get('venderid')
-    equipmentid = request.args.get('equipmentid')
+    deptid = request.form['deptid']
+    venderid = request.form['venderid']
+    equipmentid = request.form ['equipmentid']
+    cursor = mysql.connection.cursor()
+    # cursor.execute("SELECT calibrate_id, perform_date, parameter_readings FROM calibrate where equ_id=%s order by perform_date desc limit 1",(equipmentid,))
+    cursor.execute("SELECT calibrate_id, perform_date, parameter_readings FROM calibrate where equ_id=%s ",(equipmentid,))
+    data = cursor.fetchall()
+   
 
-    return render_template('previous_reading.html' )
+    # print ('DATA========== ',equipmentid, deptid, venderid, data)
+    for row in data:
+    #     calibrate_id = row[0]
+          perform_date =  row[1]
+          parameter_readings = row[2]
+          parameter_readings = parameter_readings.replace("{","")
+          parameter_readings = parameter_readings.replace("}","")
+    print ('PREREAD', parameter_readings)
+    row = parameter_readings.replace(":",",")
+    # rowx = row.split(',')
+    rowx= re.split('; |, |\*|\n',row)
+    lenrow = len(rowx)/2
+    lenrowint = int(lenrow)
+    print ("len of para ",lenrowint)
+    # parameter_readings = 'Amplitude, All_Arthima,ECG_Wave_Performace,Noise_Level,Printer_Quality,Quick_Waveform_test'
+    #s = "-"
+    # row = 'approvar_name: Mandar, approvar_email: ggaa@gmail.com, c-Amplitude : 62'
+    
+    # s = 'approvers_name: Manari, approvars_id: ggaa@gmail.com, all setup:as per specified'
+    #print ('S',s,' * ')    
+    # rowx = row.split(',') 
+    # print ('ROWX', rowx,' | ')  
+              
+    return render_template('previous_reading_n.html',deptid=deptid, lenrow=lenrowint, equipmentid=equipmentid, venderid=venderid, perform_date=perform_date, parameter_readings = rowx, data=data )
 
 
 
@@ -330,15 +361,7 @@ def search():
     equipmentid = request.args.get('equipmentid')
   
     return render_template('search.html')
-    # return jsonify(render_template('search.html', result=result))
-
-# @app.route('/response' ,methods =['GET', 'POST'])
-# def response():
-#     deptid = request.args.get('deptid')
-#     venderid = request.args.get('venderid')
-#     equipmentid = request.args.get('equipmentid')
-
-#     return render_template('response.html' )          
+          
 @app.route("/livesearch",methods=["POST","GET"])
 def livesearch():
     deptid = request.args.get('deptid')
@@ -369,14 +392,13 @@ def livesearch():
 @app.route("/select_e",methods=["GET"])
 def select_e():
     # deptid = request.args.get('deptid')
-    # venderid = request.args.get('venderid')
+    venderid = request.args.get('venderid')
     # equipmentid = request.args.get('equipmentid')
     cursor = mysql.connection.cursor()
-    cursor.execute("SELECT  equ_id,equ_name,equ_make,equ_model,equ_serialno,equ_asset,start_date, active FROM equipment")
+    cursor.execute('SELECT  equ_id,equ_name,equ_make,equ_model,equ_serialno,equ_asset,start_date, active FROM equipment where vender_id=%s',(venderid))
     result = cursor.fetchall()
-   
-
     return jsonify(result= result) 
+
 
 @app.route("/get_page",methods=["GET"])
 def get_page():
@@ -385,7 +407,7 @@ def get_page():
 
 
 
-@app.route('/add_equipment', methods =['GET', 'POST'])
+@app.route('/add_equipment', methods=['GET', 'POST'])
 def add_equipment():
     # deptid = request.args.get('deptid')
     # venderid = request.args.get('venderid')
@@ -408,7 +430,7 @@ def add_equipment():
     data3 = cursor.fetchall()
     
     cursor = mysql.connection.cursor()
-    cursor.execute("SELECT equ_parameter_id , parameter_list FROM parameter")
+    cursor.execute("SELECT equ_parameter_id , parameter_list, parameter_name FROM parameter")
     data4 = cursor.fetchall()
  
     # for row in data4:
@@ -449,11 +471,14 @@ def save_new_equipment():
         equ_model =request.form['equ_model']
         print("equ_model",equ_model)
         serialno = request.form['serialno']
-        print("serialno",serialno)
-        # equ_parameter_id = request.form['equ_parameter_id']
+        # start_date = request.form['start_date']
+        # print("start date",start_date)
+        # active = request.form['active']
+        equ_parameter_id = request.form['equ_parameter_id']
         form_values = request.form['textall']
         print("form_value",form_values )
-
+        timestamp=datetime.now()
+        cur_date=timestamp.strftime("%Y-%m-%d")
 
         # name=request.form['name']
         # print("name",name)
@@ -463,10 +488,7 @@ def save_new_equipment():
      
         cursor = mysql.connection.cursor()
         #cursor.execute('insert  into calibrate (id, equ_id, parameter_readings, perform_date ) values (%s,%s,%s, %s)', (sessionid,equipmentid,form_obj, cur_date,))
-        cursor.execute('insert  into equipment (vender_id,department_id,equ_name,equ_asset,equ_make,equ_model,equ_serialno) values (%s, %s, %s,%s,%s,%s,%s)', (venderid,deptid,equ_name,asset_cd,equ_make,equ_model,serialno))
-        cursor.execute('insert  into vender (vender_id) values (%s)', (venderid))
-        cursor.execute('insert  into department (department_id) values (%s)', (deptid))
-        # cursor.execute('insert  into parameter (equ_parameter_id) values (%s)', (equ_parameter_id))
+        cursor.execute('insert  into equipment (vender_id,department_id,equ_name,equ_asset,equ_make,equ_model,equ_serialno,equ_parameter_id, start_date) values (%s, %s, %s,%s,%s,%s,%s,%s,%s)', (venderid,deptid,equ_name,asset_cd,equ_make,equ_model,serialno,equ_parameter_id, cur_date))
         mysql.connection.commit()  
 
         # cursor = mysql.connection.cursor()
@@ -485,73 +507,6 @@ def save_new_equipment():
         # return render_template('add_equipment.html',deptid=deptid,venderid=venderid )
     else :
         return ('Please use post method')
-
-
-
-#  new code
-
-#   sessionid = session['session_id']
-#         if request.method == 'POST' :
-#             # equipmentid = request.args.get('equipmentid')
-#             print(request.form)
-#             print(request.form.to_dict())
-#             form_obj = request.form.to_dict()
-#             equipmentid = request.form['equipmentid']
-           
-#             form_values = request.form['textall']
-#             remark = request.form['Remarks']
-#             approvar_name = request.form['approvar_name']
-#             approvar_email = request.form['approvar_email']
-#             try :
-#                verified1 = request.form['verified']
-#                varified1=0
-#             except :
-#                 varified1 = 1
-
-         
-#             cursor = mysql.connection.cursor()
-#             cursor.execute('SELECT equ_name, equ_parameter_id FROM equipment where equ_id =%s',(equipmentid,))        
-#             data = cursor.fetchall()
-#             for row in data:
-#                 equ_name = row[0]
-#                 equ_parameter_id = row[1]
-        
-#             # get parameter_names (list) in array defined from equ_parameter_id
-#             cursor.execute('SELECT parameter_name FROM equ_parameter_reg where equ_parameter_id =%s',(equ_parameter_id,))
-#             data = cursor.fetchall()
-#             for row in data:
-#                 parameter_name = row[0]
-
-#             para_name = str(parameter_name)
-
-          
-
-#             timestamp=datetime.now()
-#             cur_date = timestamp.strftime("%Y-%m-%d")
-            
-        
-#             cursor.execute('insert  into calibrate (id, equ_id, parameter_readings, perform_date ) values (%s,%s,%s, %s)', (sessionid,equipmentid,form_obj, cur_date,))
-#             mysql.connection.commit()
-#             #print ('Parameter=', from_values_m,' Name=',para_list,'Inserted OKLEN=',len(para_list))
-#             #return "para_name ", parameter_name," Name=",parameter_name
-#             return  str(form_values)
-#             # print("--------------",form_values)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 @app.route('/parameter_list')
@@ -581,7 +536,7 @@ def save_reading():
             print(request.form.to_dict())
             form_obj = request.form.to_dict()
             equipmentid = request.form['equipmentid']
-            form_values = request.form['textall']
+            # form_values = request.form['textall']
             remark = request.form['Remarks']
             approvar_name = request.form['approvar_name']
             approvar_email = request.form['approvar_email']
@@ -621,11 +576,14 @@ def save_reading():
             # insert all the values along with (coma seperated) data string (parameter_readings in calibrate).
             #cursor.execute('insert  into calibrate (id, equ_id, parameter_readings, perform_date, approvar_name, remark,approvar_email,digitally_signed ) values (%s,%s,%s, %s, %s, %s,%s,%s)', (sessionid,equipmentid,from_values_m,cur_date, approvar_name, remark,approvar_email,verified1,))
             #mysql.connection.commit()
-            cursor.execute('insert into calibrate (id, equ_id, parameter_readings, perform_date ) values (%s,%s,%s, %s)', (sessionid,equipmentid,form_obj, cur_date,))
+            print("--------------", form_obj["approvar_name"])
+            cursor.execute('insert into calibrate (id, equ_id, parameter_readings, perform_date, approvar_name,approvar_email) values (%s,%s,%s, %s, %s,%s)', (sessionid,equipmentid,form_obj, cur_date,form_obj["approvar_name"],form_obj["approvar_email"]))
             mysql.connection.commit()
             #print ('Parameter=', from_values_m,' Name=',para_list,'Inserted OKLEN=',len(para_list))
             #return "para_name ", parameter_name," Name=",parameter_name
-            return  str(form_values)
+            # return  str(form_values)
+            return render_template('/save_reading.html')
+            # return render_template('previous_reading',approvar_name=approvar_name)
             # print("--------------",form_values)
 
     else:  
@@ -642,12 +600,12 @@ def postJsonHandler():
  
     #print  (row[0])
     print (obj_ret)
-    return obj_ret            
+    return obj_ret   
 
+  
 @app.route('/json_table', methods = ['GET','POST'])
 def jason_table():
     return render_template('json_table.html')
-     
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000,debug=True) 

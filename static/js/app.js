@@ -81,28 +81,4 @@ function myAction_reading() {
   document.getElementById("myForm").reset();
 }
 
-// https://stackoverflow.com/questions/9713058/send-post-data-using-xmlhttprequest
 
-// search box
-
-
-// function showHint(str) {
-//  if (str.length == 0) { 
-//   document.getElementById("txtHint").innerHTML = "";
-//   return;
-// }
-// const xhttp = new XMLHttpRequest();
-// xhttp.onload = function() {
-//   document.getElementById("txtHint").innerHTML=
-
-//   this.responseText;
- 
-
-// }
-// xhttp.open("GET", "livesearch?q="+str);
-// xhttp.send();
-// }
-    
-
-
-// https://morioh.com/p/491f45d53bce

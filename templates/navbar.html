@@ -1,19 +1,19 @@
 
 
 <nav class="navbar navbar-expand-lg bg-nav fixed-top d-flex">
-  <a class="navbar-brand" href="#">
-    <img class="logo" alt="logo" src="{{url_for('static', filename='logo.png')}}" width="50px" />Equipment
-    Calibration</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
+  <a class="navbar-brand" href="#">Equipment Calibration
+    <!-- <img class="logo" alt="logo" src="{{url_for('static', filename='logo.png')}}" width="50px" />Equipment -->
+  </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
     aria-expanded="false" aria-label="Toggle navigation">
-    <img src="./assets/three-line-horizontal-svgrepo-com.svg" alt=""><span class="navbar-toggler-icon" style="background-color: aliceblue;"></span>
+    <span><i class="fa fa-bars fa-2x"style="color:white;" ></i></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a id="cal" class="nav-link {{ 'active-nav' if active_page == 'calibration' else '' }}"
           onclick="myAction_vender('cal')">Reserved</a>
-      </li>
+      </li> -->
       <li class="nav-item">
         <a class="nav-link {{ 'active-nav' if active_page == 'vender' else '' }}" href="#Vender Master">Vender Mgt</a>
       </li>
