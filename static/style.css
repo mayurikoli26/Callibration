@@ -67,10 +67,8 @@ ul {
 }
 
 table {
-    font-family: 'sans-serif';
+    /* font-family: 'sans-serif'; */
     font-style: normal;
-    
-    /* font-size: 18px; */
     line-height: 25px;
     color: #10467E;
     border-bottom: 2px solid #7E7CA8 !important;
@@ -98,8 +96,6 @@ table {
   table tr td {
     border-right: 1px solid #bbb;
     border-bottom: 1px solid #bbb;
-    font-family: sans-serif;
-   
     color: #000;
 
   }
@@ -252,6 +248,7 @@ last_reading */
 .custom-checkbox .custom-control-input:checked~.custom-control-label::before {
     background:  #10467E;
 }
+
 
 /* parameter input field */
 

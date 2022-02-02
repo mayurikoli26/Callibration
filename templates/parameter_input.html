@@ -12,13 +12,13 @@
     <div class="row form-group formGroup">
       <label class="control-label col-sm-3" for="approvar_name">Name of Approver:</label>
       <div class="col-sm-6">
-        <input type="text" class="form-control" id="approvar_name" name="approvar_name">
+        <input type="text" class="form-control" id="approvar_name" name="approvar_name" required>
       </div>
     </div>
     <div class="row form-group formGroup">
       <label class="control-label col-sm-3" for="approvar_email">Email_id of Approver:</label>
       <div class="col-sm-6">
-        <input type="email" class="form-control" id="approvar_email" name="approvar_email">
+        <input type="email" class="form-control" id="approvar_email" name="approvar_email"required>
       </div>
     </div>
     <tbody>
@@ -26,8 +26,8 @@
     <div class="row form-group formGroup">
       <label class="control-label col-sm-3" for="pwd">{{row}}:</label>
       <div class="col-sm-6">          
-        <input type="text" class="form-control" id="pwd" name="{{row}} :">  
-        <!-- placeholder="Enter {{row}}" -->
+        <input type="text" class="form-control" id="pwd" name="{{row}} :"required>  
+    
       </div>
     </div>
     {% endfor %}
@@ -43,22 +43,10 @@
     <div class="row form-group formGroup">
       <label class="control-label col-sm-3 " for="myForm">Remarks:</label>
       <div class="col-sm-6">          
-        <input type="text" class="form-control" id="myForm" name="Remarks">
+        <input type="text" class="form-control" id="myForm" name="Remarks"required>
       </div>
     </div>
-    
-    <!--<div class="row form-group">        
-      <div class="col-sm-6">
-        <div class="checkbox">
-          <label><input type="checkbox" id="followed"  value="0" name="followed" onclick="onChecked('followed')">  Followed procedure as per Norms</label>
-        </div>
-      </div>
-      <div class="col-sm-6">
-        <div class="checkbox">
-          <label><input type="checkbox" id="verify" value="0" name="verify" onclick="onChecked('verify')">  Verified & Approved </label>
-        </div>
-      </div>
-    </div>    -->
+  
   <div class="mt-4">
      <div class="row">        
       <div class="col-sm-12 col-md-6 col-lg-6 btnHeight">
@@ -73,20 +61,12 @@
   </div>
     
 
-    <!-- <button onclick="myFunction()">Add item</button> -->
-    <!-- <p id="demo">Click me.</p> -->
-    <!-- <button name="saveit"  onclick="myAddParamater()">save now</button>  -->
-     <!-- <input name="text" id="add_para" >
-    <input name="text" id="add_para" >  -->
     
 
     <input type="hidden" id="equipmentid" name="equipmentid" value={{equipmentid}}>
-     <!-- <input type="hidden" id="textall" name="textall" > -->
-    <!--<input type="hidden" id="final_obj" name="final_obj" >
-    <input type="hidden" id="dsigned" name="dsigned"  > -->
     <input type="hidden" id="vender" name="venderid" value={{venderid}}>
     <input type="hidden" id="dept" name="deptid" value={{deptid}}>
-    <input type="hidden" id="equipment" name="equipmentid" value={{equipmentid}}>
+    <!-- <input type="hidden" id="equipment" name="equipmentid" value={{equipmentid}}> -->
 
 </form>
 

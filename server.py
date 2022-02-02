@@ -173,6 +173,7 @@ def select_dept():
         #cursor.execute("SELECT equ_name, equ_parameter_id  FROM equipment")
         cursor.execute("SELECT department_name, department_id FROM department where vender_id=%s",(venderid,))
         data = cursor.fetchall()
+        print("venderid im in dept",venderid)
 
         cursor = mysql.connection.cursor()
         cursor.execute('SELECT name, vender_id, address FROM vender where vender_id=%s',(venderid,))
@@ -204,12 +205,13 @@ def select_equip():
         sessionid = session['session_id']
         #sel = request.args.get('deptid')
         deptid = request.form['deptid']
-        
+        print ("deptid in eq=", deptid)
         
         # tempdata=request.form['number']  
         # print("new data is",tempdata) 
         #venderid = request.args.get('venderid')
         venderid = request.form['venderid']
+    
         print ("venderid in eq=", venderid)
         cursor = mysql.connection.cursor()
         cursor.execute("SELECT equ_name, equ_id,equ_asset,equ_model,equ_serialno FROM equipment")
@@ -322,7 +324,7 @@ def previous_reading():
     equipmentid = request.form ['equipmentid']
     cursor = mysql.connection.cursor()
     # cursor.execute("SELECT calibrate_id, perform_date, parameter_readings FROM calibrate where equ_id=%s order by perform_date desc limit 1",(equipmentid,))
-    cursor.execute("SELECT calibrate_id, perform_date, parameter_readings FROM calibrate where equ_id=%s ",(equipmentid,))
+    cursor.execute("SELECT calibrate_id, perform_date, parameter_readings FROM calibrate where equ_id=%s",(equipmentid,))
     data = cursor.fetchall()
    
 
@@ -333,7 +335,7 @@ def previous_reading():
           parameter_readings = row[2]
           parameter_readings = parameter_readings.replace("{","")
           parameter_readings = parameter_readings.replace("}","")
-    print ('PREREAD', parameter_readings)
+    # print ('PREREAD', parameter_readings)
     row = parameter_readings.replace(":",",")
     # rowx = row.split(',')
     rowx= re.split('; |, |\*|\n',row)
@@ -395,7 +397,7 @@ def select_e():
     venderid = request.args.get('venderid')
     # equipmentid = request.args.get('equipmentid')
     cursor = mysql.connection.cursor()
-    cursor.execute('SELECT  equ_id,equ_name,equ_make,equ_model,equ_serialno,equ_asset,start_date, active FROM equipment where vender_id=%s',(venderid))
+    cursor.execute('SELECT equ_id,equ_name,equ_make,equ_model,equ_serialno,equ_asset,start_date, active FROM equipment where vender_id=%s',(venderid))
     result = cursor.fetchall()
     return jsonify(result= result) 
 
@@ -536,6 +538,8 @@ def save_reading():
             print(request.form.to_dict())
             form_obj = request.form.to_dict()
             equipmentid = request.form['equipmentid']
+            venderid = request.form['venderid']
+            deptid = request.form['deptid']
             # form_values = request.form['textall']
             remark = request.form['Remarks']
             approvar_name = request.form['approvar_name']
@@ -568,7 +572,18 @@ def save_reading():
 
             para_name = str(parameter_name)
 
-          
+            cursor.execute("SELECT department_name, department_id FROM department where vender_id=%s",(venderid,))
+            data = cursor.fetchall()
+            print("venderid im in dept",venderid)
+
+            cursor = mysql.connection.cursor()
+            cursor.execute('SELECT name, vender_id, address FROM vender where vender_id=%s',(venderid,))
+            data1 = cursor.fetchall()
+
+
+
+
+
 
             timestamp=datetime.now()
             cur_date = timestamp.strftime("%Y-%m-%d")
@@ -582,7 +597,7 @@ def save_reading():
             #print ('Parameter=', from_values_m,' Name=',para_list,'Inserted OKLEN=',len(para_list))
             #return "para_name ", parameter_name," Name=",parameter_name
             # return  str(form_values)
-            return render_template('/save_reading.html')
+            return render_template('/save_reading.html',venderid=venderid ,deptid=deptid)
             # return render_template('previous_reading',approvar_name=approvar_name)
             # print("--------------",form_values)
 

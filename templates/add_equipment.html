@@ -6,33 +6,7 @@
 </div>
 <div class="container">
   <form id="myForm4" action="/save_new_equipment" method="POST">
-    <div class="row">
-      <div class="col-25">
-        <label for="venderid">Hospital</label>
-      </div>
-      <div class="col-75">
-        <!-- <input type="text" id="name" name="name" placeholder="name"> -->
-        <select name="venderid" id="venderid">
-          {% for row in data1 %}
-          <option value="{{row[1]}}">{{row[0]}}</option>
-          {% endfor %}
-        </select>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-25">
-        <label for="deptid">Department</label>
-      </div>
-      <div class="col-75">
-        <!-- <input type="text" id="lname" name="lastname" placeholder={{departmentid}}> -->
-        <select name="deptid" id="deptid">
-          {% for row in data2 %}
-
-          <option value="{{row[1]}}">{{row[0]}}</option>
-          {% endfor %}
-        </select>
-      </div>
-    </div>
+   
     <div class="row">
       <div class="col-25">
         <label for="equipmentid">Equipment Name</label>
