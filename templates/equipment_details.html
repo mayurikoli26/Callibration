@@ -1,11 +1,12 @@
 
 {% extends "base.html" %}
 {% block content %}
+<button class="btn mb-5 ml-5 " onclick="history.back()"id="back"><i class="fas fa-angle-left fa-3x"></i></button>
 <div class="container">
   <h3 class="mainTextHeads">EQUIPMENT :</h3>
-    <ol class="mt-5 ml-0">
-      <li class="list-item"> equipmentid = {{equipmentid}} </li>
-      <li class="list-item">venderid={{venderid}}</li>
+    <ol class="mt-5 ml-0 d-flex justify-content-start">&nbsp;&nbsp;
+      <li class="list-item"> equipmentid = {{equipmentid}} </li>|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <li class="list-item">venderid={{venderid}}</li>|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <li class="list-item">deptid={{deptid}}</li>
      </ol>
   </div>

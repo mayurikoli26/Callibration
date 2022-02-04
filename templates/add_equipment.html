@@ -1,12 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
-
+<button class="btn mb-5 ml-5 " onclick="history.back()"id="back"><i class="fas fa-angle-left fa-3x"></i></button>
 <div class="container">
   <h3 class="mainTextHeads"> ADD EQUIPMENT :</h3>
 </div>
 <div class="container">
   <form id="myForm4" action="/save_new_equipment" method="POST">
-   
+    <input id="vender" hidden name="venderid" value={{venderid}}>
+    <input id="deptid" hidden name="deptid" value={{deptid}}>
+    
     <div class="row">
       <div class="col-25">
         <label for="equipmentid">Equipment Name</label>
@@ -47,25 +49,7 @@
         <input type="text" id="serialno" name="serialno" placeholder="Serial No">
       </div>
     </div>
-<!-- 
-    <div class="row">
-      <div class="col-25">
-        <label for="start_date">Start_date</label>
-      </div>
-      <div class="col-75">
-        <input type="date" id="start_date" name="start_date" placeholder="start_date">
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-25">
-        <label for="active">Active</label>
-      </div>
-      <div class="col-75">
-        <input type="text" id="active" name="active" placeholder="active">
-      </div>
-    </div> -->
-
-    <div class="row">
+   <div class="row">
       <div class="col-25">
         <label for="equ_parameter_id">Parameter Template</label>
       </div>
@@ -96,6 +80,7 @@
       
       
     <input type="hidden" id="equipmentid" name="equipmentid" value={{equipmentid}}>
+    <!-- <input type="hidden" id="venderid" name="equipmentid" value={{venderid}}> -->
     <input type="hidden" id="textall" name="textall" >
      
     </form>
