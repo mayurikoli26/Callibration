@@ -209,8 +209,14 @@ def select_equip():
         cursor = mysql.connection.cursor()
         cursor.execute("SELECT equ_name, equ_id,equ_asset,equ_model,equ_serialno FROM equipment")
         data = cursor.fetchall()
+
+        cursor = mysql.connection.cursor()
+        cursor.execute("SELECT equ_parameter_id ,parameter_list, parameter_name FROM parameter")
+        data4 = cursor.fetchall()
+        print("data4----------",data4)
+   
        
-        return render_template('select_equip.html', data=data, deptid=deptid, venderid=venderid) 
+        return render_template('select_equip.html', data=data, deptid=deptid, venderid=venderid,data4=data4) 
        
     else:  
         return '<p>Please login first</p>'
@@ -260,13 +266,13 @@ def parameter_input():
        data = cursor.fetchall()
        s = "-"
        print("hi i am EQUE0=",data )            
-       add_para = ["para1","para2","para3","para4"]
+    #    add_para = ["para1","para2","para3","para4"]
        for row in data:
            print("ROW:",row)  
            s=s.join(row)
            rowx = s.split(',') 
            print("hi i am EQUE1=",equipmentid )             
-           return render_template('parameter_input.html', data=rowx, venderid=venderid, deptid=deptid, equipmentid=equipmentid, equ_name=equ_name, add_para=add_para, equ_parameter_id=equ_parameter_id)
+           return render_template('parameter_input.html', data=rowx, venderid=venderid, deptid=deptid, equipmentid=equipmentid, equ_name=equ_name, equ_parameter_id=equ_parameter_id)
     else:  
         return '<p>Please login first.</p>'
 
@@ -287,7 +293,7 @@ def equipment_details():
 
     cursor.execute("SELECT department_name, department_id FROM department where department_id=%s",(deptid,))
     data2 = cursor.fetchall()
-    venderid = request.args.get('venderid')
+    venderid = request.form['venderid']
     for row in data2:
         department_name = row[0]
         department_id =row[1]
@@ -410,17 +416,23 @@ def add_equipment():
     cursor = mysql.connection.cursor()
     cursor.execute("SELECT name, vender_id, address FROM vender")
     data1 = cursor.fetchall()
+    print(data1)
   
     cursor.execute("SELECT department_name, department_id FROM department")
     data2 = cursor.fetchall()
-   
+    print(data2)
+
     cursor = mysql.connection.cursor()
     cursor.execute("SELECT equ_name, equ_id  FROM equipment")
     data3 = cursor.fetchall()
+    print(data3)
     
     cursor = mysql.connection.cursor()
-    cursor.execute("SELECT equ_parameter_id , parameter_list, parameter_name FROM parameter")
+    cursor.execute("SELECT equ_parameter_id ,parameter_list, parameter_name FROM parameter")
     data4 = cursor.fetchall()
+    print("data4----------",data4)
+   
+   
  
     return render_template('add_equipment.html',deptid=deptid, venderid=venderid, data1=data1, data2=data2, data3=data3, data4=data4)
     
@@ -446,10 +458,8 @@ def save_new_equipment():
         equ_model =request.form['equ_model']
         print("equ_model",equ_model)
         serialno = request.form['serialno']
-        # start_date = request.form['start_date']
-        # print("start date",start_date)
-        # active = request.form['active']
         equ_parameter_id = request.form['equ_parameter_id']
+        print("   equ_parameter_id======",   equ_parameter_id)
         form_values = request.form['textall']
         print("form_value",form_values )
         timestamp=datetime.now()
@@ -458,9 +468,19 @@ def save_new_equipment():
         cursor = mysql.connection.cursor()
         #cursor.execute('insert  into calibrate (id, equ_id, parameter_readings, perform_date ) values (%s,%s,%s, %s)', (sessionid,equipmentid,form_obj, cur_date,))
         cursor.execute('insert  into equipment (vender_id,department_id,equ_name,equ_asset,equ_make,equ_model,equ_serialno,equ_parameter_id, start_date) values (%s, %s, %s,%s,%s,%s,%s,%s,%s)', (venderid,deptid,equ_name,asset_cd,equ_make,equ_model,serialno,equ_parameter_id,cur_date))
+
         mysql.connection.commit()  
 
-        return  str(form_values)
+        cursor.execute("SELECT department_name, department_id FROM department where vender_id=%s",(venderid,))
+        data = cursor.fetchall()
+        print("venderid im in dept",venderid)
+
+        cursor = mysql.connection.cursor()
+        cursor.execute('SELECT name, vender_id, address FROM vender where vender_id=%s',(venderid,))
+        data1 = cursor.fetchall()
+
+
+        return render_template('save_new_equipment.html',form_values=form_values, deptid=deptid,venderid=venderid) 
         print(form_values)
         # return render_template('add_equipment.html',deptid=deptid,venderid=venderid )
     else :

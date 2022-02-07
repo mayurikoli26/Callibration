@@ -3,114 +3,279 @@
 
 
 <div class="container-fluid">
-  
-        <div>
-            <p class="mainTextHeads">Selected Data:</p>
-            <ol class="d-flex justify-content-start">
-                <li class="list-item">Vender: <span id = "vendor-id">{{venderid}}</span></li>|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <li class="list-item">Department: <span id ="dept-id">{{deptid}}</span></li>
-            </ol>
-        </div>
+
+    <div>
+        <p class="mainTextHeads">Selected Data:</p>
+        <ol class="d-flex justify-content-start">
+            <li class="list-item">Vender: <span id="vendor-id">{{venderid}}</span></li>
+            |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <li class="list-item">Department: <span id="dept-id">{{deptid}}</span></li>
+        </ol>
+    </div>
 
 </div>
 
-    <form action="/equipment_details" method='post'>
-        <input type="hidden" id="vender" name="venderid" value={{venderid}}>
-        <input type="hidden" id="dept" name="deptid" value={{deptid}}>
-        <input type="hidden" id="equipmentid" name="equipmentid" value={{equipmentid}}>
-        <div class="table-responsive"> <span class="mainTextHeads">Select Equipment :</span>
-            <table id="example" class="table">
-                <thead>
-                    <tr>
+<form action="/equipment_details" method='POST' id="equipmentForm">
+    <input type="hidden" id="vender" name="venderid" value={{venderid}}>
+    <input type="hidden" id="dept" name="deptid" value={{deptid}}>
+    <input type="hidden" id="equipmentid" name="equipmentid" required>
+    <div class="table-responsive"> <span class="mainTextHeads">Select Equipment :</span>
+        <table id="example" class="table">
+            <thead>
+                <tr>
 
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Model</th>
-                        <th>Make</th>
-                        <th>SerialNo</th>
-                        <th>Asset</th>
-                        <th>start_date</th>
-                        <th>Active</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td> <input type="hidden" id="vender" name="venderid" value={{venderid}}></td>
-                        <td> <input type="hidden" id="dept" name="deptid" value={{deptid}}></td>
-                        <td> <input type="hidden" id="equipmentid" name="equipmentid" value={{equipmentid}}></td>
-                    </tr>
-                </tbody>
-               
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Model</th>
+                    <th>Make</th>
+                    <th>SerialNo</th>
+                    <th>Asset</th>
+                    <th>start_date</th>
+                    <th>Active</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td> <input type="hidden" id="vender" name="venderid" value={{venderid}}></td>
+                    <td> <input type="hidden" id="dept" name="deptid" value={{deptid}}></td>
+                    <td> <input type="hidden" id="equipmentid" name="equipmentid" value={{equipmentid}}></td>
+                </tr>
+            </tbody>
 
-              </table>
-            <div class="d-flex justify-content-start">
-                <button class="selectVendor mt-3" id="btnSelectedRows">Select Equipment <i class="fas fa-arrow-circle-right"></i></button><br>
-                <!-- <button class="btn selectVendor1 mt-3" name="Add equipmemnt" value="Add Equipment" button type="submit"
-                formaction="/add_equipment"> Add Equipment&nbsp;<i class="fas fa-arrow-circle-right"></i></button> -->
-              
-            </div>        
+
+        </table>
+        <div class="d-flex justify-content-start">
+
+            <button class="selectVendor mt-3" id="btnSelectedRows">Select Equipment <i
+                class="fas fa-arrow-circle-right"></i></button><br>
         </div>
-    </form>
-    
-     
-
-    <script>
-        $(document).ready(function () {
-            var tableOne;
-            var baseurl = "/select_e?venderid={{venderid}}";
-            var xmlhttp = new XMLHttpRequest();
-            xmlhttp.open("GET", baseurl, true);
-            xmlhttp.onreadystatechange = function () {
-                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                    var persons = JSON.parse(xmlhttp.responseText).result;
-                   
-                    tableOne = $("#example").DataTable({
-                       
-                        data: persons,
-                       
-                        columnDefs: [{
-                            orderable: false,
-                            className: 'select-input',
-                            targets: 0
-                        }],
-                        select: {
-                            style: 'os',
-                            selector: 'td:first-child',
-                        },
-                        order: [[1, 'asc']],
+    </div>
+</form>
 
 
-                    });
+
+<!-- Add equipment modal -->
+<button type="button" class="btn selectVendor1" id="addEquipment" data-toggle="modal" data-target=".bd-example-modal-lg">Add Equipment<i class="fas fa-arrow-circle-right"></i></button>
+
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="container">
+                <button class="btn mb-5 ml-5 " onclick="history.back()" id="back"><i
+                        class="fas fa-angle-left fa-3x"></i></button>
+                <h3 class="mainTextHeads"> ADD EQUIPMENT :</h3>
+            </div>
+
+            <div class="container ">
+                <form id="myForm4" action="/save_new_equipment" method="POST">
+                    <input id="vender" hidden name="venderid" value={{venderid}}>
+                    <input id="deptid" hidden name="deptid" value={{deptid}}>
+
+
+                    <div class="row">
+                        <div class="col-25">
+                            <label for="equipmentid">Equipment Name</label>
+                        </div>
+                        <div class="col-75">
+                            <input type="text" id="equ_name" name="equ_name" placeholder="equ_name">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-25">
+                            <label for="asset_cd">Asset Code</label>
+                        </div>
+                        <div class="col-75">
+                            <input type="text" id="asset_cd" name="asset_cd" placeholder="Asset Code">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-25">
+                            <label for="equ_make">Equipment make</label>
+                        </div>
+                        <div class="col-75">
+                            <input type="text" id="equ_make" name="equ_make" placeholder="equ_make">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-25">
+                            <label for="equ_model">Equipment Model</label>
+                        </div>
+                        <div class="col-75">
+                            <input type="text" id="equ_model" name="equ_model" placeholder="equ_model">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-25">
+                            <label for="serialno">Serial No</label>
+                        </div>
+                        <div class="col-75">
+                            <input type="text" id="serialno" name="serialno" placeholder="Serial No">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-25">
+                            <label for="equ_parameter_id">Parameter Template</label>
+                        </div>
+                        <div class="col-75">
+                            <select id="equ_parameter_id" name="equ_parameter_id">
+                                {% for row in data4 %}
+                                <option value="{{row[0]}} ">{{row[2]}} : {{row[1]}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="buttons d-flex justify-content-start mt-4">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-4 col-lg-4 btnHeight">
+                                <button class="btn selectVendor1">Cancel &nbsp;<i
+                                        class="fas fa-arrow-circle-right"></i></button>
+                            </div>
+                            <div class="col-sm-12 col-md-4 col-lg-4 btnHeight">
+                                <button class="btn selectVendor" id="save" onclick="getAllValues3()">Save
+                                 Equipment&nbsp;<i class="fas fa-arrow-circle-right"></i></button>
+                            </div>
+                            <div class="col-sm-12 col-md-4 col-lg-4 btnHeight">
+                                <button class="btn selectVendor1">Template List &nbsp;<i
+                                        class="fas fa-arrow-circle-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <input type="hidden" id="equipmentid" name="equipmentid" value={{equipmentid}}>
+                    <!-- <input type="hidden" id="venderid" name="equipmentid" value={{venderid}}> -->
+                    <input type="hidden" id="textall" name="textall">
+
+                </form>
+
+            </div>
+
+
+        </div>
+
+
+        <script>
+            function getAllValues3() {
+                var y = document.getElementById("myForm4");
+                console.log()
+                var txt = "";
+                var i;
+                var txtname = "";
+                var jsontxt = "{";
+
+                var fruits, text, fLen, i, n, index_flag = "False",
+                    txtn = "";
+                for (j = 0; j < y.length; j++) {
+                    if (index_flag == "True") {
+                        index_flag = "False";
+                        continue;
+                    }
+                    text = y.elements[j].value;
+
+                    continue;
 
                 }
-            };
-            
-            xmlhttp.send();
-            $('#btnSelectedRows').on('click', function () {
-               var data = tableOne.rows('.selected').data();
-              
-                if(data.length < 1)
-                   window.confirm("select row first")
-                   $.each(data, function (i, val) {
-                   tmpData = data[i];
-                   let vendor_id = document.getElementById("vendor-id").innerText;
-                   let dept_id = document.getElementById("dept-id").innerText;
-                   let equip_id = tmpData[0];
-                   console.log(equip_id)
-                   
-                   window.location.href = "/equipment_details?deptid=" + dept_id + "&venderid=" + vendor_id + "&equipmentid=" + equip_id;
+                x = y;
+                for (i = 0; i < x.length - 10; i++) {
+                    txt = x.elements[i].value;
+                    //alert("No1");
+                    txtname = document.getElementById("myForm4").elements[i].name;
+                    //alert("No2 ");
+                    jsontxt = jsontxt + "\"" + txtname + "\"" + " : \"" + txt + "\",";
+                }
+                var jsonelem = jsontxt.replace(/,$/, '}');
+                //document.getElementById("demo").innerHTML = patt1 ;
+                console.log(jsonelem)
+                alert(jsonelem);
+                document.getElementById("textall").value = jsonelem;
+
+                return (jsonelem)
+
+            }
+        </script>
+
+
+    </div>
+</div>
+
+
+
+<script>
+    $(document).ready(function() {
+        var tableOne;
+        var isValueSelected = false;
+        var baseurl = "/select_e?venderid={{venderid}}";
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("GET", baseurl, true);
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                var persons = JSON.parse(xmlhttp.responseText).result;
+
+                tableOne = $("#example").DataTable({
+
+                    data: persons,
+
+                    columnDefs: [{
+                        orderable: false,
+                        className: 'select-checkbox',
+                        targets: 0
+                    }],
+                    select: {
+                        style: 'os',
+                        selector: 'td:first-child',
+                    },
+                    order: [
+                        [1, 'asc']
+                    ],
+
 
                 });
-            });
 
-            $('#example tbody').on('click', 'td', function () {
-                var table = $('#example').DataTable();
-               $("#equipmentid").val(table.cell( this ).data());
-            });
- 
-            
-        })    
+            }
+        };
 
+        xmlhttp.send();
+        $('#btnSelectedRows').on('click', function() {
+            var data = tableOne.rows('.selected').data();
+            console.log(data)
+            if (data.length < 1)
+                window.confirm("select row first")
+            $.each(data, function(i, val) {
+                tmpData = data[i];
+                let vendor_id = document.getElementById("vendor-id").innerText;
+                let dept_id = document.getElementById("dept-id").innerText;
+                let equip_id = tmpData[0];
+                console.log(equip_id)
+
+                window.location.href = "/equipment_details?deptid=" + dept_id + "&venderid=" + vendor_id + "&equipmentid=" + equip_id;
+
+            });
+        });
+
+        $('#example tbody').on('click', 'td', function() {
+            var table = $('#example').DataTable();
+            $("#equipmentid").val(table.cell(this).data());
+            isValueSelected = true;
+        });
+
+        function submitForm() {
+
+            if (!isValueSelected) {
+                e.preventDefault();
+            }
+
+        }
+
+        $("#equipmentForm").submit(function(e) {
+            if (!isValueSelected) {
+                e.preventDefault();
+            }
+        });
+
+    })
 </script>
 
 
