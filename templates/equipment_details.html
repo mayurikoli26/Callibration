@@ -1,126 +1,120 @@
-
-{% extends "base.html" %}
-{% block content %}
-<button class="btn mb-5 ml-5 " onclick="history.back()"id="back"><i class="fas fa-angle-left fa-3x"></i></button>
+{% extends "base.html" %} {% block content %}
+<h2 class="text-center mainText">Equipments Details</h2>
 <div class="container">
-  <h3 class="mainTextHeads">EQUIPMENT :</h3>
-    <ol class="mt-5 ml-0 d-flex justify-content-start">&nbsp;&nbsp;
-      <li class="list-item"> equipmentid = {{equipmentid}} </li>|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <li class="list-item">venderid={{venderid}}</li>|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <li class="list-item">deptid={{deptid}}</li>
-     </ol>
-  </div>
+    <button class="btn" onclick="history.back()" id="back"><i class="fas fa-angle-left fa-3x"></i></button>
+    <span class="mainTextHeads">EQUIPMENT : {{equ_name}}</span>
+</div>
 
-    
- 
-    <div class="container">
+<div class="container">
     <!-- <h3 class="previousReading :    mt-5">EQUIPMENT</h3> -->
-      <form id="myForm4" action="/parameter_input" method = "post">
-       <div class="row">
-         <div class="col-lg-6">
-          <div class="form-group row">
-            <label for="staticEmail" class="col-6  col-form-label">Hospital</label>
-              <div class="col-6">
-                <input type="text" style="width: 100%;" value="{{name}}" readonly>
-              </div>
+    <form id="myForm4" action="/parameter_input" method="post">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group row">
+                    <label for="staticEmail" class="col-6  col-form-label">Hospital</label>
+                    <div class="col-6">
+                        <input type="text" style="width: 100%;" value="{{name}}" readonly>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-6 col-form-label">Department</label>
+                    <div class="col-6">
+                        <input type="text" style="width: 100%;" value="{{department_name}}" readonly>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-6  col-form-label">Equipment Name</label>
+                    <div class="col-6">
+                        <input type="text" style="width: 100%;" value="{{equ_name}}" readonly>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-6 col-form-label">Equipment Make</label>
+                    <div class="col-6">
+                        <input type="text" style="width: 100%;" value="{{equ_make}}" readonly>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-6 col-form-label">Equipment Model</label>
+                    <div class="col-6">
+                        <input type="text" style="width: 100%;" value="{{equ_model}}" readonly>
+
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-6 col-form-label">Asset Code</label>
+                    <div class="col-6">
+                        <input type="text" style="width: 100%;" value=" {{equ_asset}}" readonly>
+
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-6 col-form-label">Serial No</label>
+                    <div class="col-6">
+                        <input type="text" style="width: 100%;" value="{{equ_serialno}}" readonly>
+
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-6 col-form-label">Calibration Due Date</label>
+                    <div class="col-6">
+                        <input type="text" style="width: 100%;" value="{{start_date}}" readonly>
+
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-6 col-form-label">Active</label>
+                    <div class="col-6">
+                        <input type="text" style="width: 100%;" value="{{active}}" readonly>
+                    </div>
+                </div>
             </div>
-            <div class="form-group row">
-              <label for="inputPassword" class="col-6 col-form-label">Department</label>
-              <div class="col-6">
-                <input type="text" style="width: 100%;" value="{{department_name}}" readonly>
-              </div>
-            </div>
-            <div class="form-group row">
-              <label for="inputPassword" class="col-6  col-form-label">Equipment Name</label>
-              <div class="col-6">
-                <input type="text" style="width: 100%;" value="{{equ_name}}" readonly>
-              </div>
-            </div>
-           
-            <div class="form-group row">
-              <label for="inputPassword" class="col-6 col-form-label">Equipment Make</label>
-              <div class="col-6">
-                <input type="text" style="width: 100%;" value="{{equ_make}}" readonly>
-              </div>
-            </div>
-            <div class="form-group row">
-              <label for="inputPassword" class="col-6 col-form-label">Equipment Model</label>
-              <div class="col-6">
-                <input type="text" style="width: 100%;" value="{{equ_model}}" readonly>
-               
-              </div>
-            </div>
-           <div class="form-group row">
-            <label for="inputPassword" class="col-6 col-form-label">Asset Code</label>
-            <div class="col-6">
-              <input type="text" style="width: 100%;" value=" {{equ_asset}}" readonly>
-            
-            </div>
-          </div>
-          <div class="form-group row">
-            <label for="inputPassword" class="col-6 col-form-label">Serial No</label>
-            <div class="col-6">
-              <input type="text" style="width: 100%;"value="{{equ_serialno}}" readonly>
-         
-            </div>
-          </div>
-          <div class="form-group row">
-            <label for="inputPassword" class="col-6 col-form-label">Calibration Due Date</label>
-            <div class="col-6">
-              <input type="text" style="width: 100%;"value="{{start_date}}" readonly>
-            
-            </div>
-          </div>
-          <div class="form-group row">
-            <label for="inputPassword" class="col-6 col-form-label">Active</label>
-            <div class="col-6">
-              <input type="text" style="width: 100%;"value="{{active}}" readonly>
-            </div>
-          </div>
-         </div>
-      </div>
-      </form>
-      
+        </div>
+    </form>
+
     <form action="/parameter_input" method="post">
-      
-      <input type="hidden" id="vender" name="venderid" value={{venderid}}>
-      <input type="hidden" id="deptid" name="deptid" value={{deptid}}>
-      <input type="hidden" id="equipment" name="equipmentid" value={{equipmentid}}>
 
-              
-    <div class="buttons d-flex justify-content-start mt-4">
-      <div class="row">
-        <div class="col-sm-12 col-md-4 col-lg-4 btnHeight">
-          <button class="btn selectVendor1">Check List &nbsp;<i class="fas fa-arrow-circle-right"></i></button>
-        </div>
-        
-        <div class="col-sm-12 col-md-4 col-lg-4 btnHeight">
-          <button class="btn selectVendor" type="submit" >Collect Reading &nbsp;<i class="fas fa-arrow-circle-right"></i></button>
-        </div>
+        <input type="hidden" id="vender" name="venderid" value={{venderid}}>
+        <input type="hidden" id="deptid" name="deptid" value={{deptid}}>
+        <input type="hidden" id="equipment" name="equipmentid" value={{equipmentid}}>
 
-        <div class="col-sm-12 col-md-4 col-lg-4 btnHeight">
-          <button class="btn selectVendor1" button type="submit" formaction="/previous_reading">Previous Reading &nbsp;<i class="fas fa-arrow-circle-right"></i></button>
-        </div>
 
-      </div>
-  </div> 
+        <div class="buttons d-flex justify-content-start mt-4">
+            <div class="row btn2">
+                <div class="col-sm-12 col-md-4 col-lg-4 btnHeight">
+                    <button class=" selectVendor1">Check List &nbsp;<i class="fas fa-arrow-circle-right"></i></button>
+                </div>
+
+                <div class="col-sm-12 col-md-4 col-lg-4 btnHeight">
+                    <button class=" selectVendor" type="submit">Collect Reading &nbsp;<i
+              class="fas fa-arrow-circle-right"></i></button>
+                </div>
+
+                <div class="col-sm-12 col-md-4 col-lg-4 btnHeight">
+                    <button class="btn selectVendor1" button type="submit" formaction="/previous_reading">Previous Reading
+            &nbsp;<i class="fas fa-arrow-circle-right"></i></button>
+                </div>
+
+            </div>
+        </div>
 
     </form>
 
 
-  <!-- <input type="hidden" id="vender" name="venderid" value={{venderid}}>
+    <!-- <input type="hidden" id="vender" name="venderid" value={{venderid}}>
   <input type="hidden" id="deptid" name="deptid" value={{deptid}}>
   <input type="hidden" id="equipment" name="equipmentid" value={{equipmentid}}> -->
-   
-  <!-- <button onclick="equ_chk_list()" type="submit" form="myForm4">Click 2</button>
+
+    <!-- <button onclick="equ_chk_list()" type="submit" form="myForm4">Click 2</button>
   <button type="submit" formaction="/add_equipment">Submit Add</button> -->
 
- 
 
 
-    </div>
-   
-    
+
+</div>
+
+
 
 
 {% endblock %}

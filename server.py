@@ -14,8 +14,8 @@ app.secret_key = 'your secret key'
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = 'root'
-#app.config['MYSQL_HOST'] = 'aim.cvot3mbu0m9d.us-east-2.rds.amazonaws.com'
-#app.config['MYSQL_USER'] = 'gismaster'
+#app.config['MYSQL_HOST'] = 'aimdb-instance-1.ccuhjxtwycfp.us-east-1.rds.amazonaws.com'
+#app.config['MYSQL_USER'] = 'aimuser'
 #app.config['MYSQL_PASSWORD'] = 'first#1234'
 
 app.config['MYSQL_DB'] = 'calibration'
@@ -85,7 +85,8 @@ def register():
         elif not username or not password or not email:
             msg = 'Please fill out the form !'
         else:
-            cursor.execute('INSERT INTO accounts VALUES (NULL, % s, % s, % s)', (username, password, email, ))
+            #cursor.execute('INSERT INTO accounts VALUES (NULL, % s, % s, % s)', (username, password, email, ))
+            cursor.execute('INSERT INTO accounts (username, password, email, role, active) VALUES ( %s, %s, %s,%s,%s)', (username, password, email,"user",True ))
             mysql.connection.commit()
             msg = 'You have successfully registered !'
     elif request.method == 'POST':
@@ -177,20 +178,10 @@ def select_dept():
           name = row[0]
           vender_id =row[1]
           address = row[2]
-
-
-
         return render_template('select_dept.html', data=data, deptid=sel, venderid=venderid,name=name)
     else:  
         return '<p>Please login first</p>' 
 
-       
-
-    #sel = request.args.get('vender')
-    #cursor = mysql.connection.cursor()
-    #cursor.execute("SELECT department_name, department_id FROM department")
-    #data = cursor.fetchall()
-    #return render_template('select_dept.html', data=data, venderid=sel)    
 
 @app.route('/select_equip', methods =['GET', 'POST'])
 def select_equip():
@@ -227,7 +218,7 @@ def hosplist():
     equipid = request.args.get('equipment')
     print ("EQP=",equipid)
     cursor = mysql.connection.cursor()
-    cursor.execute("SELECT parameter_name FROM equ_parameter_reg where equ_parameter_id=%s",(equipid,))
+    cursor.execute("SELECT parameter_name FROM parameter where equ_parameter_id=%s",(equipid,))
     data = cursor.fetchall()
     s = "-"
     for row in data:
@@ -530,8 +521,6 @@ def save_reading():
             #if verified != 'on':
             #    verified =0
             #followed = request.form['followed']
-            #approvar_email='rajan22@mail.com'
-
             # Get equ_parameter_id from equipmentid
             cursor = mysql.connection.cursor()
             cursor.execute('SELECT equ_name, equ_parameter_id FROM equipment where equ_id =%s',(equipmentid,))        
@@ -541,7 +530,7 @@ def save_reading():
                 equ_parameter_id = row[1]
         
             # get parameter_names (list) in array defined from equ_parameter_id
-            cursor.execute('SELECT parameter_name FROM equ_parameter_reg where equ_parameter_id =%s',(equ_parameter_id,))
+            cursor.execute('SELECT parameter_name FROM parameter where equ_parameter_id =%s',(equ_parameter_id,))
             data = cursor.fetchall()
             for row in data:
                 parameter_name = row[0]
@@ -555,12 +544,6 @@ def save_reading():
             cursor = mysql.connection.cursor()
             cursor.execute('SELECT name, vender_id, address FROM vender where vender_id=%s',(venderid,))
             data1 = cursor.fetchall()
-
-
-
-
-
-
             timestamp=datetime.now()
             cur_date = timestamp.strftime("%Y-%m-%d")
             
@@ -575,7 +558,7 @@ def save_reading():
             # return  str(form_values)
             return render_template('/save_reading.html',venderid=venderid ,deptid=deptid)
             # return render_template('previous_reading',approvar_name=approvar_name)
-            # print("--------------",form_values)
+         
 
     else:  
         return '<p>Please login first</p>'

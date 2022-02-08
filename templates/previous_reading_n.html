@@ -8,7 +8,6 @@
   <h3 class="mb-3 mainTextHeads">Equipment : {{equ_name}}</h3>
   <form id ="myForm" class="form-horizontal" action="/save_reading1" method="POST">
   
-   
     <tbody>
     {% for index in range (lenrow) %}
 
@@ -19,10 +18,7 @@
       </div>
     </div>
     {% endfor %} 
-
-  
-   
-    
+       
     <div class="mt-4">
      <div class="row">        
       <div class="col-sm-12 col-md-6 col-lg-6 btnHeight">
@@ -30,16 +26,13 @@
       </div>
       <div class="col-sm-12 col-md-6 col-lg-6 btnHeight">
         <button class="btn selectVendor" id="save_btn" onclick="getAllValues2()">Save All <i class="fas fa-arrow-circle-right"></i></button>
-      </div>
-      
+      </div>     
      </div>
     </div>
     <input type="hidden" id="equipmentid" name="equipmentid" value={{equipmentid}}>
      <input type="hidden" id="textall" name="textall" >
  
   </form>
-
- 
 </div>
 
 <script>

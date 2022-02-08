@@ -4,7 +4,7 @@
 {% block content %}
 <div class="container">
   <h3 class="mainTextHeads">Fillup values and observations:</h3>
-  Vender:{{venderid}} | Department:{{deptid}} | Equipment:{{equipmentid}} 
+ <!--- Vender:{{venderid}} | Department:{{deptid}} | Equipment:{{equipmentid}} -->
   <h3 class="mainTextHeads">Equipment : {{equ_name}}</h3>
   <form id ="myForm" class="form-horizontal" action="/save_reading" method="POST">
     <input id="vender" hidden name="venderid" value={{venderid}}>
@@ -110,7 +110,6 @@ function getAllValues2() {
     }
     var jsonelem = jsontxt.replace(/,$/,'}');
     //document.getElementById("demo").innerHTML = patt1 ;
-    alert (jsonelem) ;
 
  
     // document.getElementById("textall").value=jsonelem;

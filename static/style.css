@@ -171,7 +171,6 @@ table tr:last-child td:last-child {
 .selectVendor1 {
     background: none;
     border: 1px solid #10467E;
-    ;
     font-size: 18px;
     color: #10467E;
     border-radius: 10px;
@@ -193,15 +192,32 @@ table tr:last-child td:last-child {
 .mainTextHeads {
     font-family: sans-serif;
     font-weight: 600;
-    font-size: 20px;
+    font-size: 15px;
     color: #10467E;
+    /* position: relative;
+    bottom: 111px; */
+    margin-left: 150px;
 }
+
+
+/* #myForm4 {
+    position: relative;
+    bottom: 111px;
+    left: 85px;
+} */
 
 .mainText {
     font-size: 35px;
     font-family: sans-serif;
     font-weight: 700;
 }
+
+
+/* 
+.btn2 {
+    position: relative;
+    bottom: 111px;
+} */
 
 
 /* 
@@ -361,10 +377,11 @@ label {
     display: inline-block;
 }
 
-.container {
+
+/* .container {
     border-radius: 5px;
     padding: 20px;
-}
+} */
 
 .col-25 {
     float: left;
@@ -418,20 +435,19 @@ label {
         width: 100%;
         margin-top: 0;
     }
-}
-
-@media only screen and (max-width: 500px) {
-    .navbar-toggler-icon {
-        background-color: aliceblue;
-        position: absolute;
-        top: 22px;
-        right: 14px;
-    }
-    /* .form-group{
+    @media only screen and (max-width: 500px) {
+        .navbar-toggler-icon {
+            background-color: aliceblue;
+            position: absolute;
+            top: 22px;
+            right: 14px;
+        }
+        /* .form-group{
           border: none;
       } */
-    .row {
-        margin-top: -5px;
+        .row {
+            margin-top: -5px;
+        }
     }
 }
 
@@ -444,5 +460,12 @@ label {
     #save_btn {
         position: relative;
         right: 330px;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    #myForm4 {
+        /* position: relative;
+        right: 80px; */
     }
 }
