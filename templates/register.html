@@ -1,63 +1,80 @@
 <!-- Store this code in 'register.html' file inside the 'templates' folder -->
 <!-- Store this code in 'register.html' file inside the 'templates' folder -->
-
+<!DOCTYPE html>
 <html>
 
 <head>
-    <meta charset="UTF-8">
-    <title> Register </title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Register</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='register.css') }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 
 <body>
+    <div class="container">
+
+         <input type="checkbox" id="flip" /> 
+        <div class="cover">
+            <div class="front">
+                <img src="../static/122945535-cleaning-company-staff-male-characters-in-uniform-working-with-equipment-and-friendly-smiling-profes.webp" alt="" />
+            </div>
+            <div class="back">
+                <img class="backImg" src="../static/122945535-cleaning-company-staff-male-characters-in-uniform-working-with-equipment-and-friendly-smiling-profes.webp" alt="" />
+            </div>
+        </div>
+        <div class="forms">
+            <div class="form-content">
+                <div class="signup-form">
+                    <div class="title">Signup</div>
 
 
-    <div class="container h-100">
-        <div class="d-flex justify-content-center h-100">
-            <div class="user_card">
-                <div class="d-flex justify-content-center">
-                    <div class="brand_logo_container">
-                        <img src="{{url_for('static', filename='logo.png')}}" width="50px" class="brand_logo" alt="Logo" />
-                    </div>
-                </div>
-                <div class="d-flex justify-content-center form_container">
                     <form action="{{ url_for('register') }}" method="post">
                         <div class="msg mt-2">{{ msg }}</div>
                         <div class="input-group mb-3">
                             <div class="input-group-append">
                                 <span class="input-group-text"><i class="fas fa-user"></i></span>
                             </div>
-                            <input id="username" name="username" type="text" placeholder="Enter Your Username" class="textbox" />
+                            <input id="username" name="username" type="text" placeholder="Enter Your Username" class="form-control input_user" />
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-append">
                                 <span class="input-group-text"><i class="fas fa-key"></i></span>
                             </div>
-                            <input id="password" name="password" type="password" placeholder="Enter Your Password" class="textbox" />
+                            <input id="password" name="password" type="password" placeholder="Enter Your Password" class="form-control input_pass" />
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-append">
                                 <span class="input-group-text"><i class="fas fa-envelope"></i></span>
                             </div>
-                            <input id="email" name="email" type="text" placeholder="Enter Your Email ID" class="textbox" />
+                            <input id="email" name="email" type="text" placeholder="Enter Your Email ID" class="form-control input_pass_pass" />
                         </div>
 
                         <div class="d-flex justify-content-center mt-3 login_container">
                             <!-- <input type="submit" class="btn" value="Sign Up"> -->
-                            <button type="submit" name="button" class="selectVendor" value="Sign Up">
+                            <button type="submit" name="button" class="btn login_btn" value="Sign Up">
                     <i class="fas fa-sign-in-alt pr-2 "></i>Sign Up
                   </button>
                         </div>
+                        <div class="mt-4">
+
+                            <div class="d-flex justify-content-center links">
+                                <div class="bottom text-center">Already have an account? <label for="flip"></label> <a class="bottom " href="{{url_for( 'login')}} "> Sign In here</a>
+
+                                </div>
+                            </div>
                     </form>
 
-                </div>
+                    </div>
 
-                <p class="bottom text-center ">Already have an account? <a class="bottom " href="{{url_for( 'login')}} "> Sign In here</a></p>
+
+                </div>
             </div>
+
         </div>
-    </div>
 </body>
 
 </html>

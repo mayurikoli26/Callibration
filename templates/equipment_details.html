@@ -1,15 +1,16 @@
 {% extends "base.html" %} {% block content %}
-<h2 class="text-center mainText">Equipments Details</h2>
+<button class="btn" onclick="history.back()" id="back"><i class="fas fa-angle-left fa-3x"></i></button>
 <div class="container">
-    <button class="btn" onclick="history.back()" id="back"><i class="fas fa-angle-left fa-3x"></i></button>
-    <span class="mainTextHeads">EQUIPMENT : {{equ_name}}</span>
+    <div class="d-flex align-items-center">
+     
+        <span class="mainTextHeads">Equipment : {{equ_name}}</span>
+    </div>
 </div>
 
-<div class="container">
-    <!-- <h3 class="previousReading :    mt-5">EQUIPMENT</h3> -->
+<div class="container my-4">
     <form id="myForm4" action="/parameter_input" method="post">
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-8">
                 <div class="form-group row">
                     <label for="staticEmail" class="col-6  col-form-label">Hospital</label>
                     <div class="col-6">

@@ -57,8 +57,7 @@ body {
     backface-visibility: hidden;
 }
 
-.container .cover::before,
-.container .cover::after {
+.container .cover::before {
     content: "";
     position: absolute;
     height: 100%;
@@ -67,7 +66,7 @@ body {
     z-index: 12;
 }
 
-.container .cover::after {
+.container .cover::before {
     opacity: 0.3;
     transform: rotateY(180deg);
     backface-visibility: hidden;
@@ -93,7 +92,6 @@ body {
     justify-content: space-between;
 }
 
-.form-content .login-form,
 .form-content .signup-form {
     width: calc(100% / 2 - 25px);
 }
@@ -152,14 +150,6 @@ body {
     transition: all 0.3s ease;
 }
 
-.custom-control {
-    position: relative;
-    display: block;
-    min-height: 1.5rem;
-    padding-left: 1.5rem;
-    top: 20px;
-}
-
 
 /* bottom part */
 
@@ -167,7 +157,7 @@ body {
     font-size: 14px;
     font-weight: 500;
     color: #333;
-    padding-top: 10px;
+    padding-top: 30px;
 }
 
 .forms .form-content .links a {
@@ -229,5 +219,5 @@ body {
 }
 
 .custom-checkbox .custom-control-input:checked~.custom-control-label::before {
-    background: #42b4f7;
+    background: #10467e;
 }

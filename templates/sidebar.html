@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>SIDE BAR</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/fontawesome.min.css" integrity="sha512-P9vJUXK+LyvAzj8otTOKzdfF1F3UYVl13+F8Fof8/2QNb8Twd6Vb+VD52I7+87tex9UXxnzPgWA3rH96RExA7A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@200;500&display=swap" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="side.css">
+    </head>
+    <body>
+        <header>
+            <div class="tophead">
+                <div class="brandlogo">
+                   AIMBREAKTHROUGH
+                </div>
+            <div>
+                <span class="menulines" onclick="openNav()">&#9776;</span>
+            </div>
+
+            </div>
+        </header>
+        <div class="sidenav" id="mySidenav">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">
+                &times;
+            </a>
+            <a href="http://aimbreakthrough.com"target="_blank">HOME   </a>
+            <a href="#"target="_blank"> RAW COLLECTION</a>
+            <a href="#">SERVICES</a>
+            <a href="#">CLIENTS</a>
+            <a href="http://aimbreakthrough.com/aim/"target="_blank">ABOUT</a> 
+            <a href="#">CONTACT</a>
+        </div>
+        <section class="mainpart">
+            <h3>AIMBREAKTHROUGH PVT.LTD</h3>
+        <div>
+            <p>AIM Breakthrough, a software consulting company is versatile and operates in variety of different verticals. AIM provides end-to-end application development</p>
+        </div>
+        </section>
+        <script>
+            const openNav = ()=> {
+               document.getElementById('mySidenav').style.width="250px"; 
+            }
+            const closeNav = ()=> {
+               document.getElementById('mySidenav').style.width="0px"; 
+             }
+
+            
+        </script>
+
+        
+    </body>
+</html>
+

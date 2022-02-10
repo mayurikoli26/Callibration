@@ -1,19 +1,31 @@
 {% extends "base.html" %}
 {% block content %}
-<div>
-    <p>{{ message }}</p>
 
-    <p>All contacts are :{{ contacts }}</p>Well come 
-    <p> Contacts in list:   verfied user id. </p> 
-    <ul>
-        {% for contact in contacts %}
-        <li>{{ contact }}</li>
-        {% endfor %}
+<div class="container-fluid grad">
+    <div class="row rowHead">
+        <div class="col-lg-5 col-12">
+            <div class="hero-header-content">
+                <p>Plan your life</p>
+                <h1>Get manage all <b> your devices</b></h1>
+                <p>
+                  Brute laoreet efficiendi id his, ea illum nonumes luptatum pro.
+                  Usu atqui laudem an.
+                </p>
+                <div class="buttons">
+                     <button class="app-btn" type="button" id="button-addon2">Sign Up</button>
+                    <button class="app-btn" type="button" id="button-addon2">Login</button>
+                   
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-7 col-12">
+            <div class="hero-header-image">
+               <img src="../static/hero-image.svg" alt="#" class=landImage>
+            </div>
+        </div>
+    </div>
+  </div>
 
-    </ul>
-       session_id= {{session_id}}, username={{session_username}}, role = {{role}}
-       session['session_id']={{session_id}} 
-</div>
 {% endblock %}
 
 <input type="hidden" id="session_id" name="session_id" value={{session_id}}>

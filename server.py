@@ -14,7 +14,7 @@ app.secret_key = 'your secret key'
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = 'root'
-#app.config['MYSQL_HOST'] = 'aimdb-instance-1.ccuhjxtwycfp.us-east-1.rds.amazonaws.com'
+#app.config['MYSQL_HOST'] = 'aimdb.ccuhjxtwycfp.us-east-1.rds.amazonaws.com'
 #app.config['MYSQL_USER'] = 'aimuser'
 #app.config['MYSQL_PASSWORD'] = 'first#1234'
 
@@ -38,8 +38,7 @@ def login():
         cursor = mysql.connection.cursor()
         cursor.execute('SELECT * FROM accounts WHERE username = % s AND password = % s and active=True', (username, password, ))
         account = cursor.fetchone()
-        
-        print ("account=",account)
+        #print ("account=",account)
         if account:
             #print ("accountID=", account[0])
             session['loggedin'] = True
@@ -118,15 +117,13 @@ def profile():
                 msg= 'psw and repeat psw should be same !'
                 errflg = 'error' 
             if old_psw != account[2] :
-                print ('MSG=',old_psw, account[2])
+                #print ('MSG=',old_psw, account[2])
                 msg = 'Incorrect current password' 
                 errflg = 'error'      
             if errflg:
                 print ("error in form.") 
-            else:    
-                print ("can insert values of new psw")
+            else:
                 msg='Success Change password !'
-                #INSERT INTO accounts VALUES (NULL, % s, % s, % s)', (username, password, email, ))
                 cursor = mysql.connection.cursor()
                 cursor.execute(('UPDATE accounts set password=%s where id = %s'), (new_psw, account[0]))
                 mysql.connection.commit()
@@ -138,18 +135,18 @@ def profile():
     return render_template('changepsw.html', msg = msg)    
 
 
+
 # Display all vender list in table
 @app.route('/select_vender')
 def select_vender():
     if 'session_id' in session:  
         sessionid = session['session_id']
         session_role = session['role']
-        
         cursor = mysql.connection.cursor()
         cursor.execute("SELECT name, vender_id, address FROM vender")
         data = cursor.fetchall()
         venderid = request.args.get('venderid')
-        print ("in vender id= ",venderid)
+        #print ("in vender id= ",venderid)
         if session_role == 'admin':
             return render_template('select_vender.html', data=data, venderid=venderid, role=session_role)
         else:
@@ -162,14 +159,14 @@ def select_vender():
 def select_dept():
     if 'session_id' in session:  
         sessionid = session['session_id'] 
-        print ("in dept sessionid= ",sessionid)
+        #print ("in dept sessionid= ",sessionid)
         sel=1
         venderid = request.form['venderid']
-        print ("vender =",venderid)
+        #print ("vender =",venderid)
         cursor = mysql.connection.cursor()
         cursor.execute("SELECT department_name, department_id FROM department where vender_id=%s",(venderid,))
         data = cursor.fetchall()
-        print("venderid im in dept",venderid)
+        #print("venderid im in dept",venderid)
 
         cursor = mysql.connection.cursor()
         cursor.execute('SELECT name, vender_id, address FROM vender where vender_id=%s',(venderid,))
@@ -178,7 +175,7 @@ def select_dept():
           name = row[0]
           vender_id =row[1]
           address = row[2]
-        return render_template('select_dept.html', data=data, deptid=sel, venderid=venderid,name=name)
+        return render_template('select_dept.html', data=data, venderid=venderid,name=name)
     else:  
         return '<p>Please login first</p>' 
 
@@ -189,24 +186,19 @@ def select_equip():
         sessionid = session['session_id']
         #sel = request.args.get('deptid')
         deptid = request.form['deptid']
-        print ("deptid in eq=", deptid)
-        
+        #print ("deptid in eq=", deptid)
         # tempdata=request.form['number']  
         # print("new data is",tempdata) 
         #venderid = request.args.get('venderid')
         venderid = request.form['venderid']
-    
-        print ("venderid in eq=", venderid)
+        #print ("venderid in eq=", venderid)
         cursor = mysql.connection.cursor()
         cursor.execute("SELECT equ_name, equ_id,equ_asset,equ_model,equ_serialno FROM equipment")
         data = cursor.fetchall()
-
         cursor = mysql.connection.cursor()
         cursor.execute("SELECT equ_parameter_id ,parameter_list, parameter_name FROM parameter")
         data4 = cursor.fetchall()
-        print("data4----------",data4)
-   
-       
+        #print("data4----------",data4)
         return render_template('select_equip.html', data=data, deptid=deptid, venderid=venderid,data4=data4) 
        
     else:  
@@ -216,13 +208,13 @@ def select_equip():
 @app.route('/hosplist')
 def hosplist():
     equipid = request.args.get('equipment')
-    print ("EQP=",equipid)
+    #print ("EQP=",equipid)
     cursor = mysql.connection.cursor()
     cursor.execute("SELECT parameter_name FROM parameter where equ_parameter_id=%s",(equipid,))
     data = cursor.fetchall()
     s = "-"
     for row in data:
-        print(row)  
+        #print(row)  
         s=s.join(row)
         rowx = s.split(',')           
 
@@ -232,20 +224,15 @@ def hosplist():
 @app.route('/parameter_input', methods =['GET', 'POST'])
 def parameter_input():
 
-    print("--------------------", request.form)
+    #print("--------------------", request.form)
     if 'session_id' in session:
-       deptid = request.form['deptid']
-    
+       deptid = request.form['deptid']  
        venderid = request.form['venderid']
        equipmentid = request.form ['equipmentid']
-     
        equ_name = request.args.get('equ_name')
        equ_parameter_id = request.args.get('equ_parameter_id')
-      
-       
        cursor = mysql.connection.cursor()
        cursor.execute('SELECT equ_name, equ_parameter_id FROM equipment where equ_id =%s',(equipmentid,))
-       
        #equ_name = cursor.fetchone()
        data = cursor.fetchall()
        for row in data:
@@ -256,13 +243,13 @@ def parameter_input():
        cursor.execute("SELECT parameter_list FROM parameter where equ_parameter_id=%s",(equ_parameter_id,))
        data = cursor.fetchall()
        s = "-"
-       print("hi i am EQUE0=",data )            
-    #    add_para = ["para1","para2","para3","para4"]
+       #print("hi i am EQUE0=",data )            
+       #add_para = ["para1","para2","para3","para4"]
        for row in data:
-           print("ROW:",row)  
+           #print("ROW:",row)  
            s=s.join(row)
            rowx = s.split(',') 
-           print("hi i am EQUE1=",equipmentid )             
+           #print("hi i am EQUE1=",equipmentid )             
            return render_template('parameter_input.html', data=rowx, venderid=venderid, deptid=deptid, equipmentid=equipmentid, equ_name=equ_name, equ_parameter_id=equ_parameter_id)
     else:  
         return '<p>Please login first.</p>'
@@ -280,20 +267,15 @@ def equipment_details():
         name = row[0]
         vender_id =row[1]
         address = row[2]
-  
-
     cursor.execute("SELECT department_name, department_id FROM department where department_id=%s",(deptid,))
     data2 = cursor.fetchall()
     venderid = request.form['venderid']
     for row in data2:
         department_name = row[0]
-        department_id =row[1]
-         
-  
+        department_id =row[1]  
     cursor = mysql.connection.cursor()
     cursor.execute("SELECT equ_name, equ_make,equ_model,equ_serialno,equ_asset,start_date,active FROM equipment where equ_id=%s",(equipmentid,))
     data3 = cursor.fetchall()
-    
     for row in data3:
         equ_name = row[0]
         equ_make  =  row[1]
@@ -312,16 +294,22 @@ def previous_reading():
     venderid = request.form['venderid']
     equipmentid = request.form ['equipmentid']
     cursor = mysql.connection.cursor()
+    cursor.execute("select equ_name from equipment where equ_id=%s", (equipmentid,))
+    eq_name = cursor.fetchall()
+    for row in eq_name :
+        equ_name=row[0]
+
+    #equ_name ="Myname"
     # cursor.execute("SELECT calibrate_id, perform_date, parameter_readings FROM calibrate where equ_id=%s order by perform_date desc limit 1",(equipmentid,))
     cursor.execute("SELECT parameter_readings FROM calibrate where equ_id=%s",(equipmentid,))
     c = cursor.fetchone()
 
     cursor.execute("SELECT calibrate_id, perform_date, parameter_readings FROM calibrate where equ_id=%s",(equipmentid,))
     data = cursor.fetchall()
-    print("data of calibrate",data)
+    ##print("data of calibrate",data)
    
     if c is None:
-        print("prev---",c)
+        #print("prev---",c)
         return("No record found. Select other equipment")
 
     # print ('DATA========== ',equipmentid, deptid, venderid, data)
@@ -331,27 +319,22 @@ def previous_reading():
           parameter_readings = row[2]
           parameter_readings = parameter_readings.replace("{","")
           parameter_readings = parameter_readings.replace("}","")
-    print ('PREREAD', parameter_readings)
+    #print ('PREREAD', parameter_readings)
     row = parameter_readings.replace(":",",")
+    row = row.replace("'","")
     # rowx = row.split(',')
     rowx= re.split('; |, |\*|\n',row)
     lenrow = len(rowx)/2
     lenrowint = int(lenrow)
-    print ("len of para ",lenrowint)
-  
-    return render_template('previous_reading_n.html',deptid=deptid, lenrow=lenrowint, equipmentid=equipmentid, venderid=venderid, perform_date=perform_date, parameter_readings = rowx, data=data )
+    #print ("len of para ",lenrowint)
+    return render_template('previous_reading_n.html',deptid=deptid, lenrow=lenrowint, equipmentid=equipmentid, venderid=venderid, perform_date=perform_date, parameter_readings = rowx, data=data, equ_name=equ_name )
      
-
-
-
-
 
 @app.route('/search' ,methods =['GET', 'POST'])
 def search():
     deptid = request.args.get('deptid')
     venderid = request.args.get('venderid')
-    equipmentid = request.args.get('equipmentid')
-  
+    equipmentid = request.args.get('equipmentid')  
     return render_template('search.html')
           
 @app.route("/livesearch",methods=["POST","GET"])
@@ -359,12 +342,11 @@ def livesearch():
     deptid = request.args.get('deptid')
     venderid = request.args.get('venderid')
     data= request.args.get('q')
-    print("q is",data)
+    #print("q is",data)
     cursor = mysql.connection.cursor()
     # cursor.execute("select equ_name  from equipment".format(data))#This is just exampel query , you should replace it with your query
     # cursor.execute("SELECT equ_name,equ_id,equ_model, equ_serialno FROM equipment where equ_name=%s",(data,)) 
     cursor.execute("SELECT equ_name, equ_id, equ_model, equ_serialno FROM equipment where equ_name LIKE %s ",[data + "%"])
-   
     result = cursor.fetchall()
     str='<table border= "2" style = ""width=50%">'
     for row in result :
@@ -373,10 +355,10 @@ def livesearch():
         equ_model='<td>'+row[2]+'</td>'
         equ_serialno ='<td>'+row[3]+'</td>'
         str=str + '<tr>' +equ_name+ '  '+equ_id+" "+equ_model+'  '+ equ_serialno + '</tr>'
-        print("STR-" ,str)
+        #print("STR-" ,str)
         return ( data+ str)
 
-    print("query is" ,result )
+    #print("query is" ,result )
     str = str + '</table>'
     return (data,result)
  
@@ -394,9 +376,7 @@ def select_e():
 
 @app.route("/get_page",methods=["GET"])
 def get_page():
-    
     return render_template('select_equip.html')
-
 
 
 @app.route('/add_equipment', methods=['GET', 'POST'])
@@ -407,72 +387,58 @@ def add_equipment():
     cursor = mysql.connection.cursor()
     cursor.execute("SELECT name, vender_id, address FROM vender")
     data1 = cursor.fetchall()
-    print(data1)
-  
+    #print(data1)  
     cursor.execute("SELECT department_name, department_id FROM department")
     data2 = cursor.fetchall()
-    print(data2)
-
+    #print(data2)
     cursor = mysql.connection.cursor()
     cursor.execute("SELECT equ_name, equ_id  FROM equipment")
     data3 = cursor.fetchall()
-    print(data3)
-    
+    #print(data3)
     cursor = mysql.connection.cursor()
     cursor.execute("SELECT equ_parameter_id ,parameter_list, parameter_name FROM parameter")
     data4 = cursor.fetchall()
-    print("data4----------",data4)
-   
-   
- 
+    #print("data4----------",data4)
     return render_template('add_equipment.html',deptid=deptid, venderid=venderid, data1=data1, data2=data2, data3=data3, data4=data4)
     
 
-
-
 @app.route('/save_new_equipment', methods =['GET', 'POST'])
 def save_new_equipment():
-    print ("hello")
+    #print ("hello")
     if request.method == 'POST': 
-        print("stage 1")
+        #print("stage 1")
         form_obj = request.form.to_dict()
         venderid = request.form['venderid']
-        print("venderid",venderid)
+        #print("venderid",venderid)
         deptid = request.form['deptid']
-        print("deptid",deptid)
+        #print("deptid",deptid)
         equ_name =request.form['equ_name']
-        print("equ_name",equ_name)
+        #print("equ_name",equ_name)
         asset_cd = request.form['asset_cd']
-        print("asset_cd",asset_cd)
+        #print("asset_cd",asset_cd)
         equ_make =request.form['equ_make']
-        print("equ_make",equ_make)
+        #print("equ_make",equ_make)
         equ_model =request.form['equ_model']
-        print("equ_model",equ_model)
+        #print("equ_model",equ_model)
         serialno = request.form['serialno']
         equ_parameter_id = request.form['equ_parameter_id']
-        print("   equ_parameter_id======",   equ_parameter_id)
+        #print("   equ_parameter_id======",   equ_parameter_id)
         form_values = request.form['textall']
-        print("form_value",form_values )
+        #print("form_value",form_values )
         timestamp=datetime.now()
         cur_date=timestamp.strftime("%Y-%m-%d")
-
         cursor = mysql.connection.cursor()
         #cursor.execute('insert  into calibrate (id, equ_id, parameter_readings, perform_date ) values (%s,%s,%s, %s)', (sessionid,equipmentid,form_obj, cur_date,))
         cursor.execute('insert  into equipment (vender_id,department_id,equ_name,equ_asset,equ_make,equ_model,equ_serialno,equ_parameter_id, start_date) values (%s, %s, %s,%s,%s,%s,%s,%s,%s)', (venderid,deptid,equ_name,asset_cd,equ_make,equ_model,serialno,equ_parameter_id,cur_date))
-
         mysql.connection.commit()  
-
         cursor.execute("SELECT department_name, department_id FROM department where vender_id=%s",(venderid,))
         data = cursor.fetchall()
-        print("venderid im in dept",venderid)
-
+        #print("venderid im in dept",venderid)
         cursor = mysql.connection.cursor()
         cursor.execute('SELECT name, vender_id, address FROM vender where vender_id=%s',(venderid,))
         data1 = cursor.fetchall()
-
-
         return render_template('save_new_equipment.html',form_values=form_values, deptid=deptid,venderid=venderid) 
-        print(form_values)
+        #print(form_values)
         # return render_template('add_equipment.html',deptid=deptid,venderid=venderid )
     else :
         return ('Please use post method')
@@ -501,8 +467,8 @@ def save_reading():
         sessionid = session['session_id']
         if request.method == 'POST' :
             # equipmentid = request.args.get('equipmentid')
-            print(request.form)
-            print(request.form.to_dict())
+            #print(request.form)
+            #print(request.form.to_dict())
             form_obj = request.form.to_dict()
             equipmentid = request.form['equipmentid']
             venderid = request.form['venderid']
@@ -513,7 +479,7 @@ def save_reading():
             approvar_email = request.form['approvar_email']
             try :
                verified1 = request.form['verified']
-               varified1=0
+               varified1 = 0
             except :
                 varified1 = 1
 
@@ -536,21 +502,18 @@ def save_reading():
                 parameter_name = row[0]
 
             para_name = str(parameter_name)
-
             cursor.execute("SELECT department_name, department_id FROM department where vender_id=%s",(venderid,))
             data = cursor.fetchall()
-            print("venderid im in dept",venderid)
-
+            #print("venderid im in dept",venderid)
             cursor = mysql.connection.cursor()
             cursor.execute('SELECT name, vender_id, address FROM vender where vender_id=%s',(venderid,))
             data1 = cursor.fetchall()
             timestamp=datetime.now()
             cur_date = timestamp.strftime("%Y-%m-%d")
-            
             # insert all the values along with (coma seperated) data string (parameter_readings in calibrate).
             #cursor.execute('insert  into calibrate (id, equ_id, parameter_readings, perform_date, approvar_name, remark,approvar_email,digitally_signed ) values (%s,%s,%s, %s, %s, %s,%s,%s)', (sessionid,equipmentid,from_values_m,cur_date, approvar_name, remark,approvar_email,verified1,))
             #mysql.connection.commit()
-            print("--------------", form_obj["approvar_name"])
+            #print("--------------", form_obj["approvar_name"])
             cursor.execute('insert into calibrate (id, equ_id, parameter_readings, perform_date, approvar_name,approvar_email) values (%s,%s,%s, %s, %s,%s)', (sessionid,equipmentid,form_obj, cur_date,form_obj["approvar_name"],form_obj["approvar_email"]))
             mysql.connection.commit()
             #print ('Parameter=', from_values_m,' Name=',para_list,'Inserted OKLEN=',len(para_list))
@@ -559,7 +522,6 @@ def save_reading():
             return render_template('/save_reading.html',venderid=venderid ,deptid=deptid)
             # return render_template('previous_reading',approvar_name=approvar_name)
          
-
     else:  
         return '<p>Please login first</p>'
 
@@ -573,7 +535,7 @@ def postJsonHandler():
         obj_ret = row[0]    
  
     #print  (row[0])
-    print (obj_ret)
+    #print (obj_ret)
     return obj_ret   
 
   
