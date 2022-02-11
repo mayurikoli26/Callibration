@@ -3,11 +3,12 @@
 
 
 
-  <button class="btn" onclick="history.back()" id="back"><i class="fas fa-angle-left fa-3x"></i></button>
+<button class="btn mt-2" onclick="history.back()" id="back"><i class="fas fa-angle-left fa-3x"></i></button>
 
 
-<div class="container pb-4">
-   <span class="mainTextHeads">Select Department :</span>
+<div class="container Department d-flex justify-content-between">
+   <span class="mainTextHeads">Select Department </span>
+   <span class="d-flex justify-content-end">Vender :{{name}}</span>
 </div>
   <div class="container">
    <form id="myForm" action="/select_equip" method="post">        

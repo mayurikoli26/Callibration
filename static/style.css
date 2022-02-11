@@ -156,6 +156,11 @@ label {
     clear: both;
 }
 
+.Department {
+    position: relative;
+    bottom: 30px;
+}
+
 
 /* media Query */
 
@@ -180,6 +185,9 @@ label {
         width: 100%;
         margin-top: 0;
     }
+    .hero-header-content {
+        padding-top: 0
+    }
 }
 
 @media only screen and (max-width: 500px) {
@@ -192,9 +200,28 @@ label {
     .row {
         margin-top: -5px;
     }
+    .logoImage {
+        height: 33px;
+        width: 40px;
+    }
     .brandlogo {
         color: #fff;
         font-size: 1.5rem;
+    }
+    .rowHead {
+        min-height: 40vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        background-size: contain;
+        background-position: center bottom;
+        background-repeat: no-repeat;
+        /* background-color: #fff; */
+        position: relative;
+    }
+    .hero-header-content {
+        padding-top: 0
     }
 }
 
@@ -210,23 +237,22 @@ label {
     }
 }
 
+
+/* index_login page */
+
 .rowHead {
     color: #fff;
 }
 
 .grad {
-    /* height: 95vh; */
-    width: 100vw;
-    background: linear-gradient(45deg, #006DFE, #1407b3);
+    background: linear-gradient(45deg, #ffffff, #D6E4F0);
 }
 
 .app-btn {
     background: transparent;
-    border-color: #fff;
     color: #fff;
     width: 120px;
     height: 50px;
-    border: none;
     background: #fff;
     color: #333;
     border-radius: 3px;
@@ -239,44 +265,28 @@ label {
     -moz-transition: all 0.4s ease;
     transition: all 0.4s ease;
     cursor: pointer;
+    text-decoration: none;
+}
+
+.app-btn a {
+    color: #10467E
+}
+
+.app-btn:hover {
+    background: #10467E;
+}
+
+.app-btn a:hover {
+    color: #fff;
+    text-decoration: none
 }
 
 .hero-header-content {
-    padding: 124px 0;
-    display: block;
-    display: inline-block;
+    padding: 117px 28px 0px 36px;
+    color: #000
 }
 
 .hero-header-image {
     margin-top: 80px;
     text-align: center;
-}
-
-.hero-header {
-    min-height: 40vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    background-size: contain;
-    background-position: center bottom;
-    background-repeat: no-repeat;
-    background-color: #fff;
-    position: relative;
-    background: linear-gradient(45deg, #006dfe, #1407b3);
-}
-
-article,
-aside,
-details,
-figcaption,
-figure,
-footer,
-header,
-main,
-menu,
-nav,
-section,
-summary {
-    display: block;
 }

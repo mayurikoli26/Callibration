@@ -186,20 +186,28 @@ def select_equip():
         sessionid = session['session_id']
         #sel = request.args.get('deptid')
         deptid = request.form['deptid']
-        #print ("deptid in eq=", deptid)
-        # tempdata=request.form['number']  
-        # print("new data is",tempdata) 
-        #venderid = request.args.get('venderid')
+      
         venderid = request.form['venderid']
         #print ("venderid in eq=", venderid)
         cursor = mysql.connection.cursor()
+
+        cursor.execute('SELECT name FROM vender where vender_id=%s',(venderid,))
+        data = cursor.fetchall()
+        for row in data:
+          name = row[0]
+
+        cursor.execute('SELECT department_name FROM department where vender_id=%s',(venderid,))
+        data = cursor.fetchall()
+        for row in data:
+          department_name = row[0]  
+
         cursor.execute("SELECT equ_name, equ_id,equ_asset,equ_model,equ_serialno FROM equipment")
         data = cursor.fetchall()
         cursor = mysql.connection.cursor()
         cursor.execute("SELECT equ_parameter_id ,parameter_list, parameter_name FROM parameter")
         data4 = cursor.fetchall()
         #print("data4----------",data4)
-        return render_template('select_equip.html', data=data, deptid=deptid, venderid=venderid,data4=data4) 
+        return render_template('select_equip.html', data=data, deptid=deptid, venderid=venderid,name=name, department_name=department_name, data4=data4) 
        
     else:  
         return '<p>Please login first</p>'

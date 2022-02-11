@@ -1,21 +1,22 @@
 {% extends "base.html" %} {% block content %}
 
-<button class="btn" onclick="history.back()" id="back"><i class="fas fa-angle-left fa-3x"></i></button>
+<button class="btn mt-3" onclick="history.back()" id="back"><i class="fas fa-angle-left fa-3x"></i></button>
 
-<div class="d-flex align-items-center my-4">
-  
-    <span class="mainTextHeads">Select Equipment :</span>
+<div class="d-flex justify-content-around align-items-center">
+    <span class="mainTextHeads pl-2">Select Equipment </span>
+    <span> vender: {{name}} </span>
+    <span> department : {{department_name}} </span>
 </div>
 
 
 
-<form action="/equipment_details" method='POST' id="equipmentForm">
+<form action="/equipment_details" method='POST' id="equipmentForm" class="pl-2">
     <input type="hidden" id="vender" name="venderid" value={{venderid}}>
     <input type="hidden" id="dept" name="deptid" value={{deptid}}>
     <input type="hidden" id="equipmentid" name="equipmentid" required>
 
     <div class="table-responsive">
-        <table id="example" class="table">
+        <table id="example" class="table ">
             <thead>
                 <tr>
 

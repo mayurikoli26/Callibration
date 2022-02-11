@@ -2,10 +2,15 @@
 
 {% extends "base.html" %}
 {% block content %}
+<button class="btn mt-3" onclick="history.back()" id="back"><i class="fas fa-angle-left fa-3x"></i></button>
 <div class="container">
-  <h3 class="mainTextHeads">Fillup values and observations:</h3>
- <!--- Vender:{{venderid}} | Department:{{deptid}} | Equipment:{{equipmentid}} -->
-  <h3 class="mainTextHeads">Equipment : {{equ_name}}</h3>
+
+  <div class="container Department d-flex justify-content-between">
+    <h3 class="mainTextHeads">Fillup values and observations:</h3>
+    <span class="d-flex justify-content-end">Equipment : {{equ_name}}</span>
+  </div>
+ 
+ 
   <form id ="myForm" class="form-horizontal" action="/save_reading" method="POST">
     <input id="vender" hidden name="venderid" value={{venderid}}>
     <input id="deptid" hidden name="deptid" value={{deptid}}>
