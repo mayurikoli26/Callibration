@@ -15,26 +15,28 @@
                 </div>
             </div>
             {% endfor %}
-
+        
             <div class="mt-4">
                 <div class="row">
                     <div class="col-sm-12 col-md-6 col-lg-6 btnHeight">
                         <button class="btn selectVendor1 " id="cancel_btn"> Cancel <i class="fas fa-arrow-circle-right"></i></button>
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-6 btnHeight">
-                        <button class="btn selectVendor" id="save_btn" onclick="getAllValues2()">Download  <i class="fas fa-arrow-circle-right"></i></button>
+
+                        <button class="btn selectVendor" style="color: white;" id="save_btn" onclick="getAllValues2()"><a href="/csv?calibration_id={{calibrate_id}}" > Download.CSV</a><i class="fas fa-arrow-circle-right"></i></button>
+
+
                     </div>
                 </div>
             </div>
             <input type="hidden" id="equipmentid" name="equipmentid" value={{equipmentid}}>
             <!-- <input type="hidden" id="textall" name="textall" > -->
-
+            
     </form>
 </div>
 
 <script>
    
-
     function myAddParamater() {
 
         fruits.push(document.getElementById('add_para').value);

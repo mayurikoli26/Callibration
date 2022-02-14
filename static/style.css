@@ -156,11 +156,6 @@ label {
     clear: both;
 }
 
-.Department {
-    position: relative;
-    bottom: 30px;
-}
-
 
 /* media Query */
 
@@ -218,7 +213,6 @@ label {
         background-position: center bottom;
         background-repeat: no-repeat;
         /* background-color: #fff; */
-        position: relative;
     }
     .hero-header-content {
         padding-top: 0
@@ -234,6 +228,8 @@ label {
     #save_btn {
         position: relative;
         right: 330px;
+        background-color: white;
+        border: 1px solid#10467E;
     }
 }
 

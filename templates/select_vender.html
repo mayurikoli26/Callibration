@@ -2,10 +2,10 @@
 {% set active_page = "calibration" %}
 {% block content %}
 <form id = "myForm1" action="/select_dept" method="POST">
-  <div class="container Department mt-5" style="overflow-y:auto">
+  <div class="container mt-4" style="overflow-y:auto">
     <h5 class="mainTextHeads">Select Vender : </h5>
   
-  <div class="table-responsive">
+  <div class="table-responsive mt-4">
     <table class="table table-bordered table-hover text-start table-striped">
       <thead>
         <tr>
@@ -31,7 +31,7 @@
         </tr>
         {% endfor %}  
       </div>      
-      </tbody>
+      </tbody>  
     </table>
   </div>
     <button class="btn mt-3 selectVendor" type="submit" id="department">Select Vender <i class="fas fa-arrow-circle-right"></i></button><br>

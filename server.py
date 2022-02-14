@@ -1,6 +1,6 @@
 import os
 from datetime import datetime
-from flask import Flask,render_template, request, url_for, session ,jsonify
+from flask import Flask,render_template, request, url_for, session ,jsonify, make_response
 from flask_mysqldb import MySQL
 import re 
 
@@ -322,7 +322,7 @@ def previous_reading():
 
     # print ('DATA========== ',equipmentid, deptid, venderid, data)
     for row in data:
-    #     calibrate_id = row[0]
+          calibrate_id = row[0]
           perform_date =  row[1]
           parameter_readings = row[2]
           parameter_readings = parameter_readings.replace("{","")
@@ -335,7 +335,7 @@ def previous_reading():
     lenrow = len(rowx)/2
     lenrowint = int(lenrow)
     #print ("len of para ",lenrowint)
-    return render_template('previous_reading_n.html',deptid=deptid, lenrow=lenrowint, equipmentid=equipmentid, venderid=venderid, perform_date=perform_date, parameter_readings = rowx, data=data, equ_name=equ_name )
+    return render_template('previous_reading_n.html',deptid=deptid, lenrow=lenrowint, equipmentid=equipmentid, venderid=venderid, perform_date=perform_date, parameter_readings = rowx, data=data, equ_name=equ_name, calibrate_id=calibrate_id )
      
 
 @app.route('/search' ,methods =['GET', 'POST'])
@@ -546,6 +546,38 @@ def postJsonHandler():
     #print (obj_ret)
     return obj_ret   
 
+@app.route('/csv/')  
+def download_csv():  
+    calibrate_id = request.args.get('calibration_id')
+    print("Cal ID=",calibrate_id )
+    cursor = mysql.connection.cursor()
+    #calibrate_id =77
+    cursor.execute('SELECT parameter_readings, equ_id, approvar_name, perform_date FROM calibrate where calibrate_id =%s',(calibrate_id,)) 
+    data = cursor.fetchall()   
+    for row in data:
+        row0 = row[0]
+        row1 = row[1]
+        row2 = row[2]
+        perform_date = row[3]
+    row0 = row0.replace(",","\n")
+    row0 = row0.replace("'","")
+    csv =  "\n"+ row0+"\n"
+    cursor.execute('SELECT equ_name, equ_make, equ_serialno, equ_asset, equ_model FROM equipment where equ_id =%s',(row1,)) 
+    data = cursor.fetchall()
+    #print("DaTa",data)
+    for row in data:
+        equ_name = row[0]
+        equ_make = row[1]
+        equ_serialno = row[2]
+        dqu_asset = row[3]    
+        equ_model = row[4]
+    csv1 = "Value of cal id :" + str(calibrate_id) + "\n"+"Date :"+ str(perform_date) +"\n"+"Equipment Name:"+row[0] + "\n"+"Make:"+row[1]+ "\n"+ " Model:"+row[4] + "\n"+"Serial No:"+row[2]+ "\n"+"Asset No:"+row[3]
+    csv = csv1 +"\n"+csv
+    response = make_response(csv)
+    cd = 'attachment; filename=Datacsv.csv'
+    response.headers['Content-Disposition'] = cd 
+    response.mimetype='text/csv'
+    return response
   
 @app.route('/json_table', methods = ['GET','POST'])
 def jason_table():
