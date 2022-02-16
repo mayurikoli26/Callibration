@@ -2,15 +2,17 @@
 
 
 
-<div class="container">
+<div>
     <button class="btn mt-2" onclick="history.back()" id="back"><i class="fas fa-angle-left fa-3x"></i></button>
-    <span class="mainTextHeads">Select Department </span>
+    <span class="mainTextHeads ml-4 ">Select Department</span>
+    <div class=" text-center VenderName">Vender :{{name}}</div>
 </div>
-<div class="text-center">Vender :{{name}}</div>
+
+
 <div class="container">
     <form id="myForm" action="/select_equip" method="post">
         <div class="table-responsive">
-            <table class="table table-bordered table-hover text-start table-striped">
+            <table class="table table-bordered table-hover text-start table-striped Department">
                 <thead>
                     <tr>
                         <th>Select</th>
@@ -22,7 +24,7 @@
                     {% for row in data %}
                     <tr>
                         <td>
-                            <div class="form-check" style="">
+                            <div class="form-check">
                                 <input class="form-check-input" type="radio" name="deptid" id="deptid" value={{row[1]}} required>
                             </div>
                         </td>

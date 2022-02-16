@@ -1,9 +1,10 @@
 {% extends "base.html" %} {% block content %}
 <div>
-    <button class="btn" style = "background: #fff" onclick="history.back()" id="back"><i style = "background: #blue" class="fas fa-angle-left fa-3x"></i></button>
-        <span class="mainTextHeads">Equipment Details </span>  
+    <button class="btn mt-2"onclick="history.back()" id="back"><i style = "background: #blue" class="fas fa-angle-left fa-3x"></i></button>
+        <span class="mainTextHeads ml-4">Equipment Details </span>  
+        <div class="text-center VenderName">Equipment : {{equ_name}}</div>
 </div>
-    <div class="text-center">Equipment : {{equ_name}}</div>
+  
 
 <div class="container my-4">
     <form id="myForm4" action="/parameter_input" method="post">
@@ -91,28 +92,17 @@
                 </div>
 
                 <div class="col-sm-12 col-md-4 col-lg-4 btnHeight">
-                    <button class="btn selectVendor1" button type="submit" formaction="/previous_reading">Previous Reading
+                    <button class="btn selectVendor1" button type="submit" formaction="/previous_reading" onclick="click()">Previous Reading
             &nbsp;<i class="fas fa-arrow-circle-right"></i></button>
                 </div>
 
             </div>
         </div>
+        
+       
 
     </form>
-
-
-    <!-- <input type="hidden" id="vender" name="venderid" value={{venderid}}>
-  <input type="hidden" id="deptid" name="deptid" value={{deptid}}>
-  <input type="hidden" id="equipment" name="equipmentid" value={{equipmentid}}> -->
-
-    <!-- <button onclick="equ_chk_list()" type="submit" form="myForm4">Click 2</button>
-  <button type="submit" formaction="/add_equipment">Submit Add</button> -->
-
-
-
-
 </div>
-
 
 
 

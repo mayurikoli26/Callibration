@@ -1,6 +1,6 @@
 import os
 from datetime import datetime
-from flask import Flask,render_template, request, url_for, session ,jsonify, make_response
+from flask import Flask,render_template, request, url_for, session ,jsonify, make_response, redirect
 from flask_mysqldb import MySQL
 import re 
 
@@ -23,10 +23,10 @@ mysql = MySQL(app)
 
 @app.route("/")
 def index():
-    return render_template("index_login.html", message="Hello Flask!");    
-    #return render_template("try1.html", message="Hello Flask!", contacts = ['c1', 'c2', 'c3', 'c4', 'c5']);
+    return render_template("login_login.html", message="Hello Flask!");    
+    
 
-#All ablut login and session. Takenfrom other site.
+#All ablut login and session. 
 @app.route('/login')
 @app.route('/login', methods =['GET', 'POST'])
 def login():
@@ -38,11 +38,11 @@ def login():
         cursor = mysql.connection.cursor()
         cursor.execute('SELECT * FROM accounts WHERE username = % s AND password = % s and active=True', (username, password, ))
         account = cursor.fetchone()
-        #print ("account=",account)
+        
         if account:
-            #print ("accountID=", account[0])
+            
             session['loggedin'] = True
-            #session['id'] = account['id']
+            
             session['session_id'] = account[0]
             #session['username'] = account['username']
             session['username'] = account[1]
@@ -61,8 +61,8 @@ def logout():
     session.pop('loggedin', None)
     session.pop('session_id', None)
     session.pop('username', None)
-    #return redirect(url_for('/login'))
-    return render_template('login_login.html')
+    return redirect(url_for('login'))
+    #return render_template('login_login.html')
 
 @app.route('/register', methods =['GET', 'POST'])
 def register():
@@ -137,7 +137,7 @@ def profile():
 
 
 # Display all vender list in table
-@app.route('/select_vender')
+@app.route('/select_vender',methods =['GET', 'POST'])
 def select_vender():
     if 'session_id' in session:  
         sessionid = session['session_id']
@@ -196,7 +196,7 @@ def select_equip():
         for row in data:
           name = row[0]
 
-        cursor.execute('SELECT department_name FROM department where vender_id=%s',(venderid,))
+        cursor.execute('SELECT department_name FROM department where department_id=%s',(deptid,))
         data = cursor.fetchall()
         for row in data:
           department_name = row[0]  
@@ -306,13 +306,19 @@ def previous_reading():
     eq_name = cursor.fetchall()
     for row in eq_name :
         equ_name=row[0]
-
+    cursor.execute("select name from vender where vender_id=%s", (venderid,))
+    vendername = cursor.fetchall()
+    for row in vendername :
+        vender_name=row[0]
+    print ("Vender=", vender_name)
     #equ_name ="Myname"
     # cursor.execute("SELECT calibrate_id, perform_date, parameter_readings FROM calibrate where equ_id=%s order by perform_date desc limit 1",(equipmentid,))
-    cursor.execute("SELECT parameter_readings FROM calibrate where equ_id=%s",(equipmentid,))
+    #cursor.execute("SELECT parameter_readings FROM calibrate where equ_id=%s",(equipmentid,))
+    cursor.execute("SELECT parameter_readings FROM calibrate where equ_id=%s order by calibrate_id desc limit 1",(equipmentid,))
+    
     c = cursor.fetchone()
 
-    cursor.execute("SELECT calibrate_id, perform_date, parameter_readings FROM calibrate where equ_id=%s",(equipmentid,))
+    cursor.execute("SELECT calibrate_id, perform_date, parameter_readings FROM calibrate where equ_id=%s order by calibrate_id desc limit 1",(equipmentid,))
     data = cursor.fetchall()
     ##print("data of calibrate",data)
    
@@ -320,14 +326,14 @@ def previous_reading():
         #print("prev---",c)
         return("No record found. Select other equipment")
 
-    # print ('DATA========== ',equipmentid, deptid, venderid, data)
+    #print ('DATA========== ',equipmentid, deptid, venderid, data)
     for row in data:
           calibrate_id = row[0]
           perform_date =  row[1]
           parameter_readings = row[2]
           parameter_readings = parameter_readings.replace("{","")
           parameter_readings = parameter_readings.replace("}","")
-    #print ('PREREAD', parameter_readings)
+    #print ('PREREAD=', parameter_readings)
     row = parameter_readings.replace(":",",")
     row = row.replace("'","")
     # rowx = row.split(',')
@@ -335,7 +341,7 @@ def previous_reading():
     lenrow = len(rowx)/2
     lenrowint = int(lenrow)
     #print ("len of para ",lenrowint)
-    return render_template('previous_reading_n.html',deptid=deptid, lenrow=lenrowint, equipmentid=equipmentid, venderid=venderid, perform_date=perform_date, parameter_readings = rowx, data=data, equ_name=equ_name, calibrate_id=calibrate_id )
+    return render_template('previous_reading_n.html',deptid=deptid, lenrow=lenrowint, equipmentid=equipmentid, venderid=venderid, vender_name=vender_name, perform_date=perform_date, parameter_readings = rowx, data=data, equ_name=equ_name, calibrate_id=calibrate_id )
      
 
 @app.route('/search' ,methods =['GET', 'POST'])
@@ -549,7 +555,7 @@ def postJsonHandler():
 @app.route('/csv/')  
 def download_csv():  
     calibrate_id = request.args.get('calibration_id')
-    print("Cal ID=",calibrate_id )
+    #print("Cal ID=",calibrate_id )
     cursor = mysql.connection.cursor()
     #calibrate_id =77
     cursor.execute('SELECT parameter_readings, equ_id, approvar_name, perform_date FROM calibrate where calibrate_id =%s',(calibrate_id,)) 
@@ -569,12 +575,17 @@ def download_csv():
         equ_name = row[0]
         equ_make = row[1]
         equ_serialno = row[2]
-        dqu_asset = row[3]    
+        equ_asset = row[3] 
         equ_model = row[4]
     csv1 = "Value of cal id :" + str(calibrate_id) + "\n"+"Date :"+ str(perform_date) +"\n"+"Equipment Name:"+row[0] + "\n"+"Make:"+row[1]+ "\n"+ " Model:"+row[4] + "\n"+"Serial No:"+row[2]+ "\n"+"Asset No:"+row[3]
     csv = csv1 +"\n"+csv
+    file = equ_name+"_"+str(perform_date)+".xls"
+    file = file.replace(" ","_")
+    file = file.replace(":","")
+    file = file.replace("/","")
+    file = file.replace("\\","")
     response = make_response(csv)
-    cd = 'attachment; filename=Datacsv.csv'
+    cd = "attachment; filename="+file
     response.headers['Content-Disposition'] = cd 
     response.mimetype='text/csv'
     return response
@@ -584,7 +595,8 @@ def jason_table():
     return render_template('json_table.html')
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000,debug=True) 
+    #app.run()
+    app.run(host='0.0.0.0', port=5000,debug=True)  
 
 
 

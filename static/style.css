@@ -86,6 +86,11 @@ table tr td:first-child {
     color: #10467E;
 }
 
+.VenderName {
+    position: relative;
+    bottom: 45px;
+}
+
 #myForm4 {
     padding-left: 45px;
 }
@@ -183,6 +188,22 @@ label {
     .hero-header-content {
         padding-top: 0
     }
+    .VenderName {
+        left: -11px;
+        position: relative;
+        bottom: 14px;
+        top: -8px;
+    }
+    .mainTextHeads {
+        text-align: center;
+    }
+    .Department {
+        margin-top: 20px
+    }
+    .parameterList {
+        height: 300px;
+        max-height: 150px;
+    }
 }
 
 @media only screen and (max-width: 500px) {
@@ -212,7 +233,6 @@ label {
         background-size: contain;
         background-position: center bottom;
         background-repeat: no-repeat;
-        /* background-color: #fff; */
     }
     .hero-header-content {
         padding-top: 0
@@ -228,13 +248,10 @@ label {
     #save_btn {
         position: relative;
         right: 330px;
-        background-color: white;
         border: 1px solid#10467E;
+        padding-top: 15px
     }
 }
-
-
-/* index_login page */
 
 .rowHead {
     color: #fff;
@@ -265,7 +282,7 @@ label {
 }
 
 .app-btn a {
-    color: #10467E
+    color: #10467E;
 }
 
 .app-btn:hover {
@@ -274,12 +291,12 @@ label {
 
 .app-btn a:hover {
     color: #fff;
-    text-decoration: none
+    text-decoration: none;
 }
 
 .hero-header-content {
     padding: 117px 28px 0px 36px;
-    color: #000
+    color: #000;
 }
 
 .hero-header-image {

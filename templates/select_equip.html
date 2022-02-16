@@ -1,17 +1,19 @@
-{% extends "base.html" %} {% block content %}
+<link rel="stylesheet" href="style.css">{% extends "base.html" %} {% block content %}
 
 
-<div class="back-btn">
-    <button class="btn mt-3" onclick="history.back()" id="back"><i class="fas fa-angle-left fa-3x"></i></button>
-    <span class="mainTextHeads">Select Equipment </span>
+<div>
+    <button class="btn mt-2" onclick="history.back(2)" id="back"><i style = "background: #blue" class="fas fa-angle-left fa-3x"></i></button>
+    <span class="mainTextHeads ml-4">Select Equipment </span>
 </div>
+<div class="container d-flex text-center justify-content-end align-items-center">
+    <div>
+        <span class="text-center VenderName"> Vender: {{name}} </span>&nbsp;&nbsp;&nbsp;&nbsp;
+    </div>
+    <div>
+        <span class="text-center VenderName"> Department : {{department_name}} </span>
+    </div>
 
-
-<div class="d-flex text-center justify-content-around align-items-center Department">
-    <span> Vender: {{name}} </span>
-    <span> Department : {{department_name}} </span>
 </div>
-
 
 
 <form action="/equipment_details" method='POST' id="equipmentForm" class="pl-2">
@@ -121,9 +123,9 @@
                             <label for="equ_parameter_id" style="font: weight 500px;">Parameter Template:</label>
                         </div>
                         <div class="col-75" style="overflow:auto;">
-                            <select id="equ_parameter_id" name="equ_parameter_id">
+                            <select multiple="multiple" id="equ_parameter_id" name="equ_parameter_id" style="height:300px; max-height:150px">
                                 {% for row in data4 %}
-                                <option value="{{row[0]}} ">{{row[2]}} : {{row[1]}}</option>
+                                <option style = "margin: 10px 0px;" value="{{row[0]}} ">{{row[2]}} : {{row[1]}}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -132,24 +134,18 @@
 
                     <div class="buttons d-flex justify-content-start mt-4">
                         <div class="row">
-                            <!-- <div class="col-sm-12 col-md-12 col-lg-4 btnHeight">
-                                <button class="btn selectVendor1">Cancel &nbsp;<i
-                                        class="fas fa-arrow-circle-right"></i></button>
-                            </div> -->
+
                             <div class="col-sm-12 col-md-12 col-lg-4 btnHeight">
                                 <button class="btn selectVendor" id="save" onclick="getAllValues3()">Save
                                     Equipment&nbsp;<i class="fas fa-arrow-circle-right"></i></button>
                             </div>
-                            <!-- <div class="col-sm-12 col-md-12 col-lg-4 btnHeight">
-                                <button class="btn selectVendor1">Template List &nbsp;<i
-                                        class="fas fa-arrow-circle-right"></i></button>
-                            </div> -->
+
                         </div>
                     </div>
 
 
                     <input type="hidden" id="equipmentid" name="equipmentid" value={{equipmentid}}>
-                    <!-- <input type="hidden" id="venderid" name="equipmentid" value={{venderid}}> -->
+
                     <input type="hidden" id="textall" name="textall">
 
                 </form>
@@ -279,6 +275,8 @@
         });
 
     })
+
+
 </script>
 
 

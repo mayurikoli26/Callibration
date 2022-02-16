@@ -2,16 +2,14 @@
 
 {% extends "base.html" %}
 {% block content %}
-<button class="btn mt-3" onclick="history.back()" id="back"><i class="fas fa-angle-left fa-3x"></i></button>
+<div>
+  <button class="btn mt-2"onclick="history.back()" id="back"><i style = "background: #blue" class="fas fa-angle-left fa-3x"></i></button>
+      <span class="mainTextHeads ml-2">Fillup values & Observation: </span>  
+      <div class="text-center VenderName">Equipment : {{equ_name}}</div>
+</div>
 <div class="container">
 
-  <div class="container Department d-flex justify-content-between">
-    <h3 class="mainTextHeads">Fillup values and observations:</h3>
-    <span class="d-flex justify-content-end">Equipment : {{equ_name}}</span>
-  </div>
- 
- 
-  <form id ="myForm" class="form-horizontal" action="/save_reading" method="POST">
+   <form id ="myForm" class="form-horizontal" action="/save_reading" method="POST">
     <input id="vender" hidden name="venderid" value={{venderid}}>
     <input id="deptid" hidden name="deptid" value={{deptid}}>
     <div class="row form-group formGroup">
@@ -61,43 +59,6 @@
     <input type="hidden" id="dept" name="deptid" value={{deptid}}>
  </form>
 </div>
-
-<script>
-
-
-function getAllValues2() {
-    var y = document.getElementById("myForm");
-    console.log(y)
-    var txt = "";
-    var i;
-    var txtname="";
-    var jsontxt ="{";
-    
-    var fruits, text, fLen, i,n, index_flag="False", txtn="";
-    for (j = 0; j < y.length; j++) {
-        if (index_flag=="True"){
-           index_flag="False";
-           continue;
-        }
-          text = y.elements[j].value ;
-   
-    }
-    x = y;
-    for (i = 0; i < x.length-10; i++) {
-      txt = x.elements[i].value ;
-     
-      txtname = document.getElementById("myForm").elements[i].name;
-  
-      jsontxt = jsontxt + "\"" + txtname + "\"" + " : \"" + txt +"\",";
-    }
-    var jsonelem = jsontxt.replace(/,$/,'}');
-   
-   
-  }
-
-
-
-</script>
 
 {% endblock %}
 
